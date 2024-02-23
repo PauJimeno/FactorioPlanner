@@ -11,7 +11,7 @@ class InserterLogic:
         self.route_pos = route_start_end
 
         # Reference to the conveyor logic class
-        self.conveyor_logic = conveyor_logic
+        self.conveyor = conveyor_logic.surface_conveyor
 
         # Domain of values inserters variables can be assigned to (0, 1, 2, 3, 4)
         self.domain = 5
@@ -25,7 +25,7 @@ class InserterLogic:
             4: (0, -1)  # West
         }
 
-        # Returns the oposite direction of the direction key
+        # Returns the opposite direction of the direction key
         self.opposite_dir = {
             1: 3,  # North -> South
             2: 4,  # East  -> West
@@ -51,11 +51,35 @@ class InserterLogic:
         return col_limits + row_limits
 
     def not_output_to_input(self):
+        not_output_to_input = []
         for route in self.route_pos:
-            for pos in route:
+            consequence = []
+            for direction in self.directions:
+                x, y = route[0][0] + self.directions[direction][0], route[0][1] + self.directions[direction][1]
+                if 0 <= x < self.height and 0 <= y < self.width:
+                    consequence.append(self.inserter[x][y] != self.opposite_dir[direction])
+            not_output_to_input.append(And(consequence))
+
+        return not_output_to_input
+
+    def connected(self):
+        correctly_connected = []
+        for i in range(self.height):
+            for j in range(self.width):
+                consequence = []
                 for direction in self.directions:
-                    x, y = pos[0][0] + self.directions[direction][0], pos[0][1] + self.directions[direction][1]
+                    x, y = i + self.directions[direction][0], j + self.directions[direction][1]
+                    if 0 <= x < self.height and 0 <= y < self.width:
+                        consequence.append(
+                            Or(And(self.inserter[i][j] != direction,
+                                   self.inserter[i][j] != self.opposite_dir[direction]),
+                               And(UGT(self.conveyor[x][y], 0),
+                                   self.conveyor[x][y] != (self.inserter[x][y] + 2) % 4 + 1)
+                               ))
+                correctly_connected.append(Implies(UGT(self.inserter[i][j], 0), And(consequence)))
+
+        return correctly_connected
 
     def constraints(self):
-        return self.domain_constraint() + self.not_outside()
+        return self.domain_constraint() + self.not_outside() + self.not_output_to_input() + self.connected()
 

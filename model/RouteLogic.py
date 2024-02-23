@@ -11,7 +11,7 @@ class RouteLogic:
         self.route_pos = route_start_end
 
         # Domain of values route variables can be assigned to (width+height)
-        self.domain = 10
+        self.domain = blueprint_width + blueprint_height
         self.n_bits = math.ceil(math.log2(self.domain))
 
         # Reference to the ConveyorLogic object
@@ -52,14 +52,14 @@ class RouteLogic:
 
     def propagate_route(self):
         propagate_route = []
-        for i in range(self.width):
-            for j in range(self.height):
+        for i in range(self.height):
+            for j in range(self.width):
                 for pos in self.route_pos:
                     if i != pos[0][0] or j != pos[0][1]:
                         direction_clauses = []
                         for direction in self.directions:
                             x, y = i + self.directions[direction][0], j + self.directions[direction][1]
-                            if 0 <= x < self.width and 0 <= y < self.height:
+                            if 0 <= x < self.height and 0 <= y < self.width:
                                 direction_clauses.append(Implies(And(
                                     UGT(self.route[x][y], 0),
                                     self.conveyor[x][y] == self.opposite_dir[direction]),
@@ -71,4 +71,4 @@ class RouteLogic:
         return propagate_route
 
     def constraints(self):
-        return self.route_increment() + self.route_start() + self.part_of_route() + self.domain_constraint()
+        return self.route_increment() + self.route_start() + self.part_of_route() + self.domain_constraint() + self.propagate_route()
