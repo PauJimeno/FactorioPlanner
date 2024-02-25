@@ -15,7 +15,7 @@ class FactorioSolver:
         self.height = blueprint_height
 
         # Z3 solver declaration
-        self.s = Solver()
+        self.s = Optimize()
 
         # Solution found variable
         self.has_solution = False
@@ -25,20 +25,28 @@ class FactorioSolver:
         self.initialize_model_constraints(blueprint_width, blueprint_height, route_pos)
 
     def initialize_model_constraints(self, blueprint_width, blueprint_height, route_pos):
-        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, route_pos)
-        route_behaviour = RouteLogic(blueprint_width, blueprint_height, route_pos, conveyor_behaviour)
-        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, route_pos, conveyor_behaviour)
-        factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour, inserter_behaviour)
+        dir_type, directions = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
 
-        self.model_variables.update({"CONVEYOR": conveyor_behaviour.surface_conveyor})
+        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, dir_type)
+        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, dir_type)
+        route_behaviour = RouteLogic(blueprint_width, blueprint_height, route_pos, conveyor_behaviour.conveyor,
+                                     inserter_behaviour.inserter, directions)
+
+        factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
+                                        inserter_behaviour.inserter, directions)
+
+        self.model_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
         self.model_variables.update({"ROUTE": route_behaviour.route})
         self.model_variables.update({"INSERTER": inserter_behaviour.inserter})
 
-        self.s.add(conveyor_behaviour.constraints()
-                   + route_behaviour.constraints()
-                   + inserter_behaviour.constraints()
+        self.s.add(# conveyor_behaviour.constraints()
+                   route_behaviour.constraints()
+                   # + inserter_behaviour.constraints()
                    + factory_behavior.constraints()
                    )
+
+        # Maximize the objective function
+        self.s.maximize(route_behaviour.optimize_criteria())
 
     def find_solution(self):
         start = time.time()
@@ -57,13 +65,11 @@ class FactorioSolver:
     def model_to_string(self):
         if self.has_solution:
             m = self.s.model()
-            num_digits = len(str("00"))
-
             for var_name, var_value in self.model_variables.items():
                 print(var_name)
                 for i in range(self.height):
                     for j in range(self.width):
-                        print("{:>{}}".format(m[var_value[i][j]].as_long(), num_digits), end=' ')
+                        print(m[var_value[i][j]], end=' ')
                     print()
         else:
             print("No model was found")
@@ -107,26 +113,26 @@ class FactorioSolver:
     def map_variables(self):
         game_map = [[None for i in range(self.width)] for j in range(self.height)]
         direction = {
-            0: "empty",
-            1: 0,     # North
-            2: -90,   # East
-            3: -180,  # South
-            4: -270   # West
+            'empty': "empty",
+            'north': 0,     # North
+            'east': -90,   # East
+            'south': -180,  # South
+            'west': -270   # West
         }
         model = self.s.model()
 
         # Conveyors
         for i in range(self.height):
             for j in range(self.width):
-                conveyor = model[self.model_variables['CONVEYOR'][i][j]].as_long()
-                if conveyor != 0:
+                conveyor = str(model[self.model_variables['CONVEYOR'][i][j]]).strip('\"')
+                if conveyor != 'empty' and conveyor != 'None':
                     game_map[i][j] = f"CONV:{direction[conveyor]}"
 
         # Inserters
         for i in range(self.height):
             for j in range(self.width):
-                inserter = model[self.model_variables['INSERTER'][i][j]].as_long()
-                if inserter != 0:
+                inserter = str(model[self.model_variables['INSERTER'][i][j]]).strip('\"')
+                if inserter != 'empty' and inserter != 'None':
                     game_map[i][j] = f"INSE:{direction[inserter]}"
 
         return game_map

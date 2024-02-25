@@ -1,16 +1,23 @@
+from model.FactorioSolver import FactorioSolver
 from model.InputInterface import InputInterface
-'''
-PROBLEMES:
-    - Mida 8x8 resulta UNSAT
-    - Les rutes sempre tenen la llargada de width + height
-    - Més de dues rutes dona UNSAT
-    - Les rutes a vegades presenten salts (1, 2, 3, 6, 7, 13...)
 
-PREGUNTES:
-    - Cal tenir inserters en mig de la ruta? 
-    - Es pot fer que els inserters només alimentin als constructors?
-    - Com seria tenir les tres fases en un sol model?
-'''
 
 # GRAPHIC INTERFACE #
-interface = InputInterface()
+# interface = InputInterface()
+
+# FOR TESTING #
+
+# SOLVER DECLARATION #
+blueprint_width = 8
+blueprint_height = 8
+route_pos = [((0, 0), (7, 7)), ((7, 0), (7, 7))]
+solver = FactorioSolver(blueprint_width, blueprint_height, route_pos)
+
+# FIND A SOLUTION #
+if solver.find_solution():
+    # PRINT THE MODEL OF THE SOLUTION #
+    solver.model_to_string()
+    solver.model_to_image()
+
+else:
+    print("UNSAT")
