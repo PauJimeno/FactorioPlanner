@@ -10,7 +10,7 @@ from model.RouteLogic import RouteLogic
 
 
 class FactorioSolver:
-    def __init__(self, blueprint_width, blueprint_height, route_pos):
+    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos):
         self.width = blueprint_width
         self.height = blueprint_height
 
@@ -22,14 +22,15 @@ class FactorioSolver:
 
         self.model_variables = {}
 
-        self.initialize_model_constraints(blueprint_width, blueprint_height, route_pos)
+        self.initialize_model_constraints(blueprint_width, blueprint_height, input_pos, output_pos)
 
-    def initialize_model_constraints(self, blueprint_width, blueprint_height, route_pos):
+    def initialize_model_constraints(self, blueprint_width, blueprint_height, input_pos, output_pos):
         dir_type, directions = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
 
-        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, dir_type)
-        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, dir_type)
-        route_behaviour = RouteLogic(blueprint_width, blueprint_height, route_pos, conveyor_behaviour.conveyor,
+        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, input_pos, output_pos, dir_type, directions)
+        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor, input_pos, output_pos, dir_type, directions)
+        conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
+        route_behaviour = RouteLogic(blueprint_width, blueprint_height, input_pos, output_pos, conveyor_behaviour.conveyor,
                                      inserter_behaviour.inserter, directions)
 
         factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
@@ -39,9 +40,9 @@ class FactorioSolver:
         self.model_variables.update({"ROUTE": route_behaviour.route})
         self.model_variables.update({"INSERTER": inserter_behaviour.inserter})
 
-        self.s.add(# conveyor_behaviour.constraints()
-                   route_behaviour.constraints()
-                   # + inserter_behaviour.constraints()
+        self.s.add(conveyor_behaviour.constraints()
+                   + route_behaviour.constraints()
+                   + inserter_behaviour.constraints()
                    + factory_behavior.constraints()
                    )
 

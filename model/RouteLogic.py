@@ -2,13 +2,14 @@ from z3 import *
 
 
 class RouteLogic:
-    def __init__(self, blueprint_width, blueprint_height, route_start_end, conveyor, inserter, direction):
+    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos, conveyor, inserter, direction):
         # Width and height of the blueprint
         self.width = blueprint_width
         self.height = blueprint_height
 
         # Start and end positions of each route
-        self.route_pos = route_start_end
+        self.input_pos = input_pos
+        self.output_pos = output_pos
 
         self.n_dir = 5
 
@@ -50,89 +51,74 @@ class RouteLogic:
 
     def part_of_route(self):
         # If a cell is part of route, then a conveyor or an inserter must be there
-        return [(UGT(self.route[i][j], 0)) == (self.conveyor[i][j] != self.direction[0])
+        return [(UGT(self.route[i][j], 0)) == (Or(self.conveyor[i][j] != self.direction[0],
+                                                  self.inserter[i][j] != self.direction[0]))
                 for i in range(self.height) for j in range(self.width)]
 
     def route_start(self):
         # Each input cell is the start of route, and it must be a conveyor
-        return [And(self.route[pos[0][0]][pos[0][1]] == 1,
-                    self.conveyor[pos[0][0]][pos[0][1]] != self.direction[0])
-                for pos in self.route_pos]
+        return [And(self.route[pos[0]][pos[1]] == 1,
+                    self.conveyor[pos[0]][pos[1]] != self.direction[0])
+                for pos in self.input_pos]
 
     def route_end(self):
         # Each output cell must have a larger value than 1, and it must be a conveyor
-        return [And(UGT(self.route[pos[1][0]][pos[1][1]], 1),
-                    self.conveyor[pos[1][0]][pos[1][1]] != self.direction[0])
-                for pos in self.route_pos]
+        return [And(UGT(self.route[pos[0]][pos[1]], 1),
+                    self.conveyor[pos[0]][pos[1]] != self.direction[0])
+                for pos in self.output_pos]
 
-    def conveyor_incremental_route(self):
-        increment_route = []
+    def forward_consistency(self):
+        forward_consistency = []
         for i in range(self.height):
             for j in range(self.width):
                 if not self.is_output(i, j):
-                    direction_clauses = []
+                    output_connections = []
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            direction_clauses.append(If(self.conveyor[i][j] == self.direction[direction],
-                                                        And(UGT(self.route[x][y], self.route[i][j]),
-                                                            self.conveyor[x][y] != self.opposite_dir[direction]), False))
-                    increment_route.append(If(self.conveyor[i][j] != self.direction[0], Or(direction_clauses), True))
+                            # A route cell must have at least one cell route greater than or equal to itself (Output)
+                            output_connections.append(If(Or(self.conveyor[i][j] == self.direction[direction],
+                                                            self.inserter[i][j] == self.direction[direction]),
+                                                         UGT(self.route[x][y], self.route[i][j]), False))
+                    forward_consistency.append(If(UGT(self.route[i][j], 0), Or(output_connections), True))
+        return forward_consistency
 
-        return increment_route
-
-    def conveyor_decremental_route(self):
-        increment_route = []
+    def backward_consistency(self):
+        backward_consistency = []
         for i in range(self.height):
             for j in range(self.width):
                 if not self.is_input(i, j):
-                    direction_clauses = []
+                    input_connections = []
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            direction_clauses.append(If(self.conveyor[i][j] != self.direction[direction],
-                                                        And(ULT(self.route[x][y], self.route[i][j]),
-                                                            self.conveyor[x][y] == self.opposite_dir[direction]), False))
-                    increment_route.append(If(self.conveyor[i][j] != self.direction[0], Or(direction_clauses), True))
-
-        return increment_route
-
-    def end_of_route(self):
-        # An output cell cant carry the items to any other cell (end of route)
-        end_of_route = []
-        for pos in self.route_pos:
-            i = pos[1][0]
-            j = pos[1][1]
-            direction_clauses = []
-            for direction in range(1, self.n_dir):
-                x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
-                if 0 <= x < self.height and 0 <= y < self.width:
-                    direction_clauses.append(If(self.conveyor[i][j] == self.direction[direction],
-                                                self.conveyor[x][y] == self.direction[0], True))
-            end_of_route.append(And(direction_clauses))
-
-        return end_of_route
+                            # A route cell must have at least one cell route greater than or equal to itself (Output)
+                            input_connections.append(If(Or(self.conveyor[i][j] != self.direction[direction],
+                                                        self.inserter[i][j] != self.direction[direction])
+                                                        , And(ULT(self.route[x][y], self.route[i][j]),
+                                                        UGT(self.route[x][y], 0)), False))
+                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(input_connections), True))
+        return backward_consistency
 
     def constraints(self):
         return self.route_start() +\
             self.part_of_route() +\
             self.domain_constraint() +\
             self.route_end() +\
-            self.conveyor_incremental_route() +\
-            self.conveyor_decremental_route() + \
-            self.end_of_route()
+            self.forward_consistency() +\
+            self.backward_consistency()
 
     def is_output(self, x, y):
         is_output = False
-        for pos in self.route_pos:
-            if x == pos[1][0] and y == pos[1][1]:
+        for pos in self.output_pos:
+            if x == pos[0] and y == pos[1]:
                 is_output = True
         return is_output
 
     def is_input(self, x, y):
         is_output = False
-        for pos in self.route_pos:
-            if x == pos[0][0] and y == pos[0][1]:
+        for pos in self.input_pos:
+            if x == pos[0] and y == pos[1]:
                 is_output = True
         return is_output
 
