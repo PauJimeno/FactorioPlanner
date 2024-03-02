@@ -3,6 +3,7 @@ from z3 import *
 from PIL import Image
 import time
 
+from model.AssemblerLogic import AssemblerLogic
 from model.ConveyorLogic import ConveyorLogic
 from model.FactoryLogic import FactoryLogic
 from model.InserterLogic import InserterLogic
@@ -30,24 +31,28 @@ class FactorioSolver:
         conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, input_pos, output_pos, dir_type, directions)
         inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor, input_pos, output_pos, dir_type, directions)
         conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
+        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height)
         route_behaviour = RouteLogic(blueprint_width, blueprint_height, input_pos, output_pos, conveyor_behaviour.conveyor,
                                      inserter_behaviour.inserter, directions)
 
         factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
-                                        inserter_behaviour.inserter, directions)
+                                        inserter_behaviour.inserter, assembler_behavior.collision_area, directions)
 
         self.model_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
         self.model_variables.update({"ROUTE": route_behaviour.route})
         self.model_variables.update({"INSERTER": inserter_behaviour.inserter})
+        self.model_variables.update({"ASSEMBLER": assembler_behavior.assembler})
+        self.model_variables.update({"ASSEMBLER_COLLISION": assembler_behavior.collision_area})
 
         self.s.add(conveyor_behaviour.constraints()
                    + route_behaviour.constraints()
                    + inserter_behaviour.constraints()
                    + factory_behavior.constraints()
+                   + assembler_behavior.constraints()
                    )
 
         # Maximize the objective function
-        self.s.maximize(route_behaviour.optimize_criteria())
+        self.s.minimize(route_behaviour.optimize_criteria())
 
     def find_solution(self):
         start = time.time()
@@ -68,8 +73,10 @@ class FactorioSolver:
             m = self.s.model()
             for var_name, var_value in self.model_variables.items():
                 print(var_name)
-                for i in range(self.height):
-                    for j in range(self.width):
+                # Get the height and width from the dimensions of var_value
+                height, width = len(var_value), len(var_value[0])
+                for i in range(height):
+                    for j in range(width):
                         print(m[var_value[i][j]], end=' ')
                     print()
         else:
@@ -79,6 +86,7 @@ class FactorioSolver:
         if self.has_solution:
             inserter_img = Image.open('sprites/inserter.png').convert("RGBA")
             belt_img = Image.open('sprites/conveyor.png').convert("RGBA")
+            assembler_img = Image.open('sprites/assembler.png').convert("RGBA")
 
             game_map = self.map_variables()
 
@@ -103,9 +111,15 @@ class FactorioSolver:
                         element, direction = game_map[i][j].split(':')
                         if element == 'CONV':
                             img = belt_img.rotate(int(direction))
+                            pos = (j * img.width, i * img.height)
                         if element == 'INSE':
                             img = inserter_img.rotate(int(direction))
-                        game_map_img.paste(img, (j * img.width, i * img.height), mask=img)
+                            pos = (j * img.width, i * img.height)
+                        if element == 'ASSE':
+                            img = assembler_img.rotate(int(direction))
+                            pos = (j * 64 - 64, i * 64 - 64)
+
+                        game_map_img.paste(img, pos, mask=img)
 
             game_map_img.save('model_image/game_map_model.png')
         else:
@@ -116,9 +130,9 @@ class FactorioSolver:
         direction = {
             'empty': "empty",
             'north': 0,     # North
-            'east': -90,   # East
+            'east': -90,    # East
+            'west': -270,   # West
             'south': -180,  # South
-            'west': -270   # West
         }
         model = self.s.model()
 
@@ -135,5 +149,12 @@ class FactorioSolver:
                 inserter = str(model[self.model_variables['INSERTER'][i][j]]).strip('\"')
                 if inserter != 'empty' and inserter != 'None':
                     game_map[i][j] = f"INSE:{direction[inserter]}"
+
+        # Assemblers
+        for i in range(self.height-2):
+            for j in range(self.width-2):
+                assembler = str(model[self.model_variables['ASSEMBLER'][i][j]]).strip('\"')
+                if assembler != '0':
+                    game_map[i+1][j+1] = f"ASSE:{0}"
 
         return game_map

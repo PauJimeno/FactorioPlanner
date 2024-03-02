@@ -47,10 +47,10 @@ class InserterLogic:
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-
-                            direction_clauses.append(If(self.inserter[i][j] == self.opposite_dir[direction],
-                                                        self.conveyor[x][y] != self.direction[0],
-                                                        False))
+                            if self.is_output(x, y):
+                                direction_clauses.append(If(self.inserter[i][j] == self.opposite_dir[direction],
+                                                            self.conveyor[x][y] != self.direction[0],
+                                                            False))
                     inserter_input.append(If(self.inserter[i][j] != self.direction[0], Or(direction_clauses), True))
 
         return inserter_input

@@ -92,9 +92,8 @@ class RouteLogic:
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            # A route cell must have at least one cell route greater than or equal to itself (Output)
-                            input_connections.append(If(Or(self.conveyor[i][j] != self.direction[direction],
-                                                        self.inserter[i][j] != self.direction[direction])
+                            input_connections.append(If(Or(And(self.conveyor[i][j] != self.direction[direction], self.conveyor[i][j] != self.direction[0]),
+                                                        self.inserter[i][j] == self.opposite_dir[direction])
                                                         , And(ULT(self.route[x][y], self.route[i][j]),
                                                         UGT(self.route[x][y], 0)), False))
                     backward_consistency.append(If(UGT(self.route[i][j], 0), Or(input_connections), True))
@@ -123,5 +122,5 @@ class RouteLogic:
         return is_output
 
     def optimize_criteria(self):
-        return sum([If(self.route[i][j] == 0, 1, 0) for i in range(self.height) for j in range(self.width)])
+        return sum([If(self.route[i][j] == 0, 0, 1) for i in range(self.height) for j in range(self.width)])
 
