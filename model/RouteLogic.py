@@ -2,7 +2,7 @@ from z3 import *
 
 
 class RouteLogic:
-    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos, conveyor, inserter, direction):
+    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos, conveyor, inserter, assembler, direction):
         # Width and height of the blueprint
         self.width = blueprint_width
         self.height = blueprint_height
@@ -17,11 +17,14 @@ class RouteLogic:
         self.domain = blueprint_width * blueprint_height
         self.n_bits = math.ceil(math.log2(self.domain))
 
-        # Reference to the conveyor variable
+        # Reference to the conveyor direction variable
         self.conveyor = conveyor
 
-        # Reference to the inserter variable
+        # Reference to the inserter direction variable
         self.inserter = inserter
+
+        # Reference to the assembler collision variable
+        self.assembler = assembler
 
         # Values of the finite domain "directions"
         self.direction = direction
@@ -72,15 +75,26 @@ class RouteLogic:
         for i in range(self.height):
             for j in range(self.width):
                 if not self.is_output(i, j):
-                    output_connections = []
+                    inserter_output = []
+                    conveyor_output = []
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
                             # A route cell must have at least one cell route greater than or equal to itself (Output)
-                            output_connections.append(If(Or(self.conveyor[i][j] == self.direction[direction],
-                                                            self.inserter[i][j] == self.direction[direction]),
-                                                         UGT(self.route[x][y], self.route[i][j]), False))
-                    forward_consistency.append(If(UGT(self.route[i][j], 0), Or(output_connections), True))
+                            conveyor_output.append(If(self.conveyor[i][j] == self.direction[direction],
+                                                      UGT(self.route[x][y], self.route[i][j]), False))
+
+                            # Route continues
+                            inserter_output.append(If(And(self.inserter[i][j] == self.direction[direction],
+                                                          self.assembler[x][y] == 0),
+                                                      UGT(self.route[x][y], self.route[i][j]), False))
+
+                            # Route ends because the inserter is inputting items to the assembler
+                            inserter_output.append(If(And(self.inserter[i][j] == self.direction[direction],
+                                                          self.assembler[x][y] != 0),
+                                                      self.route[x][y] == 0, False))
+
+                    forward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_output+inserter_output), True))
         return forward_consistency
 
     def backward_consistency(self):
@@ -88,15 +102,30 @@ class RouteLogic:
         for i in range(self.height):
             for j in range(self.width):
                 if not self.is_input(i, j):
-                    input_connections = []
+                    inserter_input = []
+                    conveyor_input = []
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            input_connections.append(If(Or(And(self.conveyor[i][j] != self.direction[direction], self.conveyor[i][j] != self.direction[0]),
-                                                        self.inserter[i][j] == self.opposite_dir[direction])
-                                                        , And(ULT(self.route[x][y], self.route[i][j]),
-                                                        UGT(self.route[x][y], 0)), False))
-                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(input_connections), True))
+                            conveyor_input.append(If(And(self.conveyor[i][j] != self.direction[direction],
+                                                         self.conveyor[i][j] != self.direction[0]),
+                                                     And(ULT(self.route[x][y], self.route[i][j]),
+                                                         UGT(self.route[x][y], 0)),
+                                                     False))
+
+                            inserter_input.append(If(And(self.inserter[i][j] == self.opposite_dir[direction],
+                                                         self.assembler[x][y] == 0),
+                                                     And(ULT(self.route[x][y], self.route[i][j]),
+                                                         UGT(self.route[x][y], 0)),
+                                                     False))
+
+                            # Route start because inserter is taking input from an assembler
+                            inserter_input.append(If(And(self.inserter[i][j] == self.opposite_dir[direction],
+                                                         self.assembler[x][y] != 0),
+                                                     self.route[i][j] == 1,
+                                                     False))
+
+                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_input+inserter_input), True))
         return backward_consistency
 
     def constraints(self):

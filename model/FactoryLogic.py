@@ -13,7 +13,8 @@ class FactoryLogic:
     def collision(self):
         return [PbLe([(self.inserter[i][j] != self.direction[0], 1), (self.conveyor[i][j] != self.direction[0], 1)], 1)
                 for i in range(self.height) for j in range(self.width)] +\
-                [If(Or(self.inserter[i][j] != self.direction[0], self.conveyor[i][j] != self.direction[0]), self.assembler[i][j] == 0, True)
+                [If(Or(self.inserter[i][j] != self.direction[0], self.conveyor[i][j] != self.direction[0]),
+                    self.assembler[i][j] == 0, True)
                  for i in range(self.height) for j in range(self.width)]
 
     def constraints(self):

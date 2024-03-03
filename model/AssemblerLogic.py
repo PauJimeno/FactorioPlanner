@@ -2,7 +2,7 @@ from z3 import *
 
 
 class AssemblerLogic:
-    def __init__(self, width, height):
+    def __init__(self, width, height, direction):
         self.assembler_size = 3
         self.max_assemblers = (width // self.assembler_size) * (height // self.assembler_size)
 
@@ -13,6 +13,22 @@ class AssemblerLogic:
 
         self.width = width
         self.height = height
+
+        self.dir_shift = {
+            1: [(-2, -1), (-2, 0), (-2, 1)],  # North
+            2: [(-1, 2), (0, 2), (1, 2)],     # East
+            3: [(2, -1), (2, 0), (2, 1)],     # South
+            4: [(-1, -2), (0, -2), (1, -2)]   # West
+        }
+
+        self.direction = direction
+
+        self.opposite_dir = {
+            1: self.direction[3],  # North -> South
+            2: self.direction[4],  # East  -> West
+            3: self.direction[1],  # South -> North
+            4: self.direction[2]   # West  -> East
+        }
 
         # Center cell of the assembler (takes value from 0 to max_assemblers)
         self.assembler = [[BitVec(f"A_{i}_{j}", self.n_bits)
@@ -34,6 +50,20 @@ class AssemblerLogic:
                                  for i in range(self.placement_height) for j in range(self.placement_width)]) <= 1)
         return distinct
 
+    def link_assembler_collision(self):
+        link = []
+        for i in range(self.height):
+            for j in range(self.width):
+                neighbors = []
+                for di in range(-1, 2):
+                    for dj in range(-1, 2):
+                        x = di + i - 1
+                        y = dj + j - 1
+                        if 0 <= x < self.placement_height and 0 <= y < self.placement_width:
+                            neighbors.append(self.assembler[x][y] == self.collision_area[i][j])
+                link.append(If(self.collision_area[i][j] != 0, Or(neighbors), self.collision_area[i][j] == 0))
+        return link
+
     def set_collision(self):
         set_collision = []
         for i in range(self.placement_height):
@@ -48,5 +78,38 @@ class AssemblerLogic:
                 set_collision.append(If(self.assembler[i][j] != 0, And(surround_collision), True))
         return set_collision
 
+    def assembler_input(self):
+        assembler_input = []
+
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                has_input = []
+                for direction in self.dir_shift:
+                    for pos in self.dir_shift[direction]:
+                        x = i + 1 + pos[0]
+                        y = j + 1 + pos[1]
+                        if 0 <= x < self.height and 0 <= y < self.width:
+                            has_input.append(self.inserter[x][y] == self.opposite_dir[direction])
+                assembler_input.append(If(self.assembler[i][j] != 0, Or(has_input), True))
+        return assembler_input
+
+    def assembler_output(self):
+        assembler_output = []
+
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                has_output = []
+                for direction in self.dir_shift:
+                    for pos in self.dir_shift[direction]:
+                        x = i + 1 + pos[0]
+                        y = j + 1 + pos[1]
+                        if 0 <= x < self.height and 0 <= y < self.width:
+                            has_output.append(self.inserter[x][y] == self.direction[direction])
+                assembler_output.append(If(self.assembler[i][j] != 0, Or(has_output), True))
+        return assembler_output
+
     def constraints(self):
-        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision()
+        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output()
+
+    def set_inserter(self, inserter):
+        self.inserter = inserter

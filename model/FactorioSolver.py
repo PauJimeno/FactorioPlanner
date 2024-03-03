@@ -23,17 +23,31 @@ class FactorioSolver:
 
         self.model_variables = {}
 
+        start = time.time()
         self.initialize_model_constraints(blueprint_width, blueprint_height, input_pos, output_pos)
+        computing_time = time.time() - start
+        print("Initialization time:", computing_time)
+
+
 
     def initialize_model_constraints(self, blueprint_width, blueprint_height, input_pos, output_pos):
         dir_type, directions = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
 
-        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, input_pos, output_pos, dir_type, directions)
-        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor, input_pos, output_pos, dir_type, directions)
+        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, input_pos, output_pos, dir_type,
+                                           directions)
+
+        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height, directions)
+
+        inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
+                                           assembler_behavior.collision_area, input_pos, output_pos, dir_type,
+                                           directions)
+
         conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
-        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height)
-        route_behaviour = RouteLogic(blueprint_width, blueprint_height, input_pos, output_pos, conveyor_behaviour.conveyor,
-                                     inserter_behaviour.inserter, directions)
+        assembler_behavior.set_inserter(inserter_behaviour.inserter)
+
+        route_behaviour = RouteLogic(blueprint_width, blueprint_height, input_pos, output_pos,
+                                     conveyor_behaviour.conveyor,
+                                     inserter_behaviour.inserter, assembler_behavior.collision_area, directions)
 
         factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
                                         inserter_behaviour.inserter, assembler_behavior.collision_area, directions)
@@ -51,7 +65,7 @@ class FactorioSolver:
                    + assembler_behavior.constraints()
                    )
 
-        # Maximize the objective function
+        # Minimize the objective function
         self.s.minimize(route_behaviour.optimize_criteria())
 
     def find_solution(self):
@@ -63,8 +77,8 @@ class FactorioSolver:
         else:
             print("No solution was found (UNSAT)")
         print("Computing time: ", computing_time)
-        print("Solver statistics: ")
-        print(self.s.statistics())
+        # print("Solver statistics: ")
+        # print(self.s.statistics())
 
         return self.has_solution
 
@@ -73,7 +87,6 @@ class FactorioSolver:
             m = self.s.model()
             for var_name, var_value in self.model_variables.items():
                 print(var_name)
-                # Get the height and width from the dimensions of var_value
                 height, width = len(var_value), len(var_value[0])
                 for i in range(height):
                     for j in range(width):

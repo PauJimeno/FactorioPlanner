@@ -20,10 +20,10 @@ recipes = {"IRON_STICK": {"IN": []}}
 
 
 # SOLVER DECLARATION #
-blueprint_width = 9
-blueprint_height = 9
-input_positions = [(0, 0)]
-output_positions = [(8, 8), (0, 8)]
+blueprint_width = 8
+blueprint_height = 8
+input_positions = [(0, 0), (0, 7)]
+output_positions = [(7, 4)]
 solver = FactorioSolver(blueprint_width, blueprint_height, input_positions, output_positions)
 
 # FIND A SOLUTION #

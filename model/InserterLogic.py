@@ -2,11 +2,13 @@ from z3 import *
 
 
 class InserterLogic:
-    def __init__(self, width, height, conveyor, input_pos, output_pos, dir_type, directions):
+    def __init__(self, width, height, conveyor, assembler, input_pos, output_pos, dir_type, directions):
         # Inserter variable for each cell of enumerated type "dir_type"
         self.inserter = [[Const(f"INS_{i}_{j}", dir_type) for i in range(width)] for j in range(height)]
 
         self.conveyor = conveyor
+
+        self.assembler = assembler
 
         self.n_dir = 5
 
@@ -47,9 +49,11 @@ class InserterLogic:
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            if self.is_output(x, y):
+                            if not self.is_output(x, y):
+                                # The inserter can take input from a conveyor or an assembler
                                 direction_clauses.append(If(self.inserter[i][j] == self.opposite_dir[direction],
-                                                            self.conveyor[x][y] != self.direction[0],
+                                                            Or(self.conveyor[x][y] != self.direction[0],
+                                                               self.assembler[x][y] != 0),
                                                             False))
                     inserter_input.append(If(self.inserter[i][j] != self.direction[0], Or(direction_clauses), True))
 
@@ -65,10 +69,12 @@ class InserterLogic:
                     for direction in range(1, self.n_dir):
                         x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
+                            # Inserter can output to a conveyor or an assembler
                             direction_clauses.append(If(self.inserter[i][j] == self.direction[direction],
-                                                        And(self.conveyor[x][y] != self.direction[0],
-                                                            self.conveyor[x][y] != self.opposite_dir[direction]),
-                                                        False))
+                                                        Or(And(self.conveyor[x][y] != self.direction[0],
+                                                           self.conveyor[x][y] != self.opposite_dir[direction]),
+                                                        self.assembler[x][y] != 0),
+                                                     False))
                     inserter_output.append(If(self.inserter[i][j] != self.direction[0], Or(direction_clauses), True))
 
         return inserter_output
