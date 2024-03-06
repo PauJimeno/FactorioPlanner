@@ -37,7 +37,6 @@ class ConveyorLogic:
 
     def conveyor_input(self):
         conveyor_input = []
-
         for i in range(self.height):
             for j in range(self.width):
                 if not self.is_input(i, j):

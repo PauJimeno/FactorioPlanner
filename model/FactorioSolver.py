@@ -28,8 +28,6 @@ class FactorioSolver:
         computing_time = time.time() - start
         print("Initialization time:", computing_time)
 
-
-
     def initialize_model_constraints(self, blueprint_width, blueprint_height, input_pos, output_pos):
         dir_type, directions = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
 
