@@ -11,9 +11,9 @@ from model.RouteLogic import RouteLogic
 
 
 class FactorioSolver:
-    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos):
-        self.width = blueprint_width
-        self.height = blueprint_height
+    def __init__(self, width, height, in_out_pos):
+        self.width = width
+        self.height = height
 
         # Z3 solver declaration
         self.s = Optimize()
@@ -24,31 +24,22 @@ class FactorioSolver:
         self.model_variables = {}
 
         start = time.time()
-        self.initialize_model_constraints(blueprint_width, blueprint_height, input_pos, output_pos)
+        self.initialize_model_constraints(width, height, in_out_pos)
         computing_time = time.time() - start
         print("Initialization time:", computing_time)
 
-    def initialize_model_constraints(self, blueprint_width, blueprint_height, input_pos, output_pos):
-        dir_type, directions = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
-
-        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, input_pos, output_pos, dir_type,
-                                           directions)
-
-        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height, directions)
-
+    def initialize_model_constraints(self, blueprint_width, blueprint_height, in_out_pos):
+        conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, in_out_pos)
+        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height)
         inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
-                                           assembler_behavior.collision_area, input_pos, output_pos, dir_type,
-                                           directions)
-
+                                           assembler_behavior.collision_area, in_out_pos)
         conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
         assembler_behavior.set_inserter(inserter_behaviour.inserter)
-
-        route_behaviour = RouteLogic(blueprint_width, blueprint_height, input_pos, output_pos,
+        route_behaviour = RouteLogic(blueprint_width, blueprint_height, in_out_pos,
                                      conveyor_behaviour.conveyor,
-                                     inserter_behaviour.inserter, assembler_behavior.collision_area, directions)
-
-        factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
-                                        inserter_behaviour.inserter, assembler_behavior.collision_area, directions)
+                                     inserter_behaviour.inserter, assembler_behavior.collision_area)
+        factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
+                                        inserter_behaviour, assembler_behavior.collision_area)
 
         self.model_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
         self.model_variables.update({"ROUTE": route_behaviour.route})

@@ -1,20 +1,16 @@
 from z3 import *
 
+from model.DirectionalElement import DirectionalElement
+from model.GridElement import GridElement
 
-class RouteLogic:
-    def __init__(self, blueprint_width, blueprint_height, input_pos, output_pos, conveyor, inserter, assembler, direction):
-        # Width and height of the blueprint
-        self.width = blueprint_width
-        self.height = blueprint_height
 
-        # Start and end positions of each route
-        self.input_pos = input_pos
-        self.output_pos = output_pos
-
-        self.n_dir = 5
+class RouteLogic(DirectionalElement, GridElement):
+    def __init__(self, width, height, in_out_pos, conveyor, inserter, assembler):
+        DirectionalElement.__init__(self)
+        GridElement.__init__(self, width, height, in_out_pos)
 
         # Domain of values route variables can be assigned to (width*height)
-        self.domain = blueprint_width * blueprint_height
+        self.domain = width * height
         self.n_bits = math.ceil(math.log2(self.domain))
 
         # Reference to the conveyor direction variable
@@ -25,25 +21,6 @@ class RouteLogic:
 
         # Reference to the assembler collision variable
         self.assembler = assembler
-
-        # Values of the finite domain "directions"
-        self.direction = direction
-
-        # Encoded directions and the relative offset they represent
-        self.dir_shift = {
-            1: (-1, 0),  # North
-            2: (0, 1),   # East
-            3: (1, 0),   # South
-            4: (0, -1)   # West
-        }
-
-        # Returns the opposite direction of the direction key
-        self.opposite_dir = {
-            1: self.direction[3],  # North -> South
-            2: self.direction[4],  # East  -> West
-            3: self.direction[1],  # South -> North
-            4: self.direction[2]   # West  -> East
-        }
 
         # Z3 variable representing the path of a route
         self.route = [[BitVec(f"R_{i}_{j}", self.n_bits) for i in range(self.width)] for j in range(self.height)]
@@ -62,13 +39,13 @@ class RouteLogic:
         # Each input cell is the start of route, and it must be a conveyor
         return [And(self.route[pos[0]][pos[1]] == 1,
                     self.conveyor[pos[0]][pos[1]] != self.direction[0])
-                for pos in self.input_pos]
+                for pos in self.input]
 
     def route_end(self):
         # Each output cell must have a larger value than 1, and it must be a conveyor
         return [And(UGT(self.route[pos[0]][pos[1]], 1),
                     self.conveyor[pos[0]][pos[1]] != self.direction[0])
-                for pos in self.output_pos]
+                for pos in self.output]
 
     def forward_consistency(self):
         forward_consistency = []
@@ -78,7 +55,7 @@ class RouteLogic:
                     inserter_output = []
                     conveyor_output = []
                     for direction in range(1, self.n_dir):
-                        x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
+                        x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
                             # A route cell must have at least one cell route greater than or equal to itself (Output)
                             conveyor_output.append(If(self.conveyor[i][j] == self.direction[direction],
@@ -105,7 +82,7 @@ class RouteLogic:
                     inserter_input = []
                     conveyor_input = []
                     for direction in range(1, self.n_dir):
-                        x, y = i + self.dir_shift[direction][0], j + self.dir_shift[direction][1]
+                        x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
                             conveyor_input.append(If(And(self.conveyor[i][j] != self.direction[direction],
                                                          self.conveyor[i][j] != self.direction[0]),
@@ -135,20 +112,6 @@ class RouteLogic:
             self.route_end() +\
             self.forward_consistency() +\
             self.backward_consistency()
-
-    def is_output(self, x, y):
-        is_output = False
-        for pos in self.output_pos:
-            if x == pos[0] and y == pos[1]:
-                is_output = True
-        return is_output
-
-    def is_input(self, x, y):
-        is_output = False
-        for pos in self.input_pos:
-            if x == pos[0] and y == pos[1]:
-                is_output = True
-        return is_output
 
     def optimize_criteria(self):
         return sum([If(self.route[i][j] == 0, 0, 1) for i in range(self.height) for j in range(self.width)])

@@ -1,8 +1,14 @@
 from z3 import *
 
+from model.DirectionalElement import DirectionalElement
+from model.GridElement import GridElement
 
-class AssemblerLogic:
-    def __init__(self, width, height, direction):
+
+class AssemblerLogic(DirectionalElement, GridElement):
+    def __init__(self, width, height):
+        DirectionalElement.__init__(self)
+        GridElement.__init__(self, width, height, {})
+
         self.assembler_size = 3
         self.max_assemblers = (width // self.assembler_size) * (height // self.assembler_size)
 
@@ -14,20 +20,11 @@ class AssemblerLogic:
         self.width = width
         self.height = height
 
-        self.dir_shift = {
+        self.displacement = {
             1: [(-2, -1), (-2, 0), (-2, 1)],  # North
             2: [(-1, 2), (0, 2), (1, 2)],     # East
             3: [(2, -1), (2, 0), (2, 1)],     # South
             4: [(-1, -2), (0, -2), (1, -2)]   # West
-        }
-
-        self.direction = direction
-
-        self.opposite_dir = {
-            1: self.direction[3],  # North -> South
-            2: self.direction[4],  # East  -> West
-            3: self.direction[1],  # South -> North
-            4: self.direction[2]   # West  -> East
         }
 
         # Center cell of the assembler (takes value from 0 to max_assemblers)
@@ -84,8 +81,8 @@ class AssemblerLogic:
         for i in range(self.placement_height):
             for j in range(self.placement_width):
                 has_input = []
-                for direction in self.dir_shift:
-                    for pos in self.dir_shift[direction]:
+                for direction in self.displacement:
+                    for pos in self.displacement[direction]:
                         x = i + 1 + pos[0]
                         y = j + 1 + pos[1]
                         if 0 <= x < self.height and 0 <= y < self.width:
@@ -99,8 +96,8 @@ class AssemblerLogic:
         for i in range(self.placement_height):
             for j in range(self.placement_width):
                 has_output = []
-                for direction in self.dir_shift:
-                    for pos in self.dir_shift[direction]:
+                for direction in self.displacement:
+                    for pos in self.displacement[direction]:
                         x = i + 1 + pos[0]
                         y = j + 1 + pos[1]
                         if 0 <= x < self.height and 0 <= y < self.width:
