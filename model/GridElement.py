@@ -9,20 +9,26 @@ class GridElement(ABC):
         self.height = height
         self.input = []
         self.output = []
+        self.in_out_positions = in_out_positions
         if in_out_positions:
-            self.input = in_out_positions['IN']
-            self.output = in_out_positions['OUT']
+            # Separate the pair coordinates into two lists
+            self.input = list(in_out_positions['IN'].keys())
+            self.output = list(in_out_positions['OUT'].keys())
 
     def is_output(self, x, y):
         is_output = False
-        for pos in self.output:
-            if x == pos[0] and y == pos[1]:
-                is_output = True
+        if (x, y) in self.in_out_positions['OUT']:
+            is_output = True
         return is_output
 
     def is_input(self, x, y):
-        is_output = False
-        for pos in self.input:
-            if x == pos[0] and y == pos[1]:
-                is_output = True
-        return is_output
+        is_input = False
+        if (x, y) in self.in_out_positions['IN']:
+            is_input = True
+        return is_input
+
+    def input_item(self, x, y):
+        return self.in_out_positions['IN'][(x, y)]
+
+    def output_item(self, x, y):
+        return self.in_out_positions['OUT'][(x, y)]

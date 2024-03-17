@@ -7,11 +7,13 @@ from model.AssemblerLogic import AssemblerLogic
 from model.ConveyorLogic import ConveyorLogic
 from model.FactoryLogic import FactoryLogic
 from model.InserterLogic import InserterLogic
+from model.ItemFlowLogic import ItemFlowLogic
+from model.RecipeLogic import RecipeLogic
 from model.RouteLogic import RouteLogic
 
 
 class FactorioSolver:
-    def __init__(self, width, height, in_out_pos):
+    def __init__(self, width, height, in_out_pos, recipes):
         self.width = width
         self.height = height
 
@@ -21,37 +23,48 @@ class FactorioSolver:
         # Solution found variable
         self.has_solution = False
 
-        self.model_variables = {}
+        self.grid_variables = {}
+
+        self.array_variables = {}
 
         start = time.time()
-        self.initialize_model_constraints(width, height, in_out_pos)
+        self.initialize_model(width, height, in_out_pos, recipes)
         computing_time = time.time() - start
-        print("Initialization time:", computing_time)
+        print("Model initialization time:", computing_time)
 
-    def initialize_model_constraints(self, blueprint_width, blueprint_height, in_out_pos):
+    def initialize_model(self, blueprint_width, blueprint_height, in_out_pos, recipes):
         conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, in_out_pos)
-        assembler_behavior = AssemblerLogic(blueprint_width, blueprint_height)
+        assembler_behaviour = AssemblerLogic(blueprint_width, blueprint_height)
         inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
-                                           assembler_behavior.collision_area, in_out_pos)
+                                           assembler_behaviour.collision_area, in_out_pos)
         conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
-        assembler_behavior.set_inserter(inserter_behaviour.inserter)
+        assembler_behaviour.set_inserter(inserter_behaviour.inserter)
         route_behaviour = RouteLogic(blueprint_width, blueprint_height, in_out_pos,
                                      conveyor_behaviour.conveyor,
-                                     inserter_behaviour.inserter, assembler_behavior.collision_area)
-        factory_behavior = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
-                                        inserter_behaviour, assembler_behavior.collision_area)
+                                     inserter_behaviour.inserter, assembler_behaviour.collision_area)
+        factory_behaviour = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
+                                         inserter_behaviour, assembler_behaviour.collision_area)
+        recipe_behaviour = RecipeLogic(recipes)
+        item_flow_behaviour = ItemFlowLogic(blueprint_width, blueprint_height, route_behaviour.route, in_out_pos, recipes)
 
-        self.model_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
-        self.model_variables.update({"ROUTE": route_behaviour.route})
-        self.model_variables.update({"INSERTER": inserter_behaviour.inserter})
-        self.model_variables.update({"ASSEMBLER": assembler_behavior.assembler})
-        self.model_variables.update({"ASSEMBLER_COLLISION": assembler_behavior.collision_area})
+        self.grid_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
+        self.grid_variables.update({"ROUTE": route_behaviour.route})
+        self.grid_variables.update({"INSERTER": inserter_behaviour.inserter})
+        self.grid_variables.update({"ASSEMBLER": assembler_behaviour.assembler})
+        self.grid_variables.update({"ASSEMBLER_COLLISION": assembler_behaviour.collision_area})
+        self.grid_variables.update({"ASSEMBLER_RECIPE": assembler_behaviour.selected_recipe})
+        self.grid_variables.update({"ITEM_FLOW": item_flow_behaviour.item_flow})
+
+        self.array_variables.update({"RECIPE_INPUTS": (recipe_behaviour.recipe_input, (recipe_behaviour.max_recipes, recipe_behaviour.max_items))})
+        self.array_variables.update({"RECIPE_OUTPUTS": (recipe_behaviour.recipe_output, (recipe_behaviour.max_recipes, recipe_behaviour.max_items))})
 
         self.s.add(conveyor_behaviour.constraints()
                    + route_behaviour.constraints()
                    + inserter_behaviour.constraints()
-                   + factory_behavior.constraints()
-                   + assembler_behavior.constraints()
+                   + factory_behaviour.constraints()
+                   + assembler_behaviour.constraints()
+                   # + recipe_behaviour.constraints()
+                   + item_flow_behaviour.constraints()
                    )
 
         # Minimize the objective function
@@ -74,13 +87,25 @@ class FactorioSolver:
     def model_to_string(self):
         if self.has_solution:
             m = self.s.model()
-            for var_name, var_value in self.model_variables.items():
+            # Print grid variables
+            for var_name, var_value in self.grid_variables.items():
                 print(var_name)
                 height, width = len(var_value), len(var_value[0])
                 for i in range(height):
                     for j in range(width):
                         print(m[var_value[i][j]], end=' ')
                     print()
+
+            # Print Array variables
+            for var_name, var_value in self.array_variables.items():
+                print(var_name)
+                height, width = var_value[1][0], var_value[1][1]
+                for i in range(height):
+                    for j in range(width):
+                        a = m.evaluate(var_value[0][i][j])
+                        print(a, end=' ')
+                    print()
+
         else:
             print("No model was found")
 
@@ -141,21 +166,21 @@ class FactorioSolver:
         # Conveyors
         for i in range(self.height):
             for j in range(self.width):
-                conveyor = str(model[self.model_variables['CONVEYOR'][i][j]]).strip('\"')
+                conveyor = str(model[self.grid_variables['CONVEYOR'][i][j]]).strip('\"')
                 if conveyor != 'empty' and conveyor != 'None':
                     game_map[i][j] = f"CONV:{direction[conveyor]}"
 
         # Inserters
         for i in range(self.height):
             for j in range(self.width):
-                inserter = str(model[self.model_variables['INSERTER'][i][j]]).strip('\"')
+                inserter = str(model[self.grid_variables['INSERTER'][i][j]]).strip('\"')
                 if inserter != 'empty' and inserter != 'None':
                     game_map[i][j] = f"INSE:{direction[inserter]}"
 
         # Assemblers
         for i in range(self.height-2):
             for j in range(self.width-2):
-                assembler = str(model[self.model_variables['ASSEMBLER'][i][j]]).strip('\"')
+                assembler = str(model[self.grid_variables['ASSEMBLER'][i][j]]).strip('\"')
                 if assembler != '0':
                     game_map[i+1][j+1] = f"ASSE:{0}"
 

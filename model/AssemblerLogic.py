@@ -12,7 +12,7 @@ class AssemblerLogic(DirectionalElement, GridElement):
         self.assembler_size = 3
         self.max_assemblers = (width // self.assembler_size) * (height // self.assembler_size)
 
-        self.n_bits = math.ceil(math.log2(self.max_assemblers+1))
+        self.assembler_bits = math.ceil(math.log2(self.max_assemblers + 1))
 
         self.placement_width = width - 2
         self.placement_height = height - 2
@@ -27,12 +27,19 @@ class AssemblerLogic(DirectionalElement, GridElement):
             4: [(-1, -2), (0, -2), (1, -2)]   # West
         }
 
+        self.max_recipes = 8
+        self.recipe_bits = math.ceil(math.log2(self.max_recipes))
+
         # Center cell of the assembler (takes value from 0 to max_assemblers)
-        self.assembler = [[BitVec(f"A_{i}_{j}", self.n_bits)
+        self.assembler = [[BitVec(f"A_{i}_{j}", self.assembler_bits)
                            for i in range(self.placement_width)] for j in range(self.placement_height)]
 
-        self.collision_area = [[BitVec(f"C_A_{i}_{j}", self.n_bits)
+        # 3x3 area around the center of an assembler
+        self.collision_area = [[BitVec(f"C_A_{i}_{j}", self.assembler_bits)
                                 for i in range(self.width)] for j in range(self.height)]
+
+        self.selected_recipe = [[BitVec(f"A_R_{i}_{j}", self.recipe_bits)
+                           for i in range(self.placement_width)] for j in range(self.placement_height)]
 
     def domain_constraint(self):
         return [ULE(self.assembler[i][j], self.max_assemblers)
@@ -105,8 +112,17 @@ class AssemblerLogic(DirectionalElement, GridElement):
                 assembler_output.append(If(self.assembler[i][j] != 0, Or(has_output), True))
         return assembler_output
 
+    def associate_recipe(self):
+        assembler_recipe = []
+
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                assembler_recipe.append(If(self.assembler[i][j] != 0, UGT(self.selected_recipe[i][j], 0), True))
+        return assembler_recipe
+
+
     def constraints(self):
-        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output()
+        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.associate_recipe()
 
     def set_inserter(self, inserter):
         self.inserter = inserter
