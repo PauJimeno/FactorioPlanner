@@ -13,13 +13,22 @@ class RecipeElement(ABC):
         self.item_to_variable, self.variable_to_item = self.initialize_map_dictionaries(recipes)
 
         # Number of unique items present in the blueprint
-        self.max_items = len(self.item_to_variable) + 1
+        self.max_items = len(self.item_to_variable)
 
         # Maximum amount of items a recipie needs at a time
         self.max_items_in = max(pair[0] for recipe in recipes.values() for pair in recipe["IN"])
 
         # Maximum amount of items a recipie outputs at a time
         self.max_items_out = max(pair[0] for recipe in recipes.values() for pair in recipe["OUT"])
+
+        # Matrix of items needed of a certain recipe
+        self.recipe_input = self.input_recipe_values()
+
+        # Matrix of items a certain recipe outputs
+        self.recipe_output = self.output_recipe_values()
+
+        print("Recipe Inputs:", self.recipe_input)
+        print("Recipe Outputs:", self.recipe_output)
 
     def initialize_map_dictionaries(self, recipes):
         item_to_variable = {}
@@ -34,6 +43,26 @@ class RecipeElement(ABC):
                     n_items += 1
 
         return item_to_variable, variable_to_item
+
+    def input_recipe_values(self):
+        recipe_input = []
+        for recipe_index, (recipe_name, recipe) in enumerate(self.recipes.items()):
+            item_variables_in = [0] * self.max_items
+            for item in recipe['IN']:
+                item_variables_in[self.item_to_variable[item[1]] - 1] = item[0]
+            recipe_input.append(item_variables_in)
+
+        return recipe_input
+
+    def output_recipe_values(self):
+        recipe_output = []
+        for recipe_index, (recipe_name, recipe) in enumerate(self.recipes.items()):
+            item_variables_out = [0] * self.max_items
+            for item in recipe['OUT']:
+                item_variables_out[self.item_to_variable[item[1]] - 1] = item[0]
+            recipe_output.append(item_variables_out)
+
+        return recipe_output
 
     def model_item_id(self, item_id):
         model_item_id = -1

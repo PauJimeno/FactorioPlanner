@@ -13,7 +13,7 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
 
         self.route = route
 
-        self.item_bits = math.ceil(self.max_items)
+        self.item_bits = math.ceil(math.log2(self.max_items+1))
 
         # Z3 variable that represents what item is present in each blueprint cell
         self.item_flow = [[BitVec(f"ITEM_FLOW_{i}_{j}", self.item_bits)
@@ -32,14 +32,14 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
         # The input cells carry the item specified in the input coordinates
         input_items = []
         for coord, item in self.in_out_positions['IN'].items():
-            input_items.append(self.item_flow[coord[0]][coord[0]] == self.model_item_id(item))
+            input_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(item))
         return input_items
 
     def item_output(self):
         # The input cells carry the item specified in the input coordinates
         output_items = []
         for coord, item in self.in_out_positions['OUT'].items():
-            output_items.append(self.item_flow[coord[0]][coord[0]] == self.model_item_id(item))
+            output_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(item))
         return output_items
 
     def item_carry(self):

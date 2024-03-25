@@ -37,9 +37,12 @@ class ConveyorLogic(DirectionalElement, GridElement):
                     for direction in range(1, self.n_dir):
                         x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
-                            direction_clauses.append(If(self.conveyor[i][j] == self.direction[direction],
+                            direction_clauses.append(If(self.conveyor[i][j] == self.direction[direction], Or(
                                                         And(self.conveyor[x][y] != self.direction[0],
                                                             self.conveyor[x][y] != self.opposite_dir[direction]),
+                                                        And(self.inserter[x][y] != self.direction[0],
+                                                            self.inserter[x][y] == self.direction[direction])
+                                                        ),
                                                         False))
                     conveyor_output.append(If(self.conveyor[i][j] != self.direction[0], Or(direction_clauses), True))
 

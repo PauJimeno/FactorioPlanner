@@ -8,7 +8,7 @@ COSES A FER:
     - Criteris dels outputs
     - Provar de posar el criteri d'optimització la minimització dels valors que pren la ruta (DONE)
     - Apuntar a la memoria els constraints que creo i el raonament darrere (DONE)
-    - Començar amb els constructors, receptes i item flow rate (CONSTRUCTROS DONE, )
+    - Començar amb els constructors, receptes i item flow rate (CONSTRUCTROS DONE, FLOWRATE DONE, )
 '''
 
 # GRAPHIC INTERFACE #
@@ -18,10 +18,11 @@ COSES A FER:
 
 '''
 CODI PROVISIONAL PER TESTING DE RECEPTES
-    Item 1 : Iron Plate
-    Item 2 : Copper Plate
+    Item 0 : Iron Plate
+    Item 1 : Copper Plate
+    Item 2 : Iron Stick
     Item 3 : Copper Cable
-    Item 4 : Iron Stick
+    Item 4 : Electronic Circuit
 Una recipe compta amb els elements i quantitat d'entrada i sortida juntament amb el temps d'execució de la recepta.
 '''
 
@@ -33,22 +34,38 @@ amb totes les receptes involucrades en un cert ítem de sortida.
 
 recipe_1 = {"IRON_STICK": {"IN": [(1, 1)],
                            "OUT": [(2, 4)],
-                           "TIME": 0.5}}
+                           "TIME": 0.5},
+
+            "COPPER_CABLE": {"IN": [(1, 2)],
+                             "OUT": [(2, 4)],
+                             "TIME": 0.5}
+            }
 
 recipe_2 = {"COPPER_CABLE": {"IN": [(1, 2)],
                              "OUT": [(2, 3)],
                              "TIME": 0.5}}
 
-# SOLVER DECLARATION #
-blueprint_width = 8
-blueprint_height = 8
-
-in_out_pos = {
-    'IN': {(0, 0): 1, (5, 2): 1},
-    'OUT': {(7, 7): 4},
+electronic_circuit_test = {
+    "COPPER_CABLE": {
+        "IN": [(1, 1)],
+        "OUT": [(2, 3)]
+    },
+    "ELECTRONIC_CIRCUIT": {
+        "IN": [(1, 0), (2, 3)],
+        "OUT": [(1, 4)]
+    }
 }
 
-solver = FactorioSolver(blueprint_width, blueprint_height, in_out_pos, recipe_1)
+# SOLVER DECLARATION #
+blueprint_width = 7
+blueprint_height = 7
+
+in_out_pos = {
+    'IN': {(0, 0): 0, (0, 6): 1},
+    'OUT': {(6, 6): 4, (6, 0): 4},
+}
+
+solver = FactorioSolver(blueprint_width, blueprint_height, in_out_pos, electronic_circuit_test)
 
 # FIND A SOLUTION #
 if solver.find_solution():

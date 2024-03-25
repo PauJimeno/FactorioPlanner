@@ -26,8 +26,8 @@ class RouteLogic(DirectionalElement, GridElement):
         self.route = [[BitVec(f"R_{i}_{j}", self.n_bits) for i in range(self.width)] for j in range(self.height)]
 
     def domain_constraint(self):
-        return[ULE(self.route[i][j], self.domain - 1)
-               for i in range(self.height) for j in range(self.width)]
+        return [ULE(self.route[i][j], self.domain - 1)
+                for i in range(self.height) for j in range(self.width)]
 
     def part_of_route(self):
         # If a cell is part of route, then a conveyor or an inserter must be there
@@ -71,7 +71,8 @@ class RouteLogic(DirectionalElement, GridElement):
                                                           self.assembler[x][y] != 0),
                                                       self.route[x][y] == 0, False))
 
-                    forward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_output+inserter_output), True))
+                    forward_consistency.append(
+                        If(UGT(self.route[i][j], 0), Or(conveyor_output + inserter_output), True))
         return forward_consistency
 
     def backward_consistency(self):
@@ -102,17 +103,16 @@ class RouteLogic(DirectionalElement, GridElement):
                                                      self.route[i][j] == 1,
                                                      False))
 
-                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_input+inserter_input), True))
+                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_input + inserter_input), True))
         return backward_consistency
 
     def constraints(self):
-        return self.route_start() +\
-            self.part_of_route() +\
-            self.domain_constraint() +\
-            self.route_end() +\
-            self.forward_consistency() +\
+        return self.route_start() + \
+            self.part_of_route() + \
+            self.domain_constraint() + \
+            self.route_end() + \
+            self.forward_consistency() + \
             self.backward_consistency()
 
     def optimize_criteria(self):
         return sum([If(self.route[i][j] == 0, 0, 1) for i in range(self.height) for j in range(self.width)])
-

@@ -2,12 +2,14 @@ from z3 import *
 
 from model.DirectionalElement import DirectionalElement
 from model.GridElement import GridElement
+from model.RecipeElement import RecipeElement
 
 
-class AssemblerLogic(DirectionalElement, GridElement):
-    def __init__(self, width, height):
+class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
+    def __init__(self, width, height, recipe):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, {})
+        RecipeElement.__init__(self, recipe)
 
         self.assembler_size = 3
         self.max_assemblers = (width // self.assembler_size) * (height // self.assembler_size)
@@ -22,13 +24,12 @@ class AssemblerLogic(DirectionalElement, GridElement):
 
         self.displacement = {
             1: [(-2, -1), (-2, 0), (-2, 1)],  # North
-            2: [(-1, 2), (0, 2), (1, 2)],     # East
-            3: [(2, -1), (2, 0), (2, 1)],     # South
-            4: [(-1, -2), (0, -2), (1, -2)]   # West
+            2: [(-1, 2), (0, 2), (1, 2)],  # East
+            3: [(2, -1), (2, 0), (2, 1)],  # South
+            4: [(-1, -2), (0, -2), (1, -2)]  # West
         }
 
-        self.max_recipes = 8
-        self.recipe_bits = math.ceil(math.log2(self.max_recipes))
+        self.recipe_bits = math.ceil(math.log2(self.max_recipes + 1))
 
         # Center cell of the assembler (takes value from 0 to max_assemblers)
         self.assembler = [[BitVec(f"A_{i}_{j}", self.assembler_bits)
@@ -38,18 +39,19 @@ class AssemblerLogic(DirectionalElement, GridElement):
         self.collision_area = [[BitVec(f"C_A_{i}_{j}", self.assembler_bits)
                                 for i in range(self.width)] for j in range(self.height)]
 
-        self.selected_recipe = [[BitVec(f"A_R_{i}_{j}", self.recipe_bits)
-                           for i in range(self.placement_width)] for j in range(self.placement_height)]
+        self.selected_recipe = [BitVec(f"A_R_{i}", self.recipe_bits) for i in range(self.max_assemblers)]
 
     def domain_constraint(self):
         return [ULE(self.assembler[i][j], self.max_assemblers)
-                for i in range(self.placement_height) for j in range(self.placement_width)] +\
-                [ULE(self.collision_area[i][j], self.max_assemblers)
-                 for i in range(self.placement_height-2) for j in range(self.placement_width-2)]
+                for i in range(self.placement_height) for j in range(self.placement_width)] + \
+            [ULE(self.collision_area[i][j], self.max_assemblers)
+             for i in range(self.height) for j in range(self.width)] + \
+            [ULE(self.selected_recipe[i], self.max_recipes)
+             for i in range(self.max_assemblers)]
 
     def distinct_assemblers(self):
         distinct = []
-        for assembler in range(1, self.max_assemblers+1):
+        for assembler in range(1, self.max_assemblers + 1):
             distinct.append(sum([If(self.assembler[i][j] == assembler, 1, 0)
                                  for i in range(self.placement_height) for j in range(self.placement_width)]) <= 1)
         return distinct
@@ -82,47 +84,79 @@ class AssemblerLogic(DirectionalElement, GridElement):
                 set_collision.append(If(self.assembler[i][j] != 0, And(surround_collision), True))
         return set_collision
 
-    def assembler_input(self):
-        assembler_input = []
-
-        for i in range(self.placement_height):
-            for j in range(self.placement_width):
-                has_input = []
-                for direction in self.displacement:
-                    for pos in self.displacement[direction]:
-                        x = i + 1 + pos[0]
-                        y = j + 1 + pos[1]
-                        if 0 <= x < self.height and 0 <= y < self.width:
-                            has_input.append(self.inserter[x][y] == self.opposite_dir[direction])
-                assembler_input.append(If(self.assembler[i][j] != 0, Or(has_input), True))
-        return assembler_input
-
     def assembler_output(self):
         assembler_output = []
-
         for i in range(self.placement_height):
             for j in range(self.placement_width):
-                has_output = []
-                for direction in self.displacement:
-                    for pos in self.displacement[direction]:
-                        x = i + 1 + pos[0]
-                        y = j + 1 + pos[1]
-                        if 0 <= x < self.height and 0 <= y < self.width:
-                            has_output.append(self.inserter[x][y] == self.direction[direction])
-                assembler_output.append(If(self.assembler[i][j] != 0, Or(has_output), True))
+                for assembler in range(self.max_assemblers):
+                    assembler_selected = self.assembler[i][j] == assembler + 1
+                    for recipe in range(self.max_recipes):
+                        recipe_selected = self.selected_recipe[assembler] == recipe + 1
+                        for item in range(self.max_items):
+                            outputs = []
+                            for direction in self.displacement:
+                                for pos in self.displacement[direction]:
+                                    x = i + 1 + pos[0]
+                                    y = j + 1 + pos[1]
+                                    if 0 <= x < self.height and 0 <= y < self.width:
+                                        outputs.append(And(self.inserter[x][y] == self.direction[direction],
+                                                          self.item_flow[x][y] == item + 1))
+                            if self.recipe_output[recipe][item] != 0:
+                                assembler_output.append(
+                                    If(And(assembler_selected, recipe_selected),
+                                       Or(outputs), True))
+                            else:
+                                assembler_output.append(
+                                    If(And(assembler_selected, recipe_selected),
+                                       Not(Or(outputs)), True))
+
         return assembler_output
+
+    def assembler_input(self):
+        assembler_input = []
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                for assembler in range(self.max_assemblers):
+                    assembler_selected = self.assembler[i][j] == assembler + 1
+                    for recipe in range(self.max_recipes):
+                        recipe_selected = self.selected_recipe[assembler] == recipe + 1
+                        for item in range(self.max_items):
+                            inputs = []
+                            for direction in self.displacement:
+                                for pos in self.displacement[direction]:
+                                    x = i + 1 + pos[0]
+                                    y = j + 1 + pos[1]
+                                    if 0 <= x < self.height and 0 <= y < self.width:
+                                        inputs.append(And(self.inserter[x][y] == self.opposite_dir[direction],
+                                                          self.item_flow[x][y] == item + 1))
+                            if self.recipe_input[recipe][item] != 0:
+                                assembler_input.append(
+                                    If(And(assembler_selected, recipe_selected),
+                                       Or(inputs), True))
+                            else:
+                                assembler_input.append(
+                                    If(And(assembler_selected, recipe_selected),
+                                       Not(Or(inputs)), True))
+
+        return assembler_input
 
     def associate_recipe(self):
         assembler_recipe = []
+        for k in range(1, self.max_assemblers + 1):
+            exists_assembler = []
+            for i in range(self.placement_width):
+                for j in range(self.placement_height):
+                    exists_assembler.append(self.assembler[i][j] == k)
+            assembler_recipe.append(
+                If(Or(exists_assembler), self.selected_recipe[k - 1] != 0, self.selected_recipe[k - 1] == 0))
 
-        for i in range(self.placement_height):
-            for j in range(self.placement_width):
-                assembler_recipe.append(If(self.assembler[i][j] != 0, UGT(self.selected_recipe[i][j], 0), True))
         return assembler_recipe
-
 
     def constraints(self):
         return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.associate_recipe()
 
     def set_inserter(self, inserter):
         self.inserter = inserter
+
+    def set_item_flow(self, item_flow):
+        self.item_flow = item_flow
