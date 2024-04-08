@@ -6,12 +6,14 @@ from model.RecipeElement import RecipeElement
 
 
 class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
-    def __init__(self, width, height, route, in_out_pos, recipes):
+    def __init__(self, width, height, route, inserter, conveyor, in_out_pos, recipes):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
         RecipeElement.__init__(self, recipes)
 
         self.route = route
+        self.inserter = inserter
+        self.conveyor = conveyor
 
         self.item_bits = math.ceil(math.log2(self.max_items+1))
 
@@ -31,30 +33,43 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
     def item_input(self):
         # The input cells carry the item specified in the input coordinates
         input_items = []
-        for coord, item in self.in_out_positions['IN'].items():
-            input_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(item))
+        for coord in self.input:
+            input_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.input_item(coord[0], coord[1])))
         return input_items
 
     def item_output(self):
         # The input cells carry the item specified in the input coordinates
         output_items = []
-        for coord, item in self.in_out_positions['OUT'].items():
-            output_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(item))
+        for coord in self.output:
+            output_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.output_item(coord[0], coord[1])))
         return output_items
 
     def item_carry(self):
-        # Each cell that is part of a route must carry its item to the neighbour cell with a greater route value
-        item_carry = []
-        for i in range(self.width):
-            for j in range(self.height):
-                carry = []
+        item_carry_conveyor = []
+        item_carry_inserter = []
+        for i in range(self.height):
+            for j in range(self.width):
+                inserter_carry = []
+                conveyor_carry = []
                 for direction in range(1, self.n_dir):
                     x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
                     if 0 <= x < self.height and 0 <= y < self.width:
-                        carry.append(If(UGT(self.route[x][y], self.route[i][j]),
-                                        self.item_flow[x][y] == self.item_flow[i][j], True))
-                item_carry.append(If(UGT(self.route[i][j], 0), And(carry), True))
-        return item_carry
+                        # An inserter takes items from the neighbouring cell pointing to it
+                        if not self.is_input(i, j):
+                            inserter_carry.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction], UGT(self.route[x][y], 0)),
+                                                     self.item_flow[i][j] == self.item_flow[x][y]))
+                            # An inserter puts items to the neighbouring cell it is pointing to
+                            inserter_carry.append(Implies(And(self.inserter[i][j] == self.direction[direction], UGT(self.route[x][y], 0)),
+                                                     self.item_flow[x][y] == self.item_flow[i][j]))
+                        if not self.is_output(i, j):
+                            # A conveyor puts items to the neighbouring cell it is pointing to
+                            conveyor_carry.append(Implies(self.conveyor[i][j] == self.direction[direction],
+                                                     self.item_flow[x][y] == self.item_flow[i][j]))
+
+                item_carry_conveyor.append(Implies(self.conveyor[i][j] != self.direction[0], And(conveyor_carry)))
+                item_carry_inserter.append(Implies(self.inserter[i][j] != self.direction[0], And(inserter_carry)))
+
+        return item_carry_inserter + item_carry_conveyor
 
     def constraints(self):
         return self.part_of_route() + self.item_input() + self.item_output() + self.domain_constraint() + self.item_carry()

@@ -8,7 +8,7 @@ from model.ConveyorLogic import ConveyorLogic
 from model.FactoryLogic import FactoryLogic
 from model.InserterLogic import InserterLogic
 from model.ItemFlowLogic import ItemFlowLogic
-from model.RecipeLogic import RecipeLogic
+from model.ItemFlowRateLogic import ItemFlowRateLogic
 from model.RouteLogic import RouteLogic
 
 
@@ -44,9 +44,11 @@ class FactorioSolver:
                                      inserter_behaviour.inserter, assembler_behaviour.collision_area)
         factory_behaviour = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
                                          inserter_behaviour, assembler_behaviour.collision_area)
-        item_flow_behaviour = ItemFlowLogic(blueprint_width, blueprint_height, route_behaviour.route, in_out_pos, recipes)
+        item_flow_behaviour = ItemFlowLogic(blueprint_width, blueprint_height, route_behaviour.route, inserter_behaviour.inserter, conveyor_behaviour.conveyor, in_out_pos, recipes)
+        item_flow_rate_behaviour = ItemFlowRateLogic(blueprint_width, blueprint_height, in_out_pos, inserter_behaviour.inserter, conveyor_behaviour.conveyor, route_behaviour.route)
 
         assembler_behaviour.set_item_flow(item_flow_behaviour.item_flow)
+        assembler_behaviour.set_item_flow_rate(item_flow_rate_behaviour.item_flow_rate)
 
         self.grid_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
         self.grid_variables.update({"ROUTE": route_behaviour.route})
@@ -54,8 +56,10 @@ class FactorioSolver:
         self.grid_variables.update({"ASSEMBLER": assembler_behaviour.assembler})
         self.grid_variables.update({"ASSEMBLER_COLLISION": assembler_behaviour.collision_area})
         self.grid_variables.update({"ITEM_FLOW": item_flow_behaviour.item_flow})
-
-        self.array_variables.update({"ASSEMBLER_RECIPE": (assembler_behaviour.selected_recipe, assembler_behaviour.max_assemblers)})
+        self.grid_variables.update({"ITEM_FLOW_RATE": item_flow_rate_behaviour.item_flow_rate})
+        self.array_variables.update({"ASSEMBLER_RECIPE": assembler_behaviour.selected_recipe})
+        self.grid_variables.update({"INPUT RATIO": assembler_behaviour.input_ratio})
+        self.array_variables.update({"MIN RATIO": assembler_behaviour.min_ratio})
 
         self.s.add(conveyor_behaviour.constraints()
                    + route_behaviour.constraints()
@@ -63,10 +67,11 @@ class FactorioSolver:
                    + factory_behaviour.constraints()
                    + assembler_behaviour.constraints()
                    + item_flow_behaviour.constraints()
+                   + item_flow_rate_behaviour.constraints()
                    )
 
         # Minimize the objective function
-        self.s.minimize(route_behaviour.optimize_criteria())
+        # self.s.minimize(route_behaviour.optimize_criteria())
 
     def find_solution(self):
         start = time.time()
@@ -97,9 +102,9 @@ class FactorioSolver:
             # Print Array variables
             for var_name, var_value in self.array_variables.items():
                 print(var_name)
-                length = var_value[1]
+                length = len(var_value)
                 for i in range(length):
-                    print(m[var_value[0][i]], end=' ')
+                    print(m[var_value[i]], end=' ')
                 print()
 
         else:

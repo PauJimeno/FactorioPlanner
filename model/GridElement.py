@@ -28,7 +28,10 @@ class GridElement(ABC):
         return is_input
 
     def input_item(self, x, y):
-        return self.in_out_positions['IN'][(x, y)]
+        return self.in_out_positions['IN'][(x, y)]['ITEM']
 
     def output_item(self, x, y):
-        return self.in_out_positions['OUT'][(x, y)]
+        return self.in_out_positions['OUT'][(x, y)]['ITEM']
+
+    def input_rate(self, x, y):
+        return self.in_out_positions['IN'][(x, y)]['RATE']
