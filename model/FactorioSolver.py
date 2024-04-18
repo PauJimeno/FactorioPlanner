@@ -72,6 +72,7 @@ class FactorioSolver:
 
         # Minimize the objective function
         # self.s.minimize(route_behaviour.optimize_criteria())
+        self.s.maximize(item_flow_rate_behaviour.max_output())
 
     def find_solution(self):
         start = time.time()
@@ -96,7 +97,7 @@ class FactorioSolver:
                 height, width = len(var_value), len(var_value[0])
                 for i in range(height):
                     for j in range(width):
-                        print(m[var_value[i][j]], end=' ')
+                        print(m[var_value[i][j]], end='          ')
                     print()
 
             # Print Array variables

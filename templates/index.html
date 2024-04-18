@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Canvas Example</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
+</head>
+<body>
+    <h1>Factorio Planner</h1>
+
+    <h2>Model View</h2>
+    <canvas id="model-view" width="500" height="500">
+        Your browser does not support the HTML canvas tag.
+    </canvas>
+
+    <!-- Recipe file -->
+    <h2>Recipe Selection</h2>
+    <div>
+        <input type="file" id="file-id">
+    </div>
+
+    <!-- Recipe selection -->
+    <div>
+        <select id="recipe-selection">
+            <option value="" disabled selected>Select a recipe</option>
+        </select>
+    </div>
+
+    <!-- Recipe selected information -->
+    <div id="recipe-information">
+        <h2>Recipe Information</h2>
+        <div id="info">Waiting for a recipe to be selected</div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../static/ModelView.js"></script>
+    <script src="../static/Recipes.js"></script>
+    <script src="../static/main.js"></script>
+
+
+</body>
+</html>

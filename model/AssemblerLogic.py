@@ -102,6 +102,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                     assembler_selected = self.assembler[i][j] == assembler + 1
                     for item in range(self.max_items):
                         outputs = []
+                        output_rate = []
                         for direction in self.displacement:
                             for pos in self.displacement[direction]:
                                 x = i + 1 + pos[0]
@@ -173,15 +174,17 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                                        self.recipe_input[recipe][item]))
                             else:
                                 input_ratios.append(
-                                    Implies(And(assembler_selected, recipe_selected), self.input_ratio[assembler][item] == 0))
+                                    Implies(And(assembler_selected, recipe_selected), self.input_ratio[assembler][item] == 1))
         return input_ratios
 
     def min_input_ratio(self):
         min_ratio = []
         for assembler in range(self.max_assemblers):
+            is_value_of = []
             for item in range(self.max_items):
-                non_zero_ratio = If(self.input_ratio[assembler][item] > 0, self.input_ratio[assembler][item], 1)
-                min_ratio.append(self.min_ratio[assembler] <= non_zero_ratio)
+                is_value_of.append(self.min_ratio[assembler] == self.input_ratio[assembler][item])
+                min_ratio.append(self.min_ratio[assembler] <= self.input_ratio[assembler][item])
+            min_ratio.append(Or(is_value_of))
         return min_ratio
 
     def associate_recipe(self):
@@ -196,8 +199,28 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
 
         return assembler_recipe
 
+    def set_output_rate(self):
+        output_ratios = []
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                for assembler in range(self.max_assemblers):
+                    assembler_selected = self.assembler[i][j] == assembler + 1
+                    outputs = []
+                    for direction in self.displacement:
+                        for pos in self.displacement[direction]:
+                            x = i + 1 + pos[0]
+                            y = j + 1 + pos[1]
+                            if 0 <= x < self.height and 0 <= y < self.width:
+                                outputs.append(If(self.inserter[x][y] == self.direction[direction], self.item_flow_rate[x][y], 0))
+                    for recipe in range(self.max_recipes):
+                        recipe_selected = self.selected_recipe[assembler] == recipe + 1
+                        for item in range(self.max_items):
+                            if self.recipe_output[recipe][item] != 0:
+                                output_ratios.append(Implies(And(assembler_selected, recipe_selected), sum(outputs) == self.min_ratio[assembler] * self.recipe_output[recipe][item]))
+        return output_ratios
+
     def constraints(self):
-        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.associate_recipe() + self.input_ratios() + self.min_input_ratio()
+        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.associate_recipe() + self.input_ratios() + self.min_input_ratio() + self.set_output_rate()
 
     def set_inserter(self, inserter):
         self.inserter = inserter
