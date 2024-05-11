@@ -77,7 +77,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                         y = dj + j - 1
                         if 0 <= x < self.placement_height and 0 <= y < self.placement_width:
                             neighbors.append(self.assembler[x][y] == self.collision_area[i][j])
-                link.append(If(self.collision_area[i][j] != 0, Or(neighbors), self.collision_area[i][j] == 0))
+                link.append(Implies(self.collision_area[i][j] != 0, Or(neighbors)))
         return link
 
     def set_collision(self):
@@ -102,7 +102,6 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                     assembler_selected = self.assembler[i][j] == assembler + 1
                     for item in range(self.max_items):
                         outputs = []
-                        output_rate = []
                         for direction in self.displacement:
                             for pos in self.displacement[direction]:
                                 x = i + 1 + pos[0]
@@ -165,7 +164,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                 y = j + 1 + pos[1]
                                 if 0 <= x < self.height and 0 <= y < self.width:
                                     inputs.append(If(And(self.inserter[x][y] == self.opposite_dir[direction],
-                                                         self.item_flow[x][y] == item + 1), self.item_flow_rate[x][y], 0))
+                                                         self.item_flow[x][y] == item + 1), self.output_flow_rate[x][y], 0))
                         for recipe in range(self.max_recipes):
                             recipe_selected = self.selected_recipe[assembler] == recipe + 1
                             if self.recipe_input[recipe][item] != 0:
@@ -211,7 +210,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                             x = i + 1 + pos[0]
                             y = j + 1 + pos[1]
                             if 0 <= x < self.height and 0 <= y < self.width:
-                                outputs.append(If(self.inserter[x][y] == self.direction[direction], self.item_flow_rate[x][y], 0))
+                                outputs.append(If(self.inserter[x][y] == self.direction[direction], self.output_flow_rate[x][y], 0))
                     for recipe in range(self.max_recipes):
                         recipe_selected = self.selected_recipe[assembler] == recipe + 1
                         for item in range(self.max_items):
@@ -228,6 +227,6 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
     def set_item_flow(self, item_flow):
         self.item_flow = item_flow
 
-    def set_item_flow_rate(self, item_flow_rate):
-        self.item_flow_rate = item_flow_rate
+    def set_item_flow_rate(self, output_flow_rate):
+        self.output_flow_rate = output_flow_rate
 

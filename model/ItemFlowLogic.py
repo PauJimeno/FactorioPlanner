@@ -65,7 +65,7 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
                             # A conveyor puts items to the neighbouring cell it is pointing to
                             conveyor_carry.append(Implies(self.conveyor[i][j] == self.direction[direction],
                                                      self.item_flow[x][y] == self.item_flow[i][j]))
-
+                # Tot i que la implicació és redundant ja que inserter i conveyor carry forcen que les direccions estiguin entre 1-4, la implicació reduieix el temps de solving
                 item_carry_conveyor.append(Implies(self.conveyor[i][j] != self.direction[0], And(conveyor_carry)))
                 item_carry_inserter.append(Implies(self.inserter[i][j] != self.direction[0], And(inserter_carry)))
 
