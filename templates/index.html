@@ -1,41 +1,70 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Canvas Example</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
-</head>
-<body>
-    <h1>Factorio Planner</h1>
 
-    <h2>Model View</h2>
-    <canvas id="model-view" width="500" height="500">
-        Your browser does not support the HTML canvas tag.
-    </canvas>
+    <head>
+        <title>Factorio Planner</title>
+        <link rel="stylesheet" type="text/css" href="../static/style.css">
+    </head>
 
-    <!-- Recipe file -->
-    <h2>Recipe Selection</h2>
-    <div>
-        <input type="file" id="file-id">
-    </div>
+    <body>
+        <h1>Factorio Planner</h1>
+        <div id="main-container">
+            <div id="model-view-container">
+                <h2>Model View</h2>
+                <canvas id="model-view" width="500" height="500">
+                    Your browser does not support the HTML canvas tag.
+                </canvas>
 
-    <!-- Recipe selection -->
-    <div>
-        <select id="recipe-selection">
-            <option value="" disabled selected>Select a recipe</option>
-        </select>
-    </div>
+                <!-- Blueprint size -->
+                <h2>Blueprint size</h2>
+                <div>
+                    <label for="rows">Number of rows:</label>
+                    <input type="number" id="rows" name="rows" min="5" value="5">
+                </div>
+                <div>
+                    <label for="cols">Number of columns:</label>
+                    <input type="number" id="cols" name="cols" min="5" value="5">
+                </div>
 
-    <!-- Recipe selected information -->
-    <div id="recipe-information">
-        <h2>Recipe Information</h2>
-        <div id="info">Waiting for a recipe to be selected</div>
-    </div>
+                <!-- Recipe file -->
+                <h2>Recipe Selection</h2>
+                <div>
+                    <input type="file" id="file-id">
+                </div>
 
-    <!-- Scripts -->
-    <script src="../static/ModelView.js"></script>
-    <script src="../static/Recipes.js"></script>
-    <script src="../static/main.js"></script>
+                <!-- Recipe selection -->
+                <div>
+                    <select id="recipe-selection">
+                        <option value="" disabled selected>Select a recipe</option>
+                    </select>
+                </div>
+
+                <!-- Start button -->
+                <div>
+                    <button onclick="solveInstance()">Solve Instance</button>
+                </div>
 
 
-</body>
+            </div>
+
+            <!-- Recipe selected information -->
+            <div id="recipe-container">
+                <!-- Basic info (name, inputs, outputs) -->
+                <div id="recipe-information">
+                    <h2>Basic information</h2>
+                    <div id="info">Waiting for a recipe to be selected</div>
+                </div>
+                <!-- Advanced info (recipes and item recursively involved) -->
+                <div id="recipe-breakdown">
+                    <h2>Recipe breakdown</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scripts -->
+        <script src="../static/ModelView.js"></script>
+        <script src="../static/Recipes.js"></script>
+        <script src="../static/main.js"></script>
+
+    </body>
 </html>

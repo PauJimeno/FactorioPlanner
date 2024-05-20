@@ -22,6 +22,10 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         # The input cells rate is the rate specified in the input coordinates
         return [self.input_flow_rate[coord[0]][coord[1]] == self.input_rate(coord[0], coord[1]) for coord in self.input]
 
+    def variable_input_rate(self):
+        # The input cells rate is the rate specified in the input coordinates
+        return [And(self.input_flow_rate[coord[0]][coord[1]] >= 0, self.input_flow_rate[coord[0]][coord[1]] <= 450) for coord in self.input]
+
     def part_of_route(self):
         return [Implies(self.route[i][j] == 0, And(self.input_flow_rate[i][j] == 0, self.output_flow_rate[i][j] == 0))
                 for i in range(self.height) for j in range(self.width)]
@@ -51,7 +55,7 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
                                                               And(self.input_flow_rate[i][j] == sum(belt_input_cells), self.input_flow_rate[i][j]<=450)))
                 # La sortida d'una cinta és la seva entrada menys la suma d'entrada de les caselles adjacents que prenen items
                 belt_flow_rate_propagation.append(Implies(self.conveyor[i][j] != self.direction[0],
-                                                          self.output_flow_rate[i][j] == (self.input_flow_rate[i][j] - sum(belt_output_cells))))
+                                                          And(self.output_flow_rate[i][j] == (self.input_flow_rate[i][j] - sum(belt_output_cells)), self.output_flow_rate[i][j]>=0)))
         return belt_flow_rate_propagation
 
     def inserter_item_flow_propagation(self):
@@ -67,19 +71,19 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
                             # L'entrada d'un inserter ha de ser mes petita o igual a 50 en cas que l'entrada de la casella d'on agafa items li entrin 50 o més items
                             inserter_input_cells.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
                                                         self.input_flow_rate[x][y] >= 50),
-                                                        And(self.input_flow_rate[i][j] == 50, self.output_flow_rate[i][j] == 50)))
+                                                        And(self.input_flow_rate[i][j] <= 50, self.input_flow_rate[i][j] == self.output_flow_rate[i][j])))
                             # L'entrada d'un inserter ha de ser mes petita o igual a l'entrada de la casella d'on agafa si l'entrada d'aquesta és mes petita que 50
                             inserter_input_cells.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
                                                                self.input_flow_rate[x][y] < 50, self.route[x][y] != 0), # La ruta ha de ser != 0 (no esta agafant d'un assembler)
-                                                           And(self.input_flow_rate[i][j] == self.input_flow_rate[x][y], self.output_flow_rate[i][j] == self.input_flow_rate[x][y])))
+                                                           And(self.input_flow_rate[i][j] <= self.input_flow_rate[x][y], self.output_flow_rate[i][j] == self.input_flow_rate[i][j])))
                             inserter_input_cells.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
-                                                                    self.route[x][y] == 0), And(self.input_flow_rate[i][j] == self.output_flow_rate[i][j], self.input_flow_rate[i][j]<=50, self.input_flow_rate[i][j]>=0, self.output_flow_rate[i][j]<=50, self.output_flow_rate[i][j]>=0)))
+                                                                    self.route[x][y] == 0), And(self.input_flow_rate[i][j] == self.output_flow_rate[i][j], self.input_flow_rate[i][j]<=50)))
 
-                    inserter_item_flow_propagation.append(Implies(self.inserter[i][j] != self.direction[0], And(inserter_input_cells)))
+                    inserter_item_flow_propagation.append(Implies(self.inserter[i][j] != self.direction[0], And(And(inserter_input_cells), self.input_flow_rate[i][j] >= 0)))
         return inserter_item_flow_propagation
 
     def constraints(self):
-        return self.item_input_rate() + self.belt_item_flow_propagation() + self.inserter_item_flow_propagation() + self.part_of_route()
+        return self.variable_input_rate() + self.belt_item_flow_propagation() + self.inserter_item_flow_propagation() + self.part_of_route()
 
     def max_output(self):
         return self.output_flow_rate[self.output[0][0]][self.output[0][1]]

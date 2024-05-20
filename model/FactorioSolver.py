@@ -41,7 +41,7 @@ class FactorioSolver:
         assembler_behaviour.set_inserter(inserter_behaviour.inserter)
         route_behaviour = RouteLogic(blueprint_width, blueprint_height, in_out_pos,
                                      conveyor_behaviour.conveyor,
-                                     inserter_behaviour.inserter, assembler_behaviour.collision_area)
+                                     inserter_behaviour.inserter, assembler_behaviour.collision_area, recipes)
         factory_behaviour = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
                                          inserter_behaviour, assembler_behaviour.collision_area)
         item_flow_behaviour = ItemFlowLogic(blueprint_width, blueprint_height, route_behaviour.route, inserter_behaviour.inserter, conveyor_behaviour.conveyor, in_out_pos, recipes)
@@ -58,9 +58,7 @@ class FactorioSolver:
         self.grid_variables.update({"ITEM_FLOW": item_flow_behaviour.item_flow})
         self.grid_variables.update({"INPUT_FLOW_RATE": item_flow_rate_behaviour.input_flow_rate})
         self.grid_variables.update({"OUTPUT_FLOW_RATE": item_flow_rate_behaviour.output_flow_rate})
-        self.array_variables.update({"ASSEMBLER_RECIPE": assembler_behaviour.selected_recipe})
         self.grid_variables.update({"INPUT RATIO": assembler_behaviour.input_ratio})
-        self.array_variables.update({"MIN RATIO": assembler_behaviour.min_ratio})
 
         self.s.add(conveyor_behaviour.constraints()
                    + route_behaviour.constraints()
@@ -151,7 +149,7 @@ class FactorioSolver:
 
                         game_map_img.paste(img, pos, mask=img)
 
-            game_map_img.save('model_image/game_map_model.png')
+            game_map_img.save('static/model_image/solved_instance.png')
         else:
             print("No model was found")
 

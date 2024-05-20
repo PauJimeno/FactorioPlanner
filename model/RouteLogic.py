@@ -2,15 +2,17 @@ from z3 import *
 
 from model.DirectionalElement import DirectionalElement
 from model.GridElement import GridElement
+from model.RecipeElement import RecipeElement
 
 
-class RouteLogic(DirectionalElement, GridElement):
-    def __init__(self, width, height, in_out_pos, conveyor, inserter, assembler):
+class RouteLogic(DirectionalElement, GridElement, RecipeElement):
+    def __init__(self, width, height, in_out_pos, conveyor, inserter, assembler, recipe):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
+        RecipeElement.__init__(self, recipe)
 
         # Domain of values route variables can be assigned to (width*height)
-        self.domain = width * height
+        self.domain = (width * height) - (self.max_recipes * 9)
         self.n_bits = math.ceil(math.log2(self.domain))
 
         # Reference to the conveyor direction variable

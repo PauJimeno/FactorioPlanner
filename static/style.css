@@ -20,3 +20,23 @@ select, input {
   padding: 10px; /* Add some padding */
   font-size: 1em; /* Make it bigger */
 }
+
+#recipe-container {
+    display: flex;
+    justify-content: right; /* Aligns the items at the center of the container */
+}
+
+#recipe-information, #recipe-breakdown {
+    width: 100%; /* Adjust as needed */
+    margin: 10px; /* Adds a 10px margin around each div */
+}
+
+#main-container {
+    display: flex;
+    justify-content: center;
+}
+
+#model-view-container, #recipe-container {
+    width: 65%; /* Adjust as needed */
+    margin: 10px; /* Adds a 10px margin around each div */
+}

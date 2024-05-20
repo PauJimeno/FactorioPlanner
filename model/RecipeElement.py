@@ -27,9 +27,6 @@ class RecipeElement(ABC):
         # Matrix of items a certain recipe outputs
         self.recipe_output = self.output_recipe_values()
 
-        print("Recipe Inputs:", self.recipe_input)
-        print("Recipe Outputs:", self.recipe_output)
-
     def initialize_map_dictionaries(self, recipes):
         item_to_variable = {}
         variable_to_item = {}
@@ -75,3 +72,21 @@ class RecipeElement(ABC):
         if item_id in self.variable_to_item:
             model_item_id = self.variable_to_item[item_id]
         return model_item_id
+
+    def is_recipe_input(self, recipe_name, item_name):
+        is_input = False
+        recipe = self.recipes[recipe_name]
+        for input in recipe['IN']:
+            if input[0] == item_name:
+                is_input = True
+                break
+        return is_input
+
+    def is_recipe_output(self, recipe_name, item_name):
+        is_output = False
+        recipe = self.recipes[recipe_name]
+        for output in recipe['OUT']:
+            if output[0] == item_name:
+                is_output = True
+                break
+        return is_output
