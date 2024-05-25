@@ -43,6 +43,7 @@ class Recipes{
            this.recipeDisplay(recipeSelection.value);
            this.recipesInvolved = {}
            this.recipeBreakdown(recipeSelection.value);
+           this.recipeBreakdownDisplay(this.recipesInvolved);
            console.log(JSON.stringify(this.recipesInvolved));
         });
     }
@@ -117,7 +118,56 @@ class Recipes{
         recipeInformation.appendChild(recipeElement)
     }
 
+    recipeBreakdownDisplay(recipeInfo){
+        let recipeNamesDiv = document.getElementById('recipe-names');
+        let involvedItemsDiv = document.getElementById('involved-items');
+
+        // Clear the previous contents
+        recipeNamesDiv.innerHTML = '';
+        involvedItemsDiv.innerHTML = '';
+
+        // Add titles
+        let recipeNamesTitle = document.createElement('h3');
+        recipeNamesTitle.textContent = 'Recipes Used';
+        recipeNamesDiv.appendChild(recipeNamesTitle);
+
+        let involvedItemsTitle = document.createElement('h3');
+        involvedItemsTitle.textContent = 'Items Needed';
+        involvedItemsDiv.appendChild(involvedItemsTitle);
+
+        let recipeNamesList = document.createElement('ul');
+        recipeNamesDiv.appendChild(recipeNamesList);
+
+        for (let recipe in recipeInfo) {
+            let recipeNameElement = document.createElement('li');
+
+            // Create an img element for the recipe
+            let recipeIcon = document.createElement('img');
+            recipeIcon.src = this.iconPath + '/' + recipe + '.png';
+            recipeNameElement.appendChild(recipeIcon);
+
+            recipeNameElement.appendChild(document.createTextNode(this.formatRecipeName(recipe)));
+            recipeNamesList.appendChild(recipeNameElement);
+
+            let involvedItemsList = document.createElement('ul');
+            recipeInfo[recipe].IN.forEach(item => {
+                let itemElement = document.createElement('li');
+
+                // Create an img element for the item
+                let itemIcon = document.createElement('img');
+                itemIcon.src = this.iconPath + '/' + item[0] + '.png';
+                itemElement.appendChild(itemIcon);
+
+                itemElement.appendChild(document.createTextNode(this.formatRecipeName(item[0])));
+                involvedItemsList.appendChild(itemElement);
+            });
+            involvedItemsDiv.appendChild(involvedItemsList);
+        }
+    }
+
     recipeBreakdown(itemName){
+        // Quan estigui l'input de caselles cal comprovar que no sigui un item d'entrada (per no involucrar receptes
+        // que no siguin necessàries)
         if(itemName in this.recipeData){
             this.recipesInvolved[itemName] = this.recipeData[itemName];
             for (var item of this.recipeData[itemName]["IN"]){
@@ -125,18 +175,6 @@ class Recipes{
             }
         }
     }
-
-    itemBreakdown(itemName){
-        if(itemName in this.recipeData){
-            console.log("Ingredients de la recepta:");
-            for (var item of this.recipeData[itemName]["IN"]){
-                console.log(item[0]);
-                this.itemBreakdown(item[0]);
-            }
-        }
-    }
-
-
 }
 
 

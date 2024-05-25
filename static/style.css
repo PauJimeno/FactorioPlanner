@@ -40,3 +40,13 @@ select, input {
     width: 65%; /* Adjust as needed */
     margin: 10px; /* Adds a 10px margin around each div */
 }
+
+#recipe-names {
+    float: left;
+    width: 50%;
+}
+
+#involved-items {
+    float: right;
+    width: 50%;
+}

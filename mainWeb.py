@@ -17,8 +17,8 @@ def your_flask_function():
 
     # Queda fer que les posicions també vinguin del client (s'ha de fer al canvas del client web)
     in_out_pos = {
-        'IN': {(0, 0): {'ITEM': 'copper-plate', 'RATE': 100}},
-        'OUT': {(5, 5): {'ITEM': 'copper-cable'}},
+        'IN': {(0, 0): {'ITEM': 'iron-plate', 'RATE': 100}, (0, 7): {'ITEM': 'copper-plate', 'RATE': 100}, (7, 0): {'ITEM': 'plastic-bar', 'RATE': 100}},
+        'OUT': {(7, 7): {'ITEM': 'advanced-circuit'}},
     }
 
     solver = FactorioSolver(blueprint_width, blueprint_height, in_out_pos, recipes)
