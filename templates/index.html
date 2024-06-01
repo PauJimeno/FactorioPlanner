@@ -1,76 +1,110 @@
 <!DOCTYPE html>
 <html>
-
     <head>
         <title>Factorio Planner</title>
         <link rel="stylesheet" type="text/css" href="../static/style.css">
     </head>
-
     <body>
         <h1>Factorio Planner</h1>
         <div id="main-container">
             <div id="model-view-container">
                 <h2>Model View</h2>
-                <canvas id="model-view" width="500" height="500">
-                    Your browser does not support the HTML canvas tag.
-                </canvas>
+                <div id="canvas-container"> <!-- New parent div -->
+                    <canvas id="model-view" width="500" height="500">
+                        Your browser does not support the HTML canvas tag.
+                    </canvas>
+
+                    <!-- Cell information -->
+                    <div id="cell-info">
+                        <h2>Cell Information</h2>
+                        <div id="selected-cell-info">
+                            <h3>Select values</h3>
+                            <div id="item-cell-selection">
+                                <h4>Input item</h4>
+                                <select id="item-selection">
+                                    <option value="none" selected>No item</option>
+                                </select>
+                            </div>
+                            <h4>Is output cell</h4>
+                            <div class="custom-checkbox">
+                                <label>
+                                    <input type="checkbox" id="is-output">
+                                    <span class="checkmark"></span>
+                                    Output cell
+                                </label>
+                            </div>
+                            <div id="quantity-cell-selection">
+
+                            </div>
+                        </div>
+                        <div id="current-cell-info">
+                            <h3>Selected values</h3>
+                            <p>Item: <span id="item-value">None</span></p>
+                            <p>Quantity: <span id="quantity-value">0</span></p>
+                        </div>
+                    </div>
+                </div>
 
                 <!-- Blueprint size -->
                 <h2>Blueprint size</h2>
                 <div>
-                    <label for="rows">Number of rows:</label>
+                    <label for="rows">Rows</label>
                     <input type="number" id="rows" name="rows" min="5" value="5">
                 </div>
+
                 <div>
-                    <label for="cols">Number of columns:</label>
+                    <label for="cols">Columns</label>
                     <input type="number" id="cols" name="cols" min="5" value="5">
-                </div>
-
-                <!-- Recipe file -->
-                <h2>Recipe Selection</h2>
-                <div>
-                    <input type="file" id="file-id">
-                </div>
-
-                <!-- Recipe selection -->
-                <div>
-                    <select id="recipe-selection">
-                        <option value="" disabled selected>Select a recipe</option>
-                    </select>
                 </div>
 
                 <!-- Start button -->
                 <div>
                     <button onclick="solveInstance()">Solve Instance</button>
                 </div>
-
-
             </div>
 
-            <!-- Recipe selected information -->
-            <div id="recipe-container">
-                <!-- Basic info (name, inputs, outputs) -->
-                <div id="recipe-information">
-                    <h2>Basic information</h2>
-                    <div id="info">Waiting for a recipe to be selected</div>
-                </div>
-                <!-- Advanced info (recipes and item recursively involved) -->
-                <div id="recipe-breakdown">
-                    <h2>Recipe breakdown</h2>
-                    <div id="recipe-names">
-                        <h3>Recipes Used</h3>
+            <!-- Recipe Selection, Information and Breakdown -->
+            <div id="recipe-selection-container">
+                <div id="recipe-file-selection">
+                    <!-- Recipe file -->
+                    <h2>Recipe Selection</h2>
+                    <div>
+                        <input type="file" id="file-id">
                     </div>
-                    <div id="involved-items">
-                        <h3>Items Needed</h3>
+
+                    <!-- Recipe selection -->
+                    <div>
+                        <select id="recipe-selection">
+                            <option value="" disabled selected>Select a recipe</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Recipe selected information -->
+                <div id="recipe-container">
+                    <!-- Basic info (name, inputs, outputs) -->
+                    <div id="recipe-information">
+                        <h2>Basic information</h2>
+                        <div id="info"></div>
+                    </div>
+                    <!-- Advanced info (recipes and item recursively involved) -->
+                    <div id="recipe-breakdown">
+                        <h2>Recipe breakdown</h2>
+                        <div id="recipe-names">
+                            <h3>Recipes Used</h3>
+                        </div>
+                        <div id="involved-items">
+                            <h3>Items Needed</h3>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Scripts -->
-        <script src="../static/ModelView.js"></script>
+        <script src="../static/CellInfo.js"></script>
+        <script src="../static/Blueprint.js"></script>
         <script src="../static/Recipes.js"></script>
         <script src="../static/main.js"></script>
-
     </body>
 </html>

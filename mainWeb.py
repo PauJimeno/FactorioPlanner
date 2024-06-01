@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-
+from ast import literal_eval
 from model.FactorioSolver import FactorioSolver
 
 _app = Flask(__name__, template_folder='templates', static_folder='static')
@@ -9,17 +9,13 @@ def endpointHome():
     return render_template('index.html')
 
 @_app.route('/solve-instance', methods=['POST'])
-def your_flask_function():
+def solve_instance():
     data = request.get_json()
     recipes = data['recipes']
     blueprint_width = data['size'][0]
     blueprint_height = data['size'][1]
+    in_out_pos = {k: {literal_eval(key): value for key, value in v.items()} for k, v in data['inOutPos'].items()}
 
-    # Queda fer que les posicions també vinguin del client (s'ha de fer al canvas del client web)
-    in_out_pos = {
-        'IN': {(0, 0): {'ITEM': 'iron-plate', 'RATE': 100}, (0, 7): {'ITEM': 'copper-plate', 'RATE': 100}, (7, 0): {'ITEM': 'plastic-bar', 'RATE': 100}},
-        'OUT': {(7, 7): {'ITEM': 'advanced-circuit'}},
-    }
 
     solver = FactorioSolver(blueprint_width, blueprint_height, in_out_pos, recipes)
     instance_status = 'UNSAT'
@@ -29,8 +25,9 @@ def your_flask_function():
         instance_status = 'SAT'
         solver.model_to_string()
         solver.model_to_image()
+        instance_model = solver.model_to_json()
 
-    return jsonify({'result': instance_status})
+    return jsonify({'result': instance_status, 'model': instance_model})
 
 if __name__ == '__main__':
     _app.run(debug=False)

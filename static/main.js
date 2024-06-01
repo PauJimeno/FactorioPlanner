@@ -1,17 +1,18 @@
-// MAIN SCRIPT
 const iconPath = "static/RecipeIcons"
 const instanceImagePath = "static/model_image/solved_instance.png";
-recipes = new Recipes(iconPath);
-modelView = new ModelView(5, 5);
+modelView = new Blueprint(5, 5);
+recipes = new Recipes(iconPath, modelView);
 
 function solveInstance() {
-    // Your data to send to the server
-    var dataLoad = {}
-    var rows = parseInt(document.getElementById('rows').value);
-    var cols = parseInt(document.getElementById('cols').value);
+    let dataLoad = {}
+    let rows = parseInt(document.getElementById('rows').value);
+    let cols = parseInt(document.getElementById('cols').value);
+    let inOutPos = modelView.inputItems(recipes.selectedRecipe);
 
     dataLoad["recipes"] = recipes.recipesInvolved;
-    dataLoad["size"] = [cols, rows]
+    dataLoad["size"] = [cols, rows];
+    dataLoad["inOutPos"] = inOutPos;
+
     fetch('/solve-instance', {
         method: 'POST',
         headers: {
@@ -22,6 +23,7 @@ function solveInstance() {
     .then(response => response.json())
     .then(data => {
         if (data.result === "SAT"){
+            console.log(JSON.stringify(data.model));
             modelView.drawInstanceImage(instanceImagePath);
         }
         console.log('Success:', dataLoad);

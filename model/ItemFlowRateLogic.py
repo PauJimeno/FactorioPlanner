@@ -79,16 +79,22 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
                             inserter_input_cells.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
                                                                     self.route[x][y] == 0), And(self.input_flow_rate[i][j] == self.output_flow_rate[i][j], self.input_flow_rate[i][j]<=50)))
 
-                    inserter_item_flow_propagation.append(Implies(self.inserter[i][j] != self.direction[0], And(And(inserter_input_cells), self.input_flow_rate[i][j] >= 0)))
+                    inserter_item_flow_propagation.append(Implies(self.inserter[i][j] != self.direction[0], And(And(inserter_input_cells), self.input_flow_rate[i][j] > 0)))
         return inserter_item_flow_propagation
+
+    def item_loss(self):
+        loss = []
+        for i in range(self.height):
+            for j in range(self.width):
+                for direction in range(1, self.n_dir):
+                    x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
+                    if 0 <= x < self.height and 0 <= y < self.width:
+                        # En la direcció de la cinta hi ha un inserter amb la mateixa direcció
+                        loss.append(If(And(self.conveyor[i][j] != self.direction[0], self.inserter[x][y] == self.conveyor[i][j]), self.output_flow_rate[i][j], 0))
+        return sum(loss)
+
+    def item_output(self):
+        return self.output_flow_rate[self.output[0][0]][self.output[0][1]]
 
     def constraints(self):
         return self.variable_input_rate() + self.belt_item_flow_propagation() + self.inserter_item_flow_propagation() + self.part_of_route()
-
-    def max_output(self):
-        return self.output_flow_rate[self.output[0][0]][self.output[0][1]]
-
-
-
-
-

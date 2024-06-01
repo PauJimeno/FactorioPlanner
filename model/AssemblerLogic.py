@@ -38,8 +38,19 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
         self.collision_area = [[BitVec(f"C_A_{i}_{j}", self.assembler_bits)
                                 for i in range(self.width)] for j in range(self.height)]
 
-        self.input_ratio = [[Real(f"RATIO_{i}_{j}")
-                                for i in range(self.max_items)] for j in range(self.max_assemblers)]
+        # self.input_ratio = [[Real(f"RATIO_{i}_{j}")
+        #                         for i in range(self.max_items)] for j in range(self.max_assemblers)]
+
+        self.input_ratio = self.create_ratio_dict()
+
+    def create_ratio_dict(self):
+        ratio_dict = {}
+        for assembler in range(0, self.max_assemblers):
+            ratio_dict[assembler + 1] = {}
+            recipe = self.recipes[self.selected_recipe[assembler]]["IN"]
+            for item in recipe:
+                ratio_dict[assembler + 1][self.item_to_variable[item[0]]] = Real(f"RATIO_{assembler + 1}_{self.item_to_variable[item[0]]}")
+        return ratio_dict
 
     def assembler_upper_bound(self):
         # Determine the max assemblers per recipe the blueprint can have
@@ -116,13 +127,54 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                     break
         return is_needed
 
+    def create_assembler_dict(self, selected_recipe):
+        assembler_dict = {}
+        for i, recipe in enumerate(selected_recipe):
+            if selected_recipe.count(recipe) > 1:
+                if recipe not in assembler_dict:
+                    assembler_dict[recipe] = []
+                assembler_dict[recipe].append(i + 1)
+        return assembler_dict
+
+    def symmetry_breaking(self):
+        symmetry_breaking = []
+        assembler_recipes = self.create_assembler_dict(self.selected_recipe)
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                if i + 1 < self.placement_height:
+                    for _, recipe in assembler_recipes.items():
+                        same_recipe_assembler_1 = []
+                        same_recipe_assembler_2 = []
+                        for assembler in recipe:
+                            same_recipe_assembler_1.append(self.assembler[i][j] == assembler)
+                            same_recipe_assembler_2.append(self.assembler[i + 1][j] == assembler)
+                        symmetry_breaking.append(Implies(And(Or(same_recipe_assembler_1), Or(same_recipe_assembler_2)),
+                                                         self.assembler[i][j] < self.assembler[i + 1][j]))
+        for i in range(self.placement_height):
+            for j in range(self.placement_width):
+                if j + 1 < self.placement_width:
+                    for _, recipe in assembler_recipes.items():
+                        same_recipe_assembler_1 = []
+                        same_recipe_assembler_2 = []
+                        for assembler in recipe:
+                            same_recipe_assembler_1.append(self.assembler[i][j] == assembler)
+                            same_recipe_assembler_2.append(self.assembler[i][j + 1] == assembler)
+                        symmetry_breaking.append(Implies(And(Or(same_recipe_assembler_1), Or(same_recipe_assembler_2)),
+                                                         self.assembler[i][j] < self.assembler[i][j + 1]))
+        return symmetry_breaking
+
     def domain_constraint(self):
+        item_ratio_domain = []
+        for assembler in range(1, self.max_assemblers + 1):
+            for item in self.input_ratio[assembler]:
+                item_ratio_domain.append(
+                    And(self.input_ratio[assembler][item] > 0, self.input_ratio[assembler][item] <= 1))
+
         return [ULE(self.assembler[i][j], self.max_assemblers)
                 for i in range(self.placement_height) for j in range(self.placement_width)] + \
-            [ULE(self.collision_area[i][j], self.max_assemblers)
-             for i in range(self.height) for j in range(self.width)] + \
-            [And(self.input_ratio[i][j] >= 0, self.input_ratio[i][j] <= 1)
-             for i in range(self.max_assemblers) for j in range(self.max_items)]
+                [ULE(self.collision_area[i][j], self.max_assemblers)
+                for i in range(self.height) for j in range(self.width)] + \
+                item_ratio_domain
 
     def distinct_assemblers(self):
         distinct = []
@@ -234,15 +286,18 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                     inputs.append(If(And(self.inserter[x][y] == self.opposite_dir[direction],
                                                          self.item_flow[x][y] == item), self.output_flow_rate[x][y], 0))
                         input_ratios.append(Implies(self.assembler[i][j] == assembler + 1,
-                                                       self.input_ratio[assembler][item-1] == sum(inputs) / input[1]))
+                                                       self.input_ratio[assembler + 1][item] == sum(inputs) / input[1]))
 
         return input_ratios
 
     def equal_ratios(self):
         equal_ratios = []
-        for j in range(self.max_assemblers):
-            for i in range(1, self.max_items):
-                equal_ratios.append(self.input_ratio[j][i] == self.input_ratio[j][0])
+        for assembler in range(1, self.max_assemblers + 1):
+            items = list(self.input_ratio[assembler].keys())
+            if items:
+                first_item_ratio = self.input_ratio[assembler][items[0]]
+                for item in items[1:]:
+                    equal_ratios.append(self.input_ratio[assembler][item] == first_item_ratio)
         return equal_ratios
 
     def set_output_rate(self):
@@ -251,20 +306,26 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
             for j in range(self.placement_width):
                 for assembler in range(self.max_assemblers):
                     outputs = []
+                    output_rate = Real(f'output_rate_{i}_{j}_{assembler}')
+                    output_ratios.append(And(output_rate >= 0, output_rate <= 50))
                     for direction in self.displacement:
                         for pos in self.displacement[direction]:
                             x = i + 1 + pos[0]
                             y = j + 1 + pos[1]
                             if 0 <= x < self.height and 0 <= y < self.width:
-                                outputs.append(If(self.inserter[x][y] == self.direction[direction], self.output_flow_rate[x][y], 0))
+                                outputs.append(
+                                    If(self.inserter[x][y] == self.direction[direction], self.output_flow_rate[x][y],
+                                       0))
+                                output_ratios.append(Implies(self.inserter[x][y] == self.direction[direction],
+                                                             self.output_flow_rate[x][y] == output_rate))
+                    first_item_ratio = next(iter(self.input_ratio[assembler + 1].values()))
                     for output in self.recipes[self.selected_recipe[assembler]]["OUT"]:
-                        output_item = self.item_to_variable[output[0]]
-                        output_ratios.append(Implies(self.assembler[i][j] == assembler + 1, sum(outputs) == self.input_ratio[assembler][output_item-1] * output[1]))
-
+                        output_ratios.append(Implies(self.assembler[i][j] == assembler + 1,
+                                                     sum(outputs) == first_item_ratio * output[1]))
         return output_ratios
 
     def constraints(self):
-        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.input_ratios() + self.equal_ratios() + self.set_output_rate() + self.lower_bound_assemblers()
+        return self.domain_constraint() + self.distinct_assemblers() + self.set_collision() + self.link_assembler_collision() + self.assembler_input() + self.assembler_output() + self.input_ratios() + self.equal_ratios() + self.set_output_rate() + self.lower_bound_assemblers() + self.symmetry_breaking()
 
     def set_inserter(self, inserter):
         self.inserter = inserter

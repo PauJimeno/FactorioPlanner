@@ -58,7 +58,7 @@ class FactorioSolver:
         self.grid_variables.update({"ITEM_FLOW": item_flow_behaviour.item_flow})
         self.grid_variables.update({"INPUT_FLOW_RATE": item_flow_rate_behaviour.input_flow_rate})
         self.grid_variables.update({"OUTPUT_FLOW_RATE": item_flow_rate_behaviour.output_flow_rate})
-        self.grid_variables.update({"INPUT RATIO": assembler_behaviour.input_ratio})
+        # self.grid_variables.update({"INPUT RATIO": assembler_behaviour.input_ratio})
 
         self.s.add(conveyor_behaviour.constraints()
                    + route_behaviour.constraints()
@@ -70,8 +70,9 @@ class FactorioSolver:
                    )
 
         # Minimize the objective function
-        # self.s.minimize(route_behaviour.optimize_criteria())
-        self.s.maximize(item_flow_rate_behaviour.max_output())
+        self.s.maximize(item_flow_rate_behaviour.item_output())
+        # self.s.minimize(item_flow_rate_behaviour.item_loss())
+        # self.s.minimize(route_behaviour.route_length())
 
     def find_solution(self):
         start = time.time()
@@ -186,3 +187,27 @@ class FactorioSolver:
                     game_map[i+1][j+1] = f"ASSE:{0}"
 
         return game_map
+
+    def model_to_json(self):
+        instance_model = {}
+        if self.has_solution:
+            model = self.s.model()
+            for var_name, var_value in self.grid_variables.items():
+                height, width = len(var_value), len(var_value[0])
+                variable = []
+                for i in range(height):
+                    row = []
+                    for j in range(width):
+                        value = str(model[var_value[i][j]])
+                        row.append(value)
+                    variable.append(row)
+                instance_model[var_name] = variable
+        return instance_model
+
+
+
+
+
+
+
+

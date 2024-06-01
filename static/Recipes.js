@@ -1,10 +1,12 @@
 class Recipes{
-    constructor(iconPath) {
+    constructor(iconPath, modelView) {
+        this.modelView = modelView;
         this.iconPath = iconPath;
         this.recipeData = {};
 
         this.recipesInvolved = {}
-        this.itemsInvolved = {}
+        this.itemsInvolved = new Set();
+        this.selectedRecipe = 'none';
 
         this.recipeFileHandler();
         this.recipeSelectionHandler();
@@ -40,12 +42,31 @@ class Recipes{
     recipeSelectionHandler(){
         let recipeSelection = document.getElementById('recipe-selection');
         recipeSelection.addEventListener('change', () => {
-           this.recipeDisplay(recipeSelection.value);
-           this.recipesInvolved = {}
-           this.recipeBreakdown(recipeSelection.value);
-           this.recipeBreakdownDisplay(this.recipesInvolved);
-           console.log(JSON.stringify(this.recipesInvolved));
+            this.selectedRecipe = recipeSelection.value;
+            this.recipeDisplay(recipeSelection.value);
+            this.recipesInvolved = {}
+            this.recipeBreakdown(recipeSelection.value);
+            this.recipeBreakdownDisplay(this.recipesInvolved);
+            this.modelView.setItemsInUse(this.itemsInvolved);
+            this.modelView.resetGridInfo();
         });
+    }
+
+    createListItem(imagePath, text) {
+        let listItem = document.createElement('li');
+        let contentDiv = document.createElement('div');
+        contentDiv.style.display = 'flex';
+        contentDiv.style.alignItems = 'center';
+
+        let icon = document.createElement('img');
+        icon.src = imagePath;
+        icon.style.marginRight = '10px'; // Add right margin
+
+        contentDiv.appendChild(icon);
+        contentDiv.appendChild(document.createTextNode(text));
+        listItem.appendChild(contentDiv);
+
+        return listItem;
     }
 
     recipeDisplay(recipeName){
@@ -57,15 +78,7 @@ class Recipes{
         recipeElement.textContent="";
 
         // Create a container for the recipe name and icon
-        var nameContainer = document.createElement('div');
-        nameContainer.style.display = 'flex';
-        nameContainer.style.alignItems = 'center';
-
-        // Add the recipe name and icon
-        var icon = document.createElement('img');
-        icon.src = this.iconPath + '/' + recipeName + '.png'; // Replace with the actual path to your icons
-        nameContainer.appendChild(icon);
-        nameContainer.appendChild(document.createTextNode(this.formatRecipeName(recipeName)));
+        var nameContainer = this.createListItem(this.iconPath + '/' + recipeName + '.png', this.formatRecipeName(recipeName));
 
         // Add the name container to the recipe element
         recipeElement.appendChild(nameContainer);
@@ -80,30 +93,24 @@ class Recipes{
         var outputsContainer = document.createElement('div');
 
         // Style the containers
-        inputsContainer.style.width = '200%';
-        outputsContainer.style.width = '200%';
         inputsContainer.style.margin = '5px';
         outputsContainer.style.margin = '5px';
 
         // Add the inputs
-        inputsContainer.appendChild(document.createTextNode('Inputs:'));
+        let inputsTitle = document.createElement('h3');
+        inputsTitle.textContent = 'Inputs';
+        inputsContainer.appendChild(inputsTitle);
         for(var input of this.recipeData[recipeName]["IN"]){
-            var inputElement = document.createElement('div');
-            var icon = document.createElement('img');
-            icon.src = this.iconPath + '/' + input[0] + '.png'; // Replace with the actual path to your icons
-            inputElement.appendChild(icon);
-            inputElement.appendChild(document.createTextNode(this.formatRecipeName(input[0]) + ': ' + input[1] + '/min'));
+            var inputElement = this.createListItem(this.iconPath + '/' + input[0] + '.png', this.formatRecipeName(input[0]) + ': ' + input[1] + '/min');
             inputsContainer.appendChild(inputElement);
         }
 
         // Add the outputs
-        outputsContainer.appendChild(document.createTextNode('Outputs:'));
+        let outputsTitle = document.createElement('h3');
+        outputsTitle.textContent = 'Outputs';
+        outputsContainer.appendChild(outputsTitle);
         for(var output of this.recipeData[recipeName]["OUT"]){
-            var outputElement = document.createElement('div');
-            var icon = document.createElement('img');
-            icon.src = this.iconPath + '/' + output[0] + '.png'; // Replace with the actual path to your icons
-            outputElement.appendChild(icon);
-            outputElement.appendChild(document.createTextNode(this.formatRecipeName(output[0]) + ': ' + output[1] + '/min'));
+            var outputElement = this.createListItem(this.iconPath + '/' + output[0] + '.png', this.formatRecipeName(output[0]) + ': ' + output[1] + '/min');
             outputsContainer.appendChild(outputElement);
         }
 
@@ -138,30 +145,20 @@ class Recipes{
         let recipeNamesList = document.createElement('ul');
         recipeNamesDiv.appendChild(recipeNamesList);
 
+        this.itemsInvolved.clear();
+
         for (let recipe in recipeInfo) {
-            let recipeNameElement = document.createElement('li');
-
-            // Create an img element for the recipe
-            let recipeIcon = document.createElement('img');
-            recipeIcon.src = this.iconPath + '/' + recipe + '.png';
-            recipeNameElement.appendChild(recipeIcon);
-
-            recipeNameElement.appendChild(document.createTextNode(this.formatRecipeName(recipe)));
+            let recipeNameElement = this.createListItem(this.iconPath + '/' + recipe + '.png', this.formatRecipeName(recipe));
             recipeNamesList.appendChild(recipeNameElement);
 
-            let involvedItemsList = document.createElement('ul');
             recipeInfo[recipe].IN.forEach(item => {
-                let itemElement = document.createElement('li');
+                if (!this.itemsInvolved.has(item[0])) { // If the item is not in the Set
+                    this.itemsInvolved.add(item[0]); // Add the item to the Set
 
-                // Create an img element for the item
-                let itemIcon = document.createElement('img');
-                itemIcon.src = this.iconPath + '/' + item[0] + '.png';
-                itemElement.appendChild(itemIcon);
-
-                itemElement.appendChild(document.createTextNode(this.formatRecipeName(item[0])));
-                involvedItemsList.appendChild(itemElement);
+                    let itemElement = this.createListItem(this.iconPath + '/' + item[0] + '.png', this.formatRecipeName(item[0]));
+                    involvedItemsDiv.appendChild(itemElement);
+                }
             });
-            involvedItemsDiv.appendChild(involvedItemsList);
         }
     }
 

@@ -116,5 +116,5 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
             self.forward_consistency() + \
             self.backward_consistency()
 
-    def optimize_criteria(self):
+    def route_length(self):
         return sum([If(self.route[i][j] == 0, 0, 1) for i in range(self.height) for j in range(self.width)])
