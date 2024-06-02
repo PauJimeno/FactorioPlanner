@@ -1,0 +1,1 @@
+{"recipes": {"copper-cable": {"IN": [["copper-plate", 120]], "OUT": [["copper-cable", 240]]}}, "size": [6, 6], "inOutPos": {"IN": {"(0,0)": {"ITEM": "copper-plate", "RATE": 0}}, "OUT": {"(5,5)": {"ITEM": "copper-cable"}}}}

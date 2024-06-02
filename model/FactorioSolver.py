@@ -2,6 +2,7 @@ from PIL import ImageDraw
 from z3 import *
 from PIL import Image
 import time
+import json
 
 from model.AssemblerLogic import AssemblerLogic
 from model.ConveyorLogic import ConveyorLogic
@@ -19,6 +20,8 @@ class FactorioSolver:
 
         # Z3 solver declaration
         self.s = Optimize()
+
+        self.solving_time = 0
 
         # Solution found variable
         self.has_solution = False
@@ -83,6 +86,7 @@ class FactorioSolver:
         else:
             print("No solution was found (UNSAT)")
         print("Computing time: ", computing_time)
+        self.solving_time = computing_time
         # print("Solver statistics: ")
         # print(self.s.statistics())
 
@@ -189,6 +193,7 @@ class FactorioSolver:
         return game_map
 
     def model_to_json(self):
+        instanceDataPath = "static/model_image/solved_instance.json"
         instance_model = {}
         if self.has_solution:
             model = self.s.model()
@@ -202,6 +207,10 @@ class FactorioSolver:
                         row.append(value)
                     variable.append(row)
                 instance_model[var_name] = variable
+        instance_model["solving_time"] = self.solving_time
+
+        with open(instanceDataPath, 'w') as f:
+            json.dump(instance_model, f)
         return instance_model
 
 
