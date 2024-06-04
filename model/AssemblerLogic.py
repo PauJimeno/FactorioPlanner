@@ -49,14 +49,15 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
             ratio_dict[assembler + 1] = {}
             recipe = self.recipes[self.selected_recipe[assembler]]["IN"]
             for item in recipe:
-                ratio_dict[assembler + 1][self.item_to_variable[item[0]]] = Real(f"RATIO_{assembler + 1}_{self.item_to_variable[item[0]]}")
+                ratio_dict[assembler + 1][self.item_to_variable[item[0]]] = Real(
+                    f"RATIO_{assembler + 1}_{self.item_to_variable[item[0]]}")
         return ratio_dict
 
     def assembler_upper_bound(self):
         # Determine the max assemblers per recipe the blueprint can have
         produced_required_items = {}
         item_to_produce = "none"
-        z3_variable = []
+        assemblers = []
         for recipe_name, recipe in self.recipes.items():
             # Initialize the dictionary for the recipe
             produced_required_items[recipe_name] = {"required": {}, "produced": {}}
@@ -68,32 +69,50 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                     produced_required_items[recipe_name]["produced"][output[0]] = output[1]
                 else:
                     item_to_produce = output[0]
-            variable = Int(recipe_name + "-assembler")
-            produced_required_items[recipe_name].update({"z3_variable": variable})
-            z3_variable.append(variable)
+            rate = Real(recipe_name + "-rate")
+            assembler = Int(recipe_name + "-assembler")
+            produced_required_items[recipe_name].update({"production_rate": rate})
+            produced_required_items[recipe_name].update({"n_assembler": assembler})
+            assemblers.append(assembler)
 
         s = Optimize()
 
         # Define the domain of the number of possible assemblers
+        domain = []
         for recipe_name, assembler_recipe in produced_required_items.items():
-            s.add(And(assembler_recipe["z3_variable"] > 0, assembler_recipe["z3_variable"] <= self.max_assemblers))
+            domain.append(And(assembler_recipe["production_rate"] > 0,
+                              assembler_recipe["production_rate"] <= self.max_assemblers))
+        s.add(domain)
 
+        ceil = []
+        # Ensure n_assembler is the corresponding ceil to the production_rate
+        for recipe_name, assembler_recipe in produced_required_items.items():
+            ceil.append(If(ToInt(assembler_recipe["production_rate"]) < assembler_recipe["production_rate"],
+                           assembler_recipe["n_assembler"] == ToInt(assembler_recipe["production_rate"]) + 1,
+                           assembler_recipe["n_assembler"] == ToInt(assembler_recipe[
+                                                                        "production_rate"])))
+        s.add(ceil)
         # Ensure the total amount of assemblers does not surpass the maximum amount
-        s.add(sum(z3_variable) <= self.max_assemblers)
+
+        max_ass = sum(assemblers) <= self.max_assemblers
+        s.add(max_ass)
 
         # The number of items needed is covered
+        disti = []
         for recipe_name, recipe in produced_required_items.items():
-            if recipe["produced"]: # Not the objective recipe
-                s.add(recipe["z3_variable"]*recipe["produced"][recipe_name] >= sum(self.demand(recipe_name, produced_required_items)))
+            if recipe["produced"]:  # Not the objective recipe
+                disti.append(recipe["production_rate"] * recipe["produced"][recipe_name] == sum(
+                    self.demand(recipe_name, produced_required_items)))
+        s.add(disti)
 
         # Multi objective optimization
-        s.maximize(produced_required_items[item_to_produce]["z3_variable"])
-        s.minimize(sum(z3_variable))
+        s.maximize(produced_required_items[item_to_produce]["n_assembler"] + produced_required_items[item_to_produce]["production_rate"])
         if s.check() == sat:
             m = s.model()
             self.selected_recipe = []
             for (recipe_name, recipe) in produced_required_items.items():
-                n_assemblers = m.evaluate(recipe["z3_variable"]).as_long()
+                n_assemblers = m.evaluate(recipe["n_assembler"]).as_long()
+                print("Recipe", recipe_name, "working at", m.evaluate(recipe["production_rate"]))
                 for assembler in range(n_assemblers):
                     self.selected_recipe.append(recipe_name)
             self.max_assemblers = len(self.selected_recipe)
@@ -107,8 +126,9 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
         for recipe_name, recipe in produced_required_items.items():
             for item_name, quantity in recipe["required"].items():
                 if item_name == item:
-                    demand.append(recipe["z3_variable"]*quantity)
+                    demand.append(recipe["production_rate"] * quantity)
         return demand
+
     def is_produced(self, item):
         is_produced = False
         for recipe_name, recipe in self.recipes.items():
@@ -172,9 +192,9 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
 
         return [ULE(self.assembler[i][j], self.max_assemblers)
                 for i in range(self.placement_height) for j in range(self.placement_width)] + \
-                [ULE(self.collision_area[i][j], self.max_assemblers)
-                for i in range(self.height) for j in range(self.width)] + \
-                item_ratio_domain
+            [ULE(self.collision_area[i][j], self.max_assemblers)
+             for i in range(self.height) for j in range(self.width)] + \
+            item_ratio_domain
 
     def distinct_assemblers(self):
         distinct = []
@@ -234,7 +254,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                     outputs.append(And(self.inserter[x][y] == self.direction[direction],
                                                        self.item_flow[x][y] == item + 1))
                         recipe = self.selected_recipe[assembler]
-                        if self.is_recipe_output(recipe, self.variable_to_item[item+1]):
+                        if self.is_recipe_output(recipe, self.variable_to_item[item + 1]):
                             assembler_output.append(
                                 Implies(assembler_selected, Or(outputs)))
                         else:
@@ -259,14 +279,14 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                     inputs.append(And(self.inserter[x][y] == self.opposite_dir[direction],
                                                       self.item_flow[x][y] == item + 1))
                         recipe = self.selected_recipe[assembler]
-                        if self.is_recipe_input(recipe, self.variable_to_item[item+1]):
+                        if self.is_recipe_input(recipe, self.variable_to_item[item + 1]):
                             assembler_input.append(
                                 Implies(assembler_selected,
-                                   Or(inputs)))
+                                        Or(inputs)))
                         else:
                             assembler_input.append(
                                 Implies(assembler_selected,
-                                   Not(Or(inputs))))
+                                        Not(Or(inputs))))
 
         return assembler_input
 
@@ -286,7 +306,7 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                                     inputs.append(If(And(self.inserter[x][y] == self.opposite_dir[direction],
                                                          self.item_flow[x][y] == item), self.output_flow_rate[x][y], 0))
                         input_ratios.append(Implies(self.assembler[i][j] == assembler + 1,
-                                                       self.input_ratio[assembler + 1][item] == sum(inputs) / input[1]))
+                                                    self.input_ratio[assembler + 1][item] == sum(inputs) / input[1]))
 
         return input_ratios
 
@@ -335,4 +355,3 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
 
     def set_item_flow_rate(self, output_flow_rate):
         self.output_flow_rate = output_flow_rate
-
