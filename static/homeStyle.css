@@ -1,0 +1,38 @@
+nav {
+    width: 200px;
+    height: 100vh;
+    background-color: #3a3a3a;
+    padding: 20px;
+}
+
+.nav-link:hover {
+    background-color: rgb(47, 48, 49);
+}
+
+.nav-link {
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    color:white;
+    display: block;
+    margin-bottom: 10px;
+    text-decoration: none;
+    font-size: 18px; /* Increase the font size */
+    transition: background-color 0.3s ease; /* Add transition */
+}
+main {
+    flex-grow: 1;
+    padding: 20px;
+    max-width: 1000px;
+    text-align: justify;
+    margin-left: 60px;
+}
+
+body{
+    display: flex;
+    background-color: rgb(47, 48, 49);
+    color:white;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align:justify;
+    text-justify: inter-word;
+}

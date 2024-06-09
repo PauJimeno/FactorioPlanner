@@ -1,3 +1,32 @@
+.step {
+    display: none;
+}
+.step.active {
+    display: block;
+}
+.breadcrumb {
+    margin-bottom: 20px;
+    text-align: center;
+}
+.breadcrumb span {
+    cursor: pointer;
+    text-decoration: underline;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 5px 10px; /* Add some padding */
+    text-decoration: none; /* Remove the underline */
+    transition: color 0.3s ease; /* Add transition */
+}
+
+.breadcrumb span:hover {
+    color: white; /* Change the background color when hovering */
+}
+
+.breadcrumb span.active {
+    color: white;
+    text-decoration: none;
+    cursor: default;
+}
+
 canvas {
     border: 4px solid white;
     width: 500px;
@@ -35,6 +64,10 @@ li {
     align-items: center; /* Align item image with item name text */
 }
 
+#blueprint-size {
+    margin-left: 10px;
+}
+
 #main-container {
     display: flex;
     flex-direction: column;
@@ -48,6 +81,10 @@ li {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
+}
+
+#recipe-breakdown {
+    margin-left: 80px;
 }
 
 #recipe-file-selection {
@@ -64,6 +101,7 @@ li {
 }
 
 #recipe-information {
+    margin-left: 80px;
     margin-right: 20px; /* Add right margin */
 }
 

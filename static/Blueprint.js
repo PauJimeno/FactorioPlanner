@@ -23,7 +23,7 @@ class Blueprint {
         for(let i = 0; i < this.rows; i++){
             let row = [];
             for(let j = 0; j < this.columns; j++){
-                row.push(new CellInfo(this.itemsList));
+                row.push(new CellInfo());
             }
             this.gridInformation.push(row);
         }
@@ -110,9 +110,6 @@ class Blueprint {
 
     updateCellInfo(){
         let selectedCell = this.gridInformation[this.selectedCellY][this.selectedCellX];
-        // Load cell information into the Span
-        document.getElementById('quantity-value').innerText = selectedCell.itemAmount;
-        document.getElementById('item-value').innerText = this.formatItemName(selectedCell.itemCarrying);
 
         // Load the cell information into the selection
         document.getElementById('item-selection').value = selectedCell.itemCarrying;

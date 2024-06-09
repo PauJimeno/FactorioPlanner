@@ -8,6 +8,14 @@ _app = Flask(__name__, template_folder='templates', static_folder='static')
 def endpointHome():
     return render_template('index.html')
 
+@_app.route('/generate.html')
+def endpointGenerate():
+    return render_template('generate.html')
+
+@_app.route('/visualize.html')
+def endpointVisualize():
+    return render_template('visualize.html')
+
 @_app.route('/solve-instance', methods=['POST'])
 def solve_instance():
     data = request.get_json()

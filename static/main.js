@@ -2,8 +2,10 @@ const iconPath = "static/RecipeIcons"
 const instanceImagePath = "static/model_image/solved_instance.png";
 modelView = new Blueprint(5, 5);
 recipes = new Recipes(iconPath, modelView);
+let solvedInstance = {};
 
 function solveInstance() {
+    document.getElementById("status-text").textContent = "Instance sent and being solved";
     let dataLoad = {}
     let rows = parseInt(document.getElementById('rows').value);
     let cols = parseInt(document.getElementById('cols').value);
@@ -22,16 +24,32 @@ function solveInstance() {
     })
     .then(response => response.json())
     .then(data => {
+        document.getElementById('download-solution').disabled = false;
+        solvedInstance = data;
         if (data.result === "SAT"){
-            console.log(JSON.stringify(data.model));
+            document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: SAT";
             modelView.drawInstanceImage(instanceImagePath);
         }
-        console.log('Success:', dataLoad);
-        console.log('Result from server:', data.result);
+        else if(data.result === "UNSAT"){
+            document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: UNSAT";
+        }
+        else if(data.result === "TIMEOUT"){
+            document.getElementById("status-text").textContent = "Instance solved: TIMEOUT";
+        }
     })
     .catch((error) => {
         console.error('Error:', error);
     });
+}
+
+function downloadSolution(){
+    var jsonString = JSON.stringify(solvedInstance["model"], null, 2);
+    var blob = new Blob([jsonString], {type: 'application/json'});
+    var url = URL.createObjectURL(blob);
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = 'SolvedInstance.json';
+    link.click();
 }
 
 

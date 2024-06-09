@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Visualize Instance</title>
+        <link rel="stylesheet" type="text/css" href="../static/generateStyle.css">
+    </head>
+    <body>
+        <!-- Main content -->
+        <main>
+            <h1>Visualize solved instance</h1>
+            <div id="select-instance">
+                <h3>1. Select the solved instance file</h3>
+                <input type="file" id="file-id">
+            </div>
+            <div id="view-instance">
+                <h3>2. Click the cell that you want to see the information</h3>
+                <div id="canvas-container">
+                    <canvas id="model-view" width="500" height="500">
+                        Your browser does not support the HTML canvas tag.
+                    </canvas>
+
+                    <!-- Cell information -->
+                    <div id="cell-info">
+                        <h2>Cell Information</h2>
+                        <div id="selected-cell-info">
+                            <h3>Select values</h3>
+                            <div id="item-cell-selection">
+                                <h4>Input item</h4>
+                                <select id="item-selection">
+                                    <option value="none" selected>No item</option>
+                                </select>
+                            </div>
+                            <h4>Is output cell</h4>
+                            <div class="custom-checkbox">
+                                <label>
+                                    <input type="checkbox" id="is-output">
+                                    <span class="checkmark"></span>
+                                    Output cell
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </body>
+</html>
