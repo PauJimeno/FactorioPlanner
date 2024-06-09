@@ -94,7 +94,12 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         return sum(loss)
 
     def item_output(self):
-        return self.output_flow_rate[self.output[0][0]][self.output[0][1]]
+        item_output = []
+        for pos in self.output:
+            i = pos[0]
+            j = pos[1]
+            item_output.append(self.output_flow_rate[i][j])
+        return sum(item_output)
 
     def constraints(self):
         return self.variable_input_rate() + self.belt_item_flow_propagation() + self.inserter_item_flow_propagation() + self.part_of_route()

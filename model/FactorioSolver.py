@@ -207,6 +207,8 @@ class FactorioSolver:
                         row.append(value)
                     variable.append(row)
                 instance_model[var_name] = variable
+        else:
+            instance_model["status"] = "UNSAT"
         instance_model["solving_time"] = self.solving_time
 
         with open(instanceDataPath, 'w') as f:
