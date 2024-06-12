@@ -1,6 +1,6 @@
 const iconPath = "static/RecipeIcons"
 const instanceImagePath = "static/model_image/solved_instance.png";
-modelView = new Blueprint(5, 5);
+modelView = new InputBlueprint(5, 5);
 recipes = new Recipes(iconPath, modelView);
 let solvedInstance = {};
 

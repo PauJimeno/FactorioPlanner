@@ -27,7 +27,6 @@ def solve_instance():
     blueprint_height = data['size'][1]
     in_out_pos = {k: {literal_eval(key): value for key, value in v.items()} for k, v in data['inOutPos'].items()}
 
-
     solver = FactorioSolver(blueprint_width, blueprint_height, in_out_pos, recipes)
     instance_status = 'UNSAT'
     instance_model = {}

@@ -37,27 +37,27 @@ class FactorioSolver:
 
     def initialize_model(self, blueprint_width, blueprint_height, in_out_pos, recipes):
         conveyor_behaviour = ConveyorLogic(blueprint_width, blueprint_height, in_out_pos)
-        assembler_behaviour = AssemblerLogic(blueprint_width, blueprint_height, recipes)
+        self.assembler_behaviour = AssemblerLogic(blueprint_width, blueprint_height, recipes)
         inserter_behaviour = InserterLogic(blueprint_width, blueprint_height, conveyor_behaviour.conveyor,
-                                           assembler_behaviour.collision_area, in_out_pos)
+                                           self.assembler_behaviour.collision_area, in_out_pos)
         conveyor_behaviour.set_inserter(inserter_behaviour.inserter)
-        assembler_behaviour.set_inserter(inserter_behaviour.inserter)
+        self.assembler_behaviour.set_inserter(inserter_behaviour.inserter)
         route_behaviour = RouteLogic(blueprint_width, blueprint_height, in_out_pos,
                                      conveyor_behaviour.conveyor,
-                                     inserter_behaviour.inserter, assembler_behaviour.collision_area, recipes)
+                                     inserter_behaviour.inserter, self.assembler_behaviour.collision_area, recipes)
         factory_behaviour = FactoryLogic(blueprint_width, blueprint_height, conveyor_behaviour,
-                                         inserter_behaviour, assembler_behaviour.collision_area)
+                                         inserter_behaviour, self.assembler_behaviour.collision_area)
         item_flow_behaviour = ItemFlowLogic(blueprint_width, blueprint_height, route_behaviour.route, inserter_behaviour.inserter, conveyor_behaviour.conveyor, in_out_pos, recipes)
         item_flow_rate_behaviour = ItemFlowRateLogic(blueprint_width, blueprint_height, in_out_pos, inserter_behaviour.inserter, conveyor_behaviour.conveyor, route_behaviour.route)
 
-        assembler_behaviour.set_item_flow(item_flow_behaviour.item_flow)
-        assembler_behaviour.set_item_flow_rate(item_flow_rate_behaviour.output_flow_rate)
+        self.assembler_behaviour.set_item_flow(item_flow_behaviour.item_flow)
+        self.assembler_behaviour.set_item_flow_rate(item_flow_rate_behaviour.output_flow_rate)
 
         self.grid_variables.update({"CONVEYOR": conveyor_behaviour.conveyor})
         self.grid_variables.update({"ROUTE": route_behaviour.route})
         self.grid_variables.update({"INSERTER": inserter_behaviour.inserter})
-        self.grid_variables.update({"ASSEMBLER": assembler_behaviour.assembler})
-        self.grid_variables.update({"ASSEMBLER_COLLISION": assembler_behaviour.collision_area})
+        self.grid_variables.update({"ASSEMBLER": self.assembler_behaviour.assembler})
+        self.grid_variables.update({"ASSEMBLER_COLLISION": self.assembler_behaviour.collision_area})
         self.grid_variables.update({"ITEM_FLOW": item_flow_behaviour.item_flow})
         self.grid_variables.update({"INPUT_FLOW_RATE": item_flow_rate_behaviour.input_flow_rate})
         self.grid_variables.update({"OUTPUT_FLOW_RATE": item_flow_rate_behaviour.output_flow_rate})
@@ -67,7 +67,7 @@ class FactorioSolver:
                    + route_behaviour.constraints()
                    + inserter_behaviour.constraints()
                    + factory_behaviour.constraints()
-                   + assembler_behaviour.constraints()
+                   + self.assembler_behaviour.constraints()
                    + item_flow_behaviour.constraints()
                    + item_flow_rate_behaviour.constraints()
                    )
@@ -111,6 +111,8 @@ class FactorioSolver:
                 for i in range(length):
                     print(m[var_value[i]], end=' ')
                 print()
+
+            self.assembler_behaviour.print_auxiliary_variables(m)
 
         else:
             print("No model was found")

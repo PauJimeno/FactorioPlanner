@@ -148,40 +148,62 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
         return is_needed
 
     def create_assembler_dict(self, selected_recipe):
+        # Creates a dictionary with the recipes that in the best of cases will need more than one assembler
         assembler_dict = {}
         for i, recipe in enumerate(selected_recipe):
             if selected_recipe.count(recipe) > 1:
                 if recipe not in assembler_dict:
-                    assembler_dict[recipe] = []
-                assembler_dict[recipe].append(i + 1)
+                    assembler_dict[recipe] = {}
+                # Create z3 variables for x and y
+                x = Int(f'x_{i + 1}')
+                y = Int(f'y_{i + 1}')
+                used = Bool(f'used_{i + 1}')
+                assembler_dict[recipe][i + 1] = [x, y, used]
         return assembler_dict
 
     def symmetry_breaking(self):
         symmetry_breaking = []
-        assembler_recipes = self.create_assembler_dict(self.selected_recipe)
+        self.assembler_recipes = self.create_assembler_dict(self.selected_recipe)
+
+        # Domain of the variable
+        for recipe in self.assembler_recipes:
+            assemblers = self.assembler_recipes[recipe]
+            assembler_keys = list(assemblers.keys())
+            for i in range(len(assembler_keys)):
+                x, y, used = assemblers[assembler_keys[i]]
+                symmetry_breaking.append(And(x >= 0, x < self.placement_width))
+                symmetry_breaking.append(And(y >= 0, y < self.placement_height))
+
+
+        # Order the positions of the assemblers to break the vertical and horizontal symetry
+        for recipe in self.assembler_recipes:
+            assemblers = self.assembler_recipes[recipe]
+            assembler_keys = list(assemblers.keys())
+            for i in range(len(assembler_keys) - 1):
+                x0, y0, _ = assemblers[assembler_keys[i]]
+                x1, y1, _ = assemblers[assembler_keys[i + 1]]
+                symmetry_breaking.append(x0 <= x1)
+                symmetry_breaking.append(Implies(x0 == x1, y0 < y1))
+
+        # Link the variable ordered positions to the assembler variable
         for i in range(self.placement_height):
             for j in range(self.placement_width):
-                if i + 1 < self.placement_height:
-                    for _, recipe in assembler_recipes.items():
-                        same_recipe_assembler_1 = []
-                        same_recipe_assembler_2 = []
-                        for assembler in recipe:
-                            same_recipe_assembler_1.append(self.assembler[i][j] == assembler)
-                            same_recipe_assembler_2.append(self.assembler[i + 1][j] == assembler)
-                        symmetry_breaking.append(Implies(And(Or(same_recipe_assembler_1), Or(same_recipe_assembler_2)),
-                                                         self.assembler[i][j] < self.assembler[i + 1][j]))
-        for i in range(self.placement_height):
-            for j in range(self.placement_width):
-                if j + 1 < self.placement_width:
-                    for _, recipe in assembler_recipes.items():
-                        same_recipe_assembler_1 = []
-                        same_recipe_assembler_2 = []
-                        for assembler in recipe:
-                            same_recipe_assembler_1.append(self.assembler[i][j] == assembler)
-                            same_recipe_assembler_2.append(self.assembler[i][j + 1] == assembler)
-                        symmetry_breaking.append(Implies(And(Or(same_recipe_assembler_1), Or(same_recipe_assembler_2)),
-                                                         self.assembler[i][j] < self.assembler[i][j + 1]))
+                for recipe in self.assembler_recipes:
+                    assemblers = self.assembler_recipes[recipe]
+                    assembler_keys = list(assemblers.keys())
+                    for k in range(len(assembler_keys)):
+                        x, y, used = assemblers[assembler_keys[k]]
+                        symmetry_breaking.append(Implies(self.assembler[i][j] == assembler_keys[k], used))
+                        symmetry_breaking.append(Implies(And(x == i, y == j, used), self.assembler[i][j] == assembler_keys[k]))
         return symmetry_breaking
+
+    def print_auxiliary_variables(self, model):
+        for recipe in self.assembler_recipes:
+            assemblers = self.assembler_recipes[recipe]
+            assembler_keys = list(assemblers.keys())
+            for i in range(len(assembler_keys)):
+                x, y, used = assemblers[assembler_keys[i]]
+                print(f"Recipe: {recipe}, Assembler: {assembler_keys[i]}, x = {model[x]}, y = {model[y]}, used = {model[used]}")
 
     def domain_constraint(self):
         item_ratio_domain = []
