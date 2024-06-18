@@ -37,11 +37,13 @@ class FactorioSolver:
 
         # Z3 solver declaration
         self.s = Optimize()
+        self.s.set("timeout", 1800000)
 
         self.solving_time = 0
 
         # Solution found variable
         self.has_solution = False
+        self.timed_out = False
 
         self.grid_variables = {}
 
@@ -96,16 +98,20 @@ class FactorioSolver:
 
     def find_solution(self):
         start = time.time()
-        self.has_solution = self.s.check() == sat
+        result = self.s.check()
         computing_time = time.time() - start
-        if self.has_solution:
+        if result == sat:
+            self.has_solution = True
             print("Solution found (SAT)")
-        else:
+        elif result == unsat:
+            self.has_solution = False
             print("No solution was found (UNSAT)")
+        else:  # result is unknown
+            self.has_solution = False
+            self.timed_out = True
+            print("The solver timed out before finding a solution (UNKNOWN)")
         print("Computing time: ", computing_time)
         self.solving_time = computing_time
-        # print("Solver statistics: ")
-        # print(self.s.statistics())
 
         return self.has_solution
 
@@ -129,12 +135,12 @@ class FactorioSolver:
                     print(m[var_value[i]], end=' ')
                 print()
 
-            self.assembler_behaviour.print_auxiliary_variables(m)
+            # self.assembler_behaviour.print_auxiliary_variables(m)
 
         else:
             print("No model was found")
 
-    def model_to_image(self):
+    def model_to_image(self, n_instance):
         if self.has_solution:
             inserter_img = Image.open('sprites/inserter.png').convert("RGBA")
             belt_img = Image.open('sprites/conveyor.png').convert("RGBA")
@@ -173,7 +179,7 @@ class FactorioSolver:
 
                         game_map_img.paste(img, pos, mask=img)
 
-            game_map_img.save('static/model_image/solved_instance.png')
+            game_map_img.save(f'static/model_image/solved_instance{n_instance}.png')
         else:
             print("No model was found")
 
@@ -211,8 +217,8 @@ class FactorioSolver:
 
         return game_map
 
-    def model_to_json(self):
-        instanceDataPath = "static/model_image/solved_instance.json"
+    def model_to_json(self, n_instance):
+        instanceDataPath = f"static/model_image/solved_instance{n_instance}.json"
         instance_model = {}
         if self.has_solution:
             model = self.s.model()
@@ -226,6 +232,9 @@ class FactorioSolver:
                         row.append(value)
                     variable.append(row)
                 instance_model[var_name] = variable
+            instance_model["status"] = "SAT"
+        elif self.timed_out:
+            instance_model["status"] = "TIMED_OUT"
         else:
             instance_model["status"] = "UNSAT"
         instance_model["solving_time"] = self.solving_time

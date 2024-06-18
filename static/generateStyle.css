@@ -41,7 +41,7 @@ body{
     text-justify: inter-word;
 }
 
-select, input, input[type="checkbox"] {
+select, input, button, input[type="checkbox"] {
     background-color: #333; /* Dark color */
     color: white; /* White font */
     border-radius: 10px; /* Rounded corners */
@@ -63,6 +63,19 @@ li {
     display: flex; /* Use Flexbox */
     align-items: center; /* Align item image with item name text */
 }
+
+button{
+    transition: background-color 0.3s ease;
+}
+
+button:hover{
+    background-color: #505050;
+}
+
+button:disabled {
+    cursor: not-allowed; /* Change cursor when disabled */
+}
+
 
 #blueprint-size {
     margin-left: 10px;

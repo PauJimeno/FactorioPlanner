@@ -6,14 +6,15 @@ let solvedInstance = {};
 
 function solveInstance() {
     document.getElementById("status-text").textContent = "Instance sent and being solved";
-    let dataLoad = {}
+
     let rows = parseInt(document.getElementById('rows').value);
     let cols = parseInt(document.getElementById('cols').value);
     let inOutPos = modelView.inputItems(recipes.selectedRecipe);
 
-    dataLoad["recipes"] = recipes.recipesInvolved;
-    dataLoad["size"] = [cols, rows];
-    dataLoad["inOutPos"] = inOutPos;
+    // dataLoad["recipes"] = recipes.recipesInvolved;
+    // dataLoad["size"] = [cols, rows];
+    // dataLoad["inOutPos"] = inOutPos;
+    let dataLoad = {"recipes": {"iron-chest": {"IN": [["iron-plate", 960]], "OUT": [["iron-chest", 120]]}}, "size": [5, 5], "inOutPos": {"IN": {"(0,0)": {"ITEM": "iron-plate", "RATE": 0}}, "OUT": {"(4,4)": {"ITEM": "iron-chest"}}}}
 
     fetch('/solve-instance', {
         method: 'POST',
