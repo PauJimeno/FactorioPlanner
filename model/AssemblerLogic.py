@@ -155,9 +155,9 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                 if recipe not in assembler_dict:
                     assembler_dict[recipe] = {}
                 # Create z3 variables for x and y
-                x = Int(f'x_{i + 1}')
-                y = Int(f'y_{i + 1}')
-                used = Bool(f'used_{i + 1}')
+                x = BitVec(f'x_{i + 1}', math.ceil(math.log2(self.placement_height)))
+                y = BitVec(f'y_{i + 1}', math.ceil(math.log2(self.placement_width)))
+                used = BitVec(f'used_{i + 1}', 1)
                 assembler_dict[recipe][i + 1] = [x, y, used]
         return assembler_dict
 
@@ -171,8 +171,8 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
             assembler_keys = list(assemblers.keys())
             for i in range(len(assembler_keys)):
                 x, y, used = assemblers[assembler_keys[i]]
-                symmetry_breaking.append(And(x >= 0, x < self.placement_width))
-                symmetry_breaking.append(And(y >= 0, y < self.placement_height))
+                symmetry_breaking.append(ULE(x, self.placement_height - 1))
+                symmetry_breaking.append(ULE(y, self.placement_width - 1))
 
 
         # Order the positions of the assemblers to break the vertical and horizontal symetry
@@ -180,10 +180,10 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
             assemblers = self.assembler_recipes[recipe]
             assembler_keys = list(assemblers.keys())
             for i in range(len(assembler_keys) - 1):
-                x0, y0, _ = assemblers[assembler_keys[i]]
-                x1, y1, _ = assemblers[assembler_keys[i + 1]]
-                symmetry_breaking.append(x0 <= x1)
-                symmetry_breaking.append(Implies(x0 == x1, y0 < y1))
+                x0, y0, used0 = assemblers[assembler_keys[i]]
+                x1, y1, used1 = assemblers[assembler_keys[i + 1]]
+                symmetry_breaking.append(UGE(used0, used1))
+                symmetry_breaking.append(Implies(And(used0 == 1, used1 == 1), And(ULE(x0, x1), Implies(x0 == x1, ULT(y0, y1)))))
 
         # Link the variable ordered positions to the assembler variable
         for i in range(self.placement_height):
@@ -193,8 +193,8 @@ class AssemblerLogic(DirectionalElement, GridElement, RecipeElement):
                     assembler_keys = list(assemblers.keys())
                     for k in range(len(assembler_keys)):
                         x, y, used = assemblers[assembler_keys[k]]
-                        symmetry_breaking.append(Implies(self.assembler[i][j] == assembler_keys[k], used))
-                        symmetry_breaking.append(Implies(And(x == i, y == j, used), self.assembler[i][j] == assembler_keys[k]))
+                        symmetry_breaking.append(Implies(self.assembler[i][j] == assembler_keys[k], used == 1))
+                        symmetry_breaking.append(Implies(And(x == i, y == j, used == 1), self.assembler[i][j] == assembler_keys[k]))
         return symmetry_breaking
 
     def print_auxiliary_variables(self, model):

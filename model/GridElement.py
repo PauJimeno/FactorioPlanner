@@ -1,7 +1,4 @@
-from abc import ABC, abstractmethod
-
-
-class GridElement(ABC):
+class GridElement:
     # Abstract class that implements shared behaviours between elements that are grid based
 
     def __init__(self, width, height, in_out_positions):

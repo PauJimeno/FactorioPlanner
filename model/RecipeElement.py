@@ -1,7 +1,4 @@
-from abc import ABC, abstractmethod
-
-
-class RecipeElement(ABC):
+class RecipeElement:
     # Abstract class that implements shared behaviours between elements that use recipes
     def __init__(self, recipes):
         self.recipes = recipes

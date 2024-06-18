@@ -1,8 +1,7 @@
-from abc import ABC, abstractmethod
 from z3 import *
 
 
-class DirectionalElement(ABC):
+class DirectionalElement:
     # Abstract class that implements shared behaviours between directional elements in the model
     dir_type, direction = EnumSort('direction', ['empty', 'north', 'east', 'south', 'west'])
 

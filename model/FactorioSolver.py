@@ -14,6 +14,23 @@ from model.RouteLogic import RouteLogic
 
 
 class FactorioSolver:
+    """
+    This class manages all the components form the model given an instance, it also creates the Z3 Optimizer
+    and allows to solve the instance and retrieve the solution in many ways.
+
+    :param width: Width of the blueprint
+    :type width: Int
+
+    :param height: Height of the blueprint
+    :type height: Int
+
+    :param in_out_pos: Contains the input and output positions and type of item carrying
+    :type in_out_pos: Dictionary
+
+    :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list of
+    the items it requires and which rate in items/min needs and the outputting item and rate.
+    :type recipes: Dictionary
+    """
     def __init__(self, width, height, in_out_pos, recipes):
         self.width = width
         self.height = height
