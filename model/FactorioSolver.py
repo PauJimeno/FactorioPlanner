@@ -140,7 +140,7 @@ class FactorioSolver:
         else:
             print("No model was found")
 
-    def model_to_image(self, n_instance):
+    def model_to_image(self):
         if self.has_solution:
             inserter_img = Image.open('sprites/inserter.png').convert("RGBA")
             belt_img = Image.open('sprites/conveyor.png').convert("RGBA")
@@ -179,7 +179,7 @@ class FactorioSolver:
 
                         game_map_img.paste(img, pos, mask=img)
 
-            game_map_img.save(f'static/model_image/solved_instance{n_instance}.png')
+            game_map_img.save(f'static/model_image/solved_instance.png')
         else:
             print("No model was found")
 
@@ -217,8 +217,8 @@ class FactorioSolver:
 
         return game_map
 
-    def model_to_json(self, n_instance):
-        instanceDataPath = f"static/model_image/solved_instance{n_instance}.json"
+    def model_to_json(self):
+        instanceDataPath = f"static/model_image/solved_instance.json"
         instance_model = {}
         if self.has_solution:
             model = self.s.model()

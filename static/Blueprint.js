@@ -14,19 +14,12 @@ class Blueprint {
 
         this.calculateGridSize(this.rows, this.columns);
         this.drawSelectedOutline();
-        this.resetGridInfo();
 
+        this.canvas.addEventListener('click', (event) => this.handleCellClick(event));
     }
 
     resetGridInfo(){
-        this.gridInformation = [];
-        for(let i = 0; i < this.rows; i++){
-            let row = [];
-            for(let j = 0; j < this.columns; j++){
-                row.push(new CellInfo());
-            }
-            this.gridInformation.push(row);
-        }
+        throw new Error('You have to implement the method resetGridInfo!');
     }
 
     calculateGridSize(rows, columns){
@@ -42,8 +35,25 @@ class Blueprint {
         this.canvas.height = this.height;
     }
 
+    getCellCenter(x, y) {
+        var cellWidth = this.width / this.columns;
+        var cellHeight = this.height / this.rows;
+
+        var centerX = x * cellWidth + cellWidth / 2;
+        var centerY = y * cellHeight + cellHeight / 2;
+
+        return [centerY, centerX];
+    }
+
     handleCellClick(event) {
-       throw new Error('You have to implement the method handleCellClick!');
+        // Update the position of the current selected cell
+        this.updateSelectedCell(event);
+
+        // Outline the selected cell in the blueprint
+        this.drawSelectedOutline();
+
+        // Update the cell information
+        this.gridInformation[this.selectedCellY][this.selectedCellX].updateCellInfo();
     }
 
     updateSelectedCell(event){
@@ -70,10 +80,6 @@ class Blueprint {
         this.context.lineWidth = 4; // Change this to make the border thicker or thinner
         this.context.strokeStyle = "#FFFFFF"; // Change this to change the border color
         this.context.stroke();
-    }
-
-    updateCellInfo(){
-        throw new Error('You have to implement the method updateCellInfo!');
     }
 
     drawGrid(rows, cols, color) {

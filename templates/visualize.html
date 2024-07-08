@@ -10,7 +10,7 @@
             <h1>Visualize solved instance</h1>
             <div id="select-instance">
                 <h3>1. Select the solved instance file or an already solved one from the server library</h3>
-                <input type="file" id="file-id">
+                <input type="file" id="instance-file-id">
 
                 <select>
                     <optgroup label="5x5">
@@ -39,7 +39,7 @@
             <div id="view-instance">
                 <h3>2. Click the cell that you want to see the information</h3>
                 <div id="canvas-container">
-                    <canvas id="model-view" width="500" height="500">
+                    <canvas id="model-view" width="2000" height="2000">
                         Your browser does not support the HTML canvas tag.
                     </canvas>
 
@@ -47,25 +47,23 @@
                     <div id="cell-info">
                         <h2>Cell Information</h2>
                         <div id="selected-cell-info">
-                            <h3>Select values</h3>
-                            <div id="item-cell-selection">
-                                <h4>Input item</h4>
-                                <select id="item-selection">
-                                    <option value="none" selected>No item</option>
-                                </select>
-                            </div>
-                            <h4>Is output cell</h4>
-                            <div class="custom-checkbox">
-                                <label>
-                                    <input type="checkbox" id="is-output">
-                                    <span class="checkmark"></span>
-                                    Output cell
-                                </label>
-                            </div>
+                            <!-- Custom information of each cell will be loaded here from the script -->
                         </div>
                     </div>
                 </div>
             </div>
         </main>
+        <script src="../static/Cell.js"></script>
+        <script src="../static/AssemblerCell.js"></script>
+        <script src="../static/EmptyCell.js"></script>
+        <script src="../static/ConveyorCell.js"></script>
+        <script src="../static/InserterCell.js"></script>
+        <script src="../static/Blueprint.js"></script>
+        <script src="../static/SolvedBlueprint.js"></script>
+        <script src="../static/InstanceLoader.js"></script>
+        <script src="../static/InstanceVisualizerMain.js"></script>
+
+
+
     </body>
 </html>

@@ -7,17 +7,27 @@ class InputBlueprint extends Blueprint{
         this.itemsList = new Set();
 
         // Initialize handlers
-        this.canvas.addEventListener('click', (event) => this.handleCellClick(event));
         this.sizeInputHandler();
         this.isOutputHandler();
         this.itemSelectionHandler();
+    }
+
+    resetGridInfo(){
+        this.gridInformation = [];
+        for(let i = 0; i < this.rows; i++){
+            let row = [];
+            for(let j = 0; j < this.columns; j++){
+                let pos = this.getCellCenter(i, j);
+                row.push(new InputCell(pos[0], pos[1]));
+            }
+            this.gridInformation.push(row);
+        }
     }
 
     itemSelectionHandler(){
         let itemSelect = document.getElementById('item-selection');
         itemSelect.addEventListener('change', (event) => {
             this.gridInformation[this.selectedCellY][this.selectedCellX].itemCarrying = event.target.value;
-            this.updateCellInfo();
         });
     }
 
@@ -46,28 +56,6 @@ class InputBlueprint extends Blueprint{
             this.drawGrid(this.rows, this.columns, "#FFFFFF");
             this.resetGridInfo();
         });
-    }
-
-    handleCellClick(event) {
-        // Update the position of the current selected cell
-        this.updateSelectedCell(event);
-
-        // Outline the selected cell in the blueprint
-        this.drawSelectedOutline();
-
-        // Update the cell information
-        this.updateCellInfo();
-    }
-
-
-    updateCellInfo(){
-        let selectedCell = this.gridInformation[this.selectedCellY][this.selectedCellX];
-
-        // Load the cell information into the selection
-        document.getElementById('item-selection').value = selectedCell.itemCarrying;
-
-        // Load the cell information into the checkbox
-        document.getElementById('is-output').checked = selectedCell.isOutput;
     }
 
     setItemsInUse(items){
