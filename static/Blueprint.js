@@ -4,8 +4,12 @@ class Blueprint {
             throw new TypeError("Cannot construct Blueprint instances directly");
         }
 
-        this.canvas = document.getElementById('model-view');
-        this.context = this.canvas.getContext('2d');
+        this.spriteCanvas = document.getElementById('model-view');
+        this.spriteContext = this.spriteCanvas.getContext('2d');
+
+        this.cursorCanvas = document.getElementById('cursor-canvas');
+        this.cursorContext = this.cursorCanvas.getContext('2d');
+
         this.rows = rows;
         this.columns = columns;
         this.selectedCellX = columns-1;
@@ -13,9 +17,10 @@ class Blueprint {
         this.gridInformation = [];
 
         this.calculateGridSize(this.rows, this.columns);
+        this.drawGrid(this.rows, this.columns, "#FFFFFF");
         this.drawSelectedOutline();
 
-        this.canvas.addEventListener('click', (event) => this.handleCellClick(event));
+        this.cursorCanvas.addEventListener('click', (event) => this.handleCellClick(event));
     }
 
     resetGridInfo(){
@@ -28,11 +33,15 @@ class Blueprint {
         this.width = cellSize * columns;
         this.height = cellSize * rows;
 
-        this.canvas.style.width = (cellSize * columns) + 'px';
-        this.canvas.style.height = (cellSize * rows) + 'px';
+        this.spriteCanvas.style.width = (cellSize * columns) + 'px';
+        this.spriteCanvas.style.height = (cellSize * rows) + 'px';
+        this.cursorCanvas.style.width = (cellSize * columns) + 'px';
+        this.cursorCanvas.style.height = (cellSize * rows) + 'px';
 
-        this.canvas.width = this.width;
-        this.canvas.height = this.height;
+        this.spriteCanvas.width = this.width;
+        this.spriteCanvas.height = this.height;
+        this.cursorCanvas.width = this.width;
+        this.cursorCanvas.height = this.height;
     }
 
     getCellCenter(x, y) {
@@ -57,7 +66,7 @@ class Blueprint {
     }
 
     updateSelectedCell(event){
-        var rect = this.canvas.getBoundingClientRect();
+        var rect = this.cursorCanvas.getBoundingClientRect();
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
 
@@ -72,41 +81,40 @@ class Blueprint {
         var cellWidth = this.width / this.columns;
         var cellHeight = this.height / this.rows;
 
-        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawGrid(this.rows, this.columns, "#FFFFFF");
+        this.cursorContext.clearRect(0, 0, this.cursorCanvas.width, this.cursorCanvas.height);
 
-        this.context.beginPath();
-        this.context.rect(this.selectedCellX * cellWidth, this.selectedCellY * cellHeight, cellWidth, cellHeight);
-        this.context.lineWidth = 4; // Change this to make the border thicker or thinner
-        this.context.strokeStyle = "#FFFFFF"; // Change this to change the border color
-        this.context.stroke();
+        this.cursorContext.beginPath();
+        this.cursorContext.rect(this.selectedCellX * cellWidth, this.selectedCellY * cellHeight, cellWidth, cellHeight);
+        this.cursorContext.lineWidth = 4; // Change this to make the border thicker or thinner
+        this.cursorContext.strokeStyle = "#FFFFFF"; // Change this to change the border color
+        this.cursorContext.stroke();
     }
 
     drawGrid(rows, cols, color) {
-        this.context.beginPath();
+        this.spriteContext.beginPath();
         var rowHeight = this.height / rows;
         var colWidth = this.width / cols;
-        this.context.lineWidth = 1;
+        this.spriteContext.lineWidth = 1;
         // Draw horizontal grid lines
         for (var i = 0; i <= rows; i++) {
-            this.context.moveTo(0, i * rowHeight);
-            this.context.lineTo(this.width, i * rowHeight);
+            this.spriteContext.moveTo(0, i * rowHeight);
+            this.spriteContext.lineTo(this.width, i * rowHeight);
         }
 
         // Draw vertical grid lines
         for (var j = 0; j <= cols; j++) {
-            this.context.moveTo(j * colWidth, 0);
-            this.context.lineTo(j * colWidth, this.height);
+            this.spriteContext.moveTo(j * colWidth, 0);
+            this.spriteContext.lineTo(j * colWidth, this.height);
         }
 
-        this.context.strokeStyle = color;
-        this.context.stroke();
+        this.spriteContext.strokeStyle = color;
+        this.spriteContext.stroke();
     }
 
     drawInstanceImage(instance_image){
         var img = new Image();
         img.onload = () => {
-            this.context.drawImage(img, 0, 0, this.width, this.height);
+            this.spriteContext.drawImage(img, 0, 0, this.width, this.height);
         }
         img.src = instance_image;
     }

@@ -36,19 +36,21 @@
                 </select>
 
             </div>
-            <div id="view-instance">
-                <h3>2. Click the cell that you want to see the information</h3>
+            <h3>2. Click the cell that you want to see the information</h3>
+            <div id="model-view-container">
                 <div id="canvas-container">
                     <canvas id="model-view" width="2000" height="2000">
                         Your browser does not support the HTML canvas tag.
                     </canvas>
-
-                    <!-- Cell information -->
-                    <div id="cell-info">
-                        <h2>Cell Information</h2>
-                        <div id="selected-cell-info">
-                            <!-- Custom information of each cell will be loaded here from the script -->
-                        </div>
+                    <canvas id="cursor-canvas" width="500" height="500">
+                        Your browser does not support the HTML canvas tag.
+                    </canvas>
+                </div>
+                <!-- Cell information -->
+                <div id="cell-info">
+                    <h2>Cell Information</h2>
+                    <div id="selected-cell-info">
+                        <!-- Custom information of each cell will be loaded here from the script -->
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@ function instanceFileHandler(){
         reader.onload = (e) => {
             var contents = e.target.result;
             instanceData = JSON.parse(contents);
-            blueprint = new SolvedBlueprint(instanceData["CONVEYOR"].length, instanceData["CONVEYOR"][0].length)
+            blueprint = new SolvedBlueprint(instanceData["CONVEYOR"].length, instanceData["CONVEYOR"][0].length);
             blueprint.solvedInstance = instanceData;
             blueprint.resetGridInfo();
             blueprint.draw();

@@ -76,38 +76,40 @@
 
                 <button onclick="nextStep(2)">Next Step</button>
             </div>
-    </div>
+        </div>
 
 
         <!-- input/output step -->
         <div id="step-3" class="step">
+            <h2>Blueprint input/output</h2>
+            <h3> 1. Click the cell you want to edit</h3>
             <div id="model-view-container">
-                <h2>Blueprint input/output</h2>
-                <h3> 1. Click the cell you want to edit</h3>
                 <div id="canvas-container">
                     <canvas id="model-view" width="500" height="500">
                         Your browser does not support the HTML canvas tag.
                     </canvas>
-
-                    <!-- Cell information -->
-                    <div id="cell-info">
-                        <h2>Cell Information</h2>
-                        <div id="selected-cell-info">
-                            <h3>Select values</h3>
-                            <div id="item-cell-selection">
-                                <h4>Input item</h4>
-                                <select id="item-selection">
-                                    <option value="none" selected>No item</option>
-                                </select>
-                            </div>
-                            <h4>Is output cell</h4>
-                            <div class="custom-checkbox">
-                                <label>
-                                    <input type="checkbox" id="is-output">
-                                    <span class="checkmark"></span>
-                                    Output cell
-                                </label>
-                            </div>
+                    <canvas id="cursor-canvas" width="500" height="500">
+                        Your browser does not support the HTML canvas tag.
+                    </canvas>
+                </div>
+                <!-- Cell information -->
+                <div id="cell-info">
+                    <h2>Cell Information</h2>
+                    <div id="selected-cell-info">
+                        <h3>Select values</h3>
+                        <div id="item-cell-selection">
+                            <h4>Input item</h4>
+                            <select id="item-selection">
+                                <option value="none" selected>No item</option>
+                            </select>
+                        </div>
+                        <h4>Is output cell</h4>
+                        <div class="custom-checkbox">
+                            <label>
+                                <input type="checkbox" id="is-output">
+                                <span class="checkmark"></span>
+                                Output cell
+                            </label>
                         </div>
                     </div>
                 </div>

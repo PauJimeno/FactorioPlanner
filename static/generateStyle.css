@@ -33,6 +33,16 @@ canvas {
     height: 500px;
 }
 
+#canvas-container {
+    position:relative;
+}
+
+#canvas-container > canvas {
+    position:absolute;
+    left:0;
+    top:0;
+}
+
 body{
     background-color: rgb(47, 48, 49);
     color:white;
@@ -90,6 +100,32 @@ button:disabled {
     margin: 10px; /* Adds a 10px margin around each div */
 }
 
+#model-view-container {
+    display: flex;
+}
+
+#canvas-container {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    margin-right: 20px; /* Optional: Adds some space between the canvases and the cell information */
+}
+
+#model-view, #cursor-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+#cell-info {
+    flex-grow: 1;
+}
+
 #recipe-selection-container {
     display: flex;
     flex-direction: row;
@@ -118,13 +154,11 @@ button:disabled {
     margin-right: 20px; /* Add right margin */
 }
 
-#canvas-container {
-    display: flex; /* Use Flexbox */
-}
-
 #cell-info {
     margin-left: 100px;
 }
+
+
 
 #recipe-names {
     float: left;
