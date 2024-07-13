@@ -4,26 +4,40 @@ class SolvedBlueprint extends Blueprint{
         super(rows, columns);
         this.spriteCanvas.addEventListener('click', (event) => this.handleCellClick(event));
         this.solvedInstance = {};
-        this.adjacentPos = {'north': {'west':[0, -1], 'east': [0, 1], 'south': [1, 0]},
-                            'east': {'north': [-1, 0], 'south': [1, 0], 'west': [0, -1]},
-                            'south': {'west':[0, -1], 'east': [0, 1], 'north': [-1, 0]},
-                            'west': {'north': [-1, 0], 'south': [1, 0], 'east': [0, 1]}};
-        this.dirCoord =     {'north': [-1, 0],
-                            'east': [0, 1],
-                            'south': [1, 0],
-                            'west': [0, -1]};
-        this.oppositeDir = {'north': 'south',
-                            'east': 'west',
-                            'south': 'north',
-                            'west': 'east'};
+        this.adjacentPos = {
+            'north': {'west': [0, -1], 'east': [0, 1], 'south': [1, 0]},
+            'east': {'north': [-1, 0], 'south': [1, 0], 'west': [0, -1]},
+            'south': {'west': [0, -1], 'east': [0, 1], 'north': [-1, 0]},
+            'west': {'north': [-1, 0], 'south': [1, 0], 'east': [0, 1]}
+        };
+        this.dirCoord = {
+            'north': [-1, 0],
+            'east': [0, 1],
+            'south': [1, 0],
+            'west': [0, -1]
+        };
+        this.oppositeDir = {
+            'north': 'south',
+            'east': 'west',
+            'south': 'north',
+            'west': 'east'
+        };
         this.spriteNames = ['blueprint_sprites/assembler/assembler', 'blueprint_sprites/conveyor_belt/east', 'blueprint_sprites/conveyor_belt/east_north',
-                            'blueprint_sprites/conveyor_belt/east_south', 'blueprint_sprites/conveyor_belt/north', 'blueprint_sprites/conveyor_belt/north_east',
-                            'blueprint_sprites/conveyor_belt/north_west', 'blueprint_sprites/conveyor_belt/south', 'blueprint_sprites/conveyor_belt/south_east',
-                            'blueprint_sprites/conveyor_belt/south_west', 'blueprint_sprites/conveyor_belt/west', 'blueprint_sprites/conveyor_belt/west_north',
-                            'blueprint_sprites/conveyor_belt/west_south', 'blueprint_sprites/inserter/north', 'blueprint_sprites/inserter/south', 'blueprint_sprites/inserter/east',
-                            'blueprint_sprites/inserter/west'];
+            'blueprint_sprites/conveyor_belt/east_south', 'blueprint_sprites/conveyor_belt/north', 'blueprint_sprites/conveyor_belt/north_east',
+            'blueprint_sprites/conveyor_belt/north_west', 'blueprint_sprites/conveyor_belt/south', 'blueprint_sprites/conveyor_belt/south_east',
+            'blueprint_sprites/conveyor_belt/south_west', 'blueprint_sprites/conveyor_belt/west', 'blueprint_sprites/conveyor_belt/west_north',
+            'blueprint_sprites/conveyor_belt/west_south', 'blueprint_sprites/inserter/north', 'blueprint_sprites/inserter/south', 'blueprint_sprites/inserter/east',
+            'blueprint_sprites/inserter/west'];
         this.sprites = {};
-        this.gridInformation = Array.from({length: rows}, () => Array.from({length: columns}, () => new EmptyCell()));
+
+        this.gridInformation = new Array(rows);
+        for (let i = 0; i < rows; i++) {
+            this.gridInformation[i] = new Array(columns);
+            for (let j = 0; j < columns; j++) {
+                let pos = this.getCellCenter(i, j);
+                this.gridInformation[i][j] = new EmptyCell(pos[0], pos[1]);
+            }
+        }
     }
 
     resetGridInfo(){
@@ -68,14 +82,20 @@ class SolvedBlueprint extends Blueprint{
             }
         }
 
+        for(let i = 0; i < this.rows; i++){
+            for(let j = 0; j < this.columns; j++){
+                if(this.gridInformation[i][j].type == 'conveyor'){
+                    this.gridInformation[i][j].routeStatus = this.conveyorRouteStatus(i, j);
+                }
+            }
+        }
+
         // GET ALL UNIQUE ITEMS USED
         let flattened = itemType.reduce((acc, val) => acc.concat(val), []);
         let uniqueItems = flattened.filter((value, index, self) => value !== 'none' && self.indexOf(value) === index);
 
         // APPEND UNIQUE ITEMS TO SPRITE NAMES
         this.spriteNames = [...this.spriteNames, ...uniqueItems.map(item => `RecipeIcons/${item}`)];
-
-        console.log(this.spriteNames);
     }
 
     draw() {
@@ -109,6 +129,7 @@ class SolvedBlueprint extends Blueprint{
                     let currentCell = this.gridInformation[i][j];
                     if(currentCell.type == 'inserter'){
                         this.gridInformation[i][j].draw(this.sprites[`blueprint_sprites/inserter/${currentCell.dir}`], this.sprites[`RecipeIcons/${currentCell.itemCarrying}`], this.spriteCanvas, this.rows, this.columns);
+                        this.updateAssemblerInputOutput(i, j);
                     }
                 }
             }
@@ -140,7 +161,6 @@ class SolvedBlueprint extends Blueprint{
     }
 
     fetchSprite(spriteName){
-        console.log(`fetching the image ${spriteName}`);
         return new Promise((resolve, reject) => {
             let img = new Image();
             img.onload = () => resolve(img);
@@ -153,16 +173,16 @@ class SolvedBlueprint extends Blueprint{
         let outPos = this.dirCoord[this.gridInformation[x][y].dir];
         let inPos = this.dirCoord[this.oppositeDir[this.gridInformation[x][y].dir]];
         let currentCell = this.gridInformation[x][y];
-        let outputCell = this.gridInformation[outPos[0]][outPos[1]];
-        let inputCell = this.gridInformation[inPos[0]][inPos[1]];
-        if (outputCell.type == 'assembler'){
+        let outputCell = this.gridInformation[outPos[0]+x][outPos[1]+y];
+        let inputCell = this.gridInformation[inPos[0]+x][inPos[1]+y];
+        if(outputCell.type == 'assembler'){
             if (outputCell.inputItems.hasOwnProperty(currentCell.itemCarrying)) {
             outputCell.inputItems[currentCell.itemCarrying] += currentCell.inputFlow;
             } else {
                 outputCell.inputItems[currentCell.itemCarrying] = currentCell.inputFlow;
             }
         }
-        else if(inputCell.type == 'assembler'){
+        if(inputCell.type == 'assembler'){
             if (inputCell.outputItem.hasOwnProperty(currentCell.itemCarrying)) {
             inputCell.outputItem[currentCell.itemCarrying] += currentCell.inputFlow;
             } else {
@@ -171,11 +191,36 @@ class SolvedBlueprint extends Blueprint{
         }
     }
 
+    conveyorRouteStatus(x, y){
+        let status = 'nothing';
+        let outPos = this.dirCoord[this.gridInformation[x][y].dir];
+        if(this.gridInformation[x][y].routeValue == 1) status = 'input';
+        //OUT OF BOUNDS OUTPUT
+        else if (x+outPos[0]>=this.rows || x+outPos[0]<0 || y+outPos[1]>=this.columns || y+outPos[1]<0) status = 'output';
+        else if(this.gridInformation[x+outPos[0]][y+outPos[1]].type == 'conveyor'){
+            let currentCell = this.gridInformation[x][y];
+            let nextCell = this.gridInformation[x+outPos[0]][y+outPos[1]];
+            // NOT CONNECTING CONVEYOR
+            if (currentCell.dir == this.oppositeDir[nextCell.dir]) status = 'output';
+        }
+        else if(this.gridInformation[x+outPos[0]][y+outPos[1]].type == 'inserter'){
+            let currentCell = this.gridInformation[x][y];
+            let nextCell = this.gridInformation[x+outPos[0]][y+outPos[1]];
+            // NOT CONNECTING INSERTER
+            if (currentCell.dir != nextCell.dir) status = 'output';
+        }
+        // ASSEMBLER OUTPUT
+        else if(this.gridInformation[x+outPos[0]][y+outPos[1]].type == 'empty') status = 'output';
+        // EMPTY CELL
+        else if(this.gridInformation[x+outPos[0]][y+outPos[1]].type == 'assembler') status = 'output';
+        return status;
+    }
+
     toFloat(number){
         let result;
         if (number.includes("/")) {
             let parts = number.split("/");
-            result = parseFloat((parseFloat(parts[0]) / parseFloat(parts[1])).toFixed(2));
+            result = parseFloat(parts[0]) / parseFloat(parts[1]);
         } else {
             result = parseFloat(number);
         }

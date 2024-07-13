@@ -12,4 +12,6 @@ class InputCell extends Cell{
         // Load the cell information into the checkbox
         document.getElementById('is-output').checked = this.isOutput;
     }
+
+
 }

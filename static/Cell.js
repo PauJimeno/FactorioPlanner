@@ -15,7 +15,9 @@ class Cell{
 
     draw(sprite, canvas, rows, cols){
         let context = canvas.getContext('2d');
-        context.drawImage(sprite, this.x - sprite.width / 2, this.y - sprite.height / 2);
+        let width = canvas.width/cols;
+        let height = canvas.height/rows;
+        context.drawImage(sprite, this.x - width / 2, this.y - height / 2, width, height);
     }
 
     drawItem(itemSprite, canvas, cellSize){
@@ -36,6 +38,23 @@ class Cell{
 
         return infoDiv;
     }
+
+    drawSelectedOutline(canvas, rows, columns){
+        var cellWidth = canvas.width / columns;
+        var cellHeight = canvas.height / rows;
+        var context = canvas.getContext('2d');
+        context.clearRect(0, 0, canvas.width, canvas.height);
+
+        var selectedCellX = Math.floor(this.x / cellWidth);
+        var selectedCellY = Math.floor(this.y / cellHeight);
+        context.beginPath();
+        context.rect(selectedCellX * cellWidth, selectedCellY * cellHeight, cellWidth, cellHeight);
+        context.lineWidth = 4; // Change this to make the border thicker or thinner
+        context.strokeStyle = "#FFFFFF"; // Change this to change the border color
+        context.stroke();
+    }
+
+
 
     formatItemName(itemName){
         return itemName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');

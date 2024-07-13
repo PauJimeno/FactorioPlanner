@@ -6,6 +6,7 @@ class ConveyorCell extends Cell{
         this.inputFlow = inputFlow;
         this.outputFlow = outputFlow;
         this.routeValue = routeValue;
+        this.routeStatus = 'nothing';
     }
 
     updateCellInfo() {
@@ -15,7 +16,9 @@ class ConveyorCell extends Cell{
 
         infoDiv.appendChild(this.createInfoElement('Description', `${this.formatItemName(this.dir)} facing conveyor`));
         infoDiv.appendChild(this.createInfoElement('Cell Item Flow', `The conveyor is transporting ${this.formatItemName(this.itemCarrying)} at a rate of:\nIn: ${this.inputFlow} per minute\nOut: ${this.outputFlow} per minute`));
-        infoDiv.appendChild(this.createInfoElement('Route Value', this.routeValue != '1'? this.routeValue: `${this.routeValue} (blueprint input)`));
+        let statusText = '';
+        if(this.routeStatus != 'nothing') statusText = `(blueprint ${this.routeStatus})`;
+        infoDiv.appendChild(this.createInfoElement('Route Value', `${this.routeValue} ${statusText}`));
     }
 
     draw(sprite, itemSprite, canvas, rows, cols){
@@ -26,5 +29,14 @@ class ConveyorCell extends Cell{
         context.drawImage(sprite, this.x - width / 2, this.y - height / 2, width, height);
 
         this.drawItem(itemSprite, canvas, canvas.width/cols);
+
+        if(this.routeStatus != 'nothing'){
+            let sprite = new Image();
+            sprite.src = `static/blueprint_sprites/utilities/${this.dir}-${this.routeStatus}.png`;
+            sprite.onload = () => {
+                super.draw(sprite, canvas, rows, cols);
+            };
+        }
+
     }
 }

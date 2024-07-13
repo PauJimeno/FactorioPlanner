@@ -8,7 +8,6 @@ class Blueprint {
         this.spriteContext = this.spriteCanvas.getContext('2d');
 
         this.cursorCanvas = document.getElementById('cursor-canvas');
-        this.cursorContext = this.cursorCanvas.getContext('2d');
 
         this.rows = rows;
         this.columns = columns;
@@ -18,9 +17,14 @@ class Blueprint {
 
         this.calculateGridSize(this.rows, this.columns);
         this.drawGrid(this.rows, this.columns, "#FFFFFF");
-        this.drawSelectedOutline();
 
-        this.cursorCanvas.addEventListener('click', (event) => this.handleCellClick(event));
+
+        // Bind the handleCellClick method to this
+        this.boundHandleCellClick = this.handleCellClick.bind(this);
+
+        // Pass the bound method to addEventListener
+        this.cursorCanvas.addEventListener('click', this.boundHandleCellClick);
+
     }
 
     resetGridInfo(){
@@ -28,15 +32,15 @@ class Blueprint {
     }
 
     calculateGridSize(rows, columns){
-        var cellSize = Math.min(500 / Math.max(rows, columns));
+        var cellSize = Math.min(1000 / Math.max(rows, columns));
 
         this.width = cellSize * columns;
         this.height = cellSize * rows;
 
-        this.spriteCanvas.style.width = (cellSize * columns) + 'px';
-        this.spriteCanvas.style.height = (cellSize * rows) + 'px';
-        this.cursorCanvas.style.width = (cellSize * columns) + 'px';
-        this.cursorCanvas.style.height = (cellSize * rows) + 'px';
+        this.spriteCanvas.style.width = this.width/2 + 'px';
+        this.spriteCanvas.style.height = this.height/2 + 'px';
+        this.cursorCanvas.style.width = this.width/2 + 'px';
+        this.cursorCanvas.style.height = this.height/2 + 'px';
 
         this.spriteCanvas.width = this.width;
         this.spriteCanvas.height = this.height;
@@ -59,7 +63,7 @@ class Blueprint {
         this.updateSelectedCell(event);
 
         // Outline the selected cell in the blueprint
-        this.drawSelectedOutline();
+        this.gridInformation[this.selectedCellY][this.selectedCellX].drawSelectedOutline(this.cursorCanvas, this.rows, this.columns);
 
         // Update the cell information
         this.gridInformation[this.selectedCellY][this.selectedCellX].updateCellInfo();
@@ -70,24 +74,17 @@ class Blueprint {
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
 
-        var cellWidth = this.width / this.columns;
-        var cellHeight = this.height / this.rows;
+        // Scale the click coordinates
+        var scaleX = this.spriteCanvas.width / this.spriteCanvas.offsetWidth;
+        var scaleY = this.spriteCanvas.height / this.spriteCanvas.offsetHeight;
+        x *= scaleX;
+        y *= scaleY;
+
+        var cellWidth = this.spriteCanvas.width / this.columns;
+        var cellHeight = this.spriteCanvas.height / this.rows;
 
         this.selectedCellX = Math.floor(x / cellWidth);
         this.selectedCellY = Math.floor(y / cellHeight);
-    }
-
-    drawSelectedOutline(){
-        var cellWidth = this.width / this.columns;
-        var cellHeight = this.height / this.rows;
-
-        this.cursorContext.clearRect(0, 0, this.cursorCanvas.width, this.cursorCanvas.height);
-
-        this.cursorContext.beginPath();
-        this.cursorContext.rect(this.selectedCellX * cellWidth, this.selectedCellY * cellHeight, cellWidth, cellHeight);
-        this.cursorContext.lineWidth = 4; // Change this to make the border thicker or thinner
-        this.cursorContext.strokeStyle = "#FFFFFF"; // Change this to change the border color
-        this.cursorContext.stroke();
     }
 
     drawGrid(rows, cols, color) {
@@ -121,5 +118,10 @@ class Blueprint {
 
     formatItemName(itemName){
         return itemName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+    }
+
+    removeAllEventListeners() {
+        // Remove the click event listener from cursorCanvas
+        this.cursorCanvas.removeEventListener('click', this.boundHandleCellClick);
     }
 }
