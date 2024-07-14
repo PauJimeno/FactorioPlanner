@@ -28,6 +28,7 @@ class InputBlueprint extends Blueprint{
         let itemSelect = document.getElementById('item-selection');
         itemSelect.addEventListener('change', (event) => {
             this.gridInformation[this.selectedCellY][this.selectedCellX].itemCarrying = event.target.value;
+            this.drawBlueprint();
         });
     }
 
@@ -35,6 +36,7 @@ class InputBlueprint extends Blueprint{
         let outputCheckbox = document.getElementById('is-output');
         outputCheckbox.addEventListener('change', (event) => {
             this.gridInformation[this.selectedCellY][this.selectedCellX].isOutput = event.target.checked;
+            this.drawBlueprint();
         });
     }
 
@@ -92,6 +94,35 @@ class InputBlueprint extends Blueprint{
         }
         console.log(JSON.stringify(inOutPos));
         return inOutPos;
+    }
+
+    drawBlueprint(){
+        this.spriteContext.clearRect(0, 0, this.spriteCanvas.width, this.spriteCanvas.height);
+        this.drawGrid(this.rows, this.columns, "#FFFFFF");
+        for(let i = 0; i < this.rows; i++) {
+            for (let j = 0; j < this.columns; j++) {
+                let currentCell = this.gridInformation[i][j];
+                if(currentCell.itemCarrying != 'none'){
+                    let iconSprite = new Image();
+                    iconSprite.src = `static/RecipeIcons/${currentCell.itemCarrying}.png`;
+                    iconSprite.onload = () => {
+                        currentCell.drawItem(iconSprite, this.spriteCanvas, this.spriteCanvas.height/this.rows);
+                        let statusSprite = new Image();
+                        statusSprite.src = `static/blueprint_sprites/utilities/${currentCell.isOutput ? 'output': 'input'}.png`;
+                        statusSprite.onload = () => {
+                            currentCell.draw(statusSprite, this.spriteCanvas, this.rows, this.columns);
+                        };
+                    };
+                }
+                else if(currentCell.isOutput){
+                    let statusSprite = new Image();
+                        statusSprite.src = `static/blueprint_sprites/utilities/${currentCell.isOutput ? 'output': 'input'}.png`;
+                        statusSprite.onload = () => {
+                            currentCell.draw(statusSprite, this.spriteCanvas, this.rows, this.columns);
+                        };
+                }
+            }
+        }
     }
 
 }

@@ -5,7 +5,6 @@ class Cell{
         }
         this.x = x;
         this.y = y;
-        this.isDrawable = true;
         this.type = type;
     }
 

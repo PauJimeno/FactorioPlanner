@@ -20,4 +20,11 @@ class DirectionalElement:
             4: self.direction[2]   # West  -> East
         }
 
+        self.opposite_num_dir = {
+            1: 3,  # North -> South
+            2: 4,  # East  -> West
+            3: 1,  # South -> North
+            4: 2   # West  -> East
+        }
+
         self.n_dir = 5  # (north, east, south, west, empty)

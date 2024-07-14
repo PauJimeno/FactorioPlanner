@@ -28,7 +28,6 @@ function solveInstance() {
         solvedInstance = data;
         if (data.result === "SAT"){
             document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: SAT";
-            modelView.drawInstanceImage(instanceImagePath);
         }
         else if(data.result === "UNSAT"){
             document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: UNSAT";

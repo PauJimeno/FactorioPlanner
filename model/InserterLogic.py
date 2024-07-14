@@ -36,6 +36,24 @@ class InserterLogic(DirectionalElement, GridElement):
 
         return inserter_input
 
+    def prevent_redundant_inserter(self):
+        redundant_inserter = []
+
+        for i in range(self.height):
+            for j in range(self.width):
+                if not self.is_input(i, j):
+                    direction_clauses = []
+                    for direction in range(1, self.n_dir):
+                        in_x, in_y = i + self.displacement[direction][0], j + self.displacement[direction][1]
+                        out_x, out_y = i + self.displacement[self.opposite_num_dir[direction]][0], j + self.displacement[self.opposite_num_dir[direction]][1]
+                        if 0 <= in_x < self.height and 0 <= in_y < self.width and 0 <= out_x < self.height and 0 <= out_y < self.width:
+                            direction_clauses.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
+                                                                 self.inserter[i][j] == self.conveyor[in_x][in_y]),
+                                                             self.conveyor[out_x][out_y] == self.direction[0]))
+                    redundant_inserter.append(Implies(self.inserter[i][j] != self.direction[0], And(direction_clauses)))
+
+        return redundant_inserter
+
     def inserter_output(self):
         inserter_output = []
 
@@ -57,6 +75,6 @@ class InserterLogic(DirectionalElement, GridElement):
         return inserter_output
 
     def constraints(self):
-        return self.inserter_input() + self.inserter_output()
+        return self.inserter_input() + self.inserter_output() + self.prevent_redundant_inserter()
 
 

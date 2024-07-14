@@ -108,14 +108,6 @@ class Blueprint {
         this.spriteContext.stroke();
     }
 
-    drawInstanceImage(instance_image){
-        var img = new Image();
-        img.onload = () => {
-            this.spriteContext.drawImage(img, 0, 0, this.width, this.height);
-        }
-        img.src = instance_image;
-    }
-
     formatItemName(itemName){
         return itemName.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
     }

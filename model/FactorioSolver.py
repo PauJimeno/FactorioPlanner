@@ -134,91 +134,11 @@ class FactorioSolver:
                 for i in range(length):
                     print(m[var_value[i]], end=' ')
                 print()
-
-            # self.assembler_behaviour.print_auxiliary_variables(m)
-
         else:
             print("No model was found")
-
-    def model_to_image(self):
-        if self.has_solution:
-            inserter_img = Image.open('sprites/inserter.png').convert("RGBA")
-            belt_img = Image.open('sprites/conveyor.png').convert("RGBA")
-            assembler_img = Image.open('sprites/assembler.png').convert("RGBA")
-
-            game_map = self.map_variables()
-
-            # Create a new image with white background
-            game_map_img = Image.new('RGBA', (len(game_map[0]) * belt_img.width, len(game_map) * belt_img.height),
-                                     (255, 255, 255, 255))
-            draw = ImageDraw.Draw(game_map_img)
-
-            # Draw the grid
-            for i in range(0, game_map_img.width, belt_img.width):
-                draw.line([(i, 0), (i, game_map_img.height)], fill="gray")
-            for i in range(0, game_map_img.height, belt_img.height):
-                draw.line([(0, i), (game_map_img.width, i)], fill="gray")
-
-            # Draw the right and bottom lines
-            draw.line([(game_map_img.width - 1, 0), (game_map_img.width - 1, game_map_img.height)], fill="gray")
-            draw.line([(0, game_map_img.height - 1), (game_map_img.width, game_map_img.height - 1)], fill="gray")
-
-            for i in range(len(game_map)):
-                for j in range(len(game_map[0])):
-                    if game_map[i][j] is not None:
-                        element, direction = game_map[i][j].split(':')
-                        if element == 'CONV':
-                            img = belt_img.rotate(int(direction))
-                            pos = (j * img.width, i * img.height)
-                        if element == 'INSE':
-                            img = inserter_img.rotate(int(direction))
-                            pos = (j * img.width, i * img.height)
-                        if element == 'ASSE':
-                            img = assembler_img.rotate(int(direction))
-                            pos = (j * 64 - 64, i * 64 - 64)
-
-                        game_map_img.paste(img, pos, mask=img)
-
-            game_map_img.save(f'static/model_image/solved_instance.png')
-        else:
-            print("No model was found")
-
-    def map_variables(self):
-        game_map = [[None for i in range(self.width)] for j in range(self.height)]
-        direction = {
-            'empty': "empty",
-            'north': 0,     # North
-            'east': -90,    # East
-            'west': -270,   # West
-            'south': -180,  # South
-        }
-        model = self.s.model()
-
-        # Conveyors
-        for i in range(self.height):
-            for j in range(self.width):
-                conveyor = str(model[self.grid_variables['CONVEYOR'][i][j]]).strip('\"')
-                if conveyor != 'empty' and conveyor != 'None':
-                    game_map[i][j] = f"CONV:{direction[conveyor]}"
-
-        # Inserters
-        for i in range(self.height):
-            for j in range(self.width):
-                inserter = str(model[self.grid_variables['INSERTER'][i][j]]).strip('\"')
-                if inserter != 'empty' and inserter != 'None':
-                    game_map[i][j] = f"INSE:{direction[inserter]}"
-
-        # Assemblers
-        for i in range(self.height-2):
-            for j in range(self.width-2):
-                assembler = str(model[self.grid_variables['ASSEMBLER'][i][j]]).strip('\"')
-                if assembler != '0':
-                    game_map[i+1][j+1] = f"ASSE:{0}"
-
-        return game_map
 
     def model_to_json(self):
-        instanceDataPath = f"static/model_image/solved_instance.json"
+        instance_data_path = f"static/model_image/solved_instance.json"
         instance_model = {}
         if self.has_solution:
             model = self.s.model()
@@ -229,6 +149,14 @@ class FactorioSolver:
                     row = []
                     for j in range(width):
                         value = str(model[var_value[i][j]])
+                        if var_name == 'ASSEMBLER_COLLISION' or var_name == 'ITEM_FLOW' or var_name == 'ASSEMBLER':
+                            if value == '0':
+                                value = 'none'
+                            else:
+                                if var_name == 'ITEM_FLOW':
+                                    value = self.assembler_behaviour.variable_to_item[int(float(str(model[var_value[i][j]])))]
+                                elif var_name == 'ASSEMBLER_COLLISION' or var_name == 'ASSEMBLER':
+                                    value = self.assembler_behaviour.selected_recipe[int(float(str(model[var_value[i][j]])))-1]
                         row.append(value)
                     variable.append(row)
                 instance_model[var_name] = variable
@@ -239,14 +167,6 @@ class FactorioSolver:
             instance_model["status"] = "UNSAT"
         instance_model["solving_time"] = self.solving_time
 
-        with open(instanceDataPath, 'w') as f:
+        with open(instance_data_path, 'w') as f:
             json.dump(instance_model, f)
         return instance_model
-
-
-
-
-
-
-
-

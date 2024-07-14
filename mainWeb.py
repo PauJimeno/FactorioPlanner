@@ -35,7 +35,6 @@ def solve_instance():
         # PRINT THE MODEL OF THE SOLUTION #
         instance_status = 'SAT'
         solver.model_to_string()
-        solver.model_to_image()
     instance_model = solver.model_to_json()
 
     return jsonify({'result': instance_status, 'model': instance_model})
