@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FactorioSolver &#8212; model 4/9/2024 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for FactorioSolver</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageDraw</span>
+<span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">from</span> <span class="nn">model.AssemblerLogic</span> <span class="kn">import</span> <span class="n">AssemblerLogic</span>
+<span class="kn">from</span> <span class="nn">model.ConveyorLogic</span> <span class="kn">import</span> <span class="n">ConveyorLogic</span>
+<span class="kn">from</span> <span class="nn">model.FactoryLogic</span> <span class="kn">import</span> <span class="n">FactoryLogic</span>
+<span class="kn">from</span> <span class="nn">model.InserterLogic</span> <span class="kn">import</span> <span class="n">InserterLogic</span>
+<span class="kn">from</span> <span class="nn">model.ItemFlowLogic</span> <span class="kn">import</span> <span class="n">ItemFlowLogic</span>
+<span class="kn">from</span> <span class="nn">model.ItemFlowRateLogic</span> <span class="kn">import</span> <span class="n">ItemFlowRateLogic</span>
+<span class="kn">from</span> <span class="nn">model.RouteLogic</span> <span class="kn">import</span> <span class="n">RouteLogic</span>
+
+
+<div class="viewcode-block" id="FactorioSolver"><a class="viewcode-back" href="../FactorioSolver.html#FactorioSolver.FactorioSolver">[docs]</a><span class="k">class</span> <span class="nc">FactorioSolver</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class manages all the components form the model given an instance, it also creates the Z3 Optimizer</span>
+<span class="sd">    and allows to solve the instance and retrieve the solution in many ways.</span>
+
+<span class="sd">    :param width: Width of the blueprint</span>
+<span class="sd">    :type width: Int</span>
+
+<span class="sd">    :param height: Height of the blueprint</span>
+<span class="sd">    :type height: Int</span>
+
+<span class="sd">    :param in_out_pos: Contains the input and output positions and type of item carrying</span>
+<span class="sd">    :type in_out_pos: Dictionary</span>
+
+<span class="sd">    :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list</span>
+<span class="sd">                    of the items it requires and which rate in items/min needs and the outputting item and rate.</span>
+<span class="sd">    :type recipes: Dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span> <span class="n">recipes</span><span class="p">,</span> <span class="n">selected_opt</span><span class="p">):</span>
+        <span class="c1"># Attribute initialization</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="o">=</span> <span class="n">width</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solving_time</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">timed_out</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array_variables</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="c1"># Z3 solver declaration</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">Optimize</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;timeout&quot;</span><span class="p">,</span> <span class="mi">1800000</span><span class="p">)</span>
+
+        <span class="c1"># Model initialization with the corresponding instance data</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initialize_model</span><span class="p">(</span><span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span> <span class="n">recipes</span><span class="p">,</span> <span class="n">selected_opt</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FactorioSolver.initialize_model"><a class="viewcode-back" href="../FactorioSolver.html#FactorioSolver.FactorioSolver.initialize_model">[docs]</a>    <span class="k">def</span> <span class="nf">initialize_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span> <span class="n">recipes</span><span class="p">,</span> <span class="n">selected_opt</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates all the constraints given the instance data, and sets the optimization criteria to the Optimizer. It</span>
+<span class="sd">        also saves the model variables to later be evaluated.</span>
+
+<span class="sd">        :param blueprint_width: number of rows</span>
+<span class="sd">        :type blueprint_width: Int</span>
+
+<span class="sd">        :param blueprint_height: number of columns</span>
+<span class="sd">        :type blueprint_height: Int</span>
+
+<span class="sd">        :param in_out_pos: input and output positions with the corresponding items they are carrying</span>
+<span class="sd">        :type in_out_pos: Dictionary</span>
+
+<span class="sd">        :param recipes: each recipe used with the item quantities and types required for the input and output</span>
+<span class="sd">        :type recipes: Dictionary</span>
+
+<span class="sd">        :param selected_opt: optimization criteria (&#39;maximize-output&#39;, &#39;minimize-route&#39;, &#39;minimize-loss&#39;)</span>
+<span class="sd">        :type selected_opt: String</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># Cration of all the objects containing the logic that creates the constraints</span>
+        <span class="n">conveyor_behaviour</span> <span class="o">=</span> <span class="n">ConveyorLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span> <span class="o">=</span> <span class="n">AssemblerLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">recipes</span><span class="p">)</span>
+        <span class="n">inserter_behaviour</span> <span class="o">=</span> <span class="n">InserterLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">conveyor</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">collision_area</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">)</span>
+        <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">set_inserter</span><span class="p">(</span><span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">set_inserter</span><span class="p">(</span><span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">)</span>
+        <span class="n">route_behaviour</span> <span class="o">=</span> <span class="n">RouteLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span>
+                                     <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">conveyor</span><span class="p">,</span>
+                                     <span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">collision_area</span><span class="p">,</span> <span class="n">recipes</span><span class="p">)</span>
+        <span class="n">factory_behaviour</span> <span class="o">=</span> <span class="n">FactoryLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">conveyor_behaviour</span><span class="p">,</span>
+                                         <span class="n">inserter_behaviour</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">collision_area</span><span class="p">)</span>
+        <span class="n">item_flow_behaviour</span> <span class="o">=</span> <span class="n">ItemFlowLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">route_behaviour</span><span class="o">.</span><span class="n">route</span><span class="p">,</span>
+                                            <span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">,</span> <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">conveyor</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span>
+                                            <span class="n">recipes</span><span class="p">)</span>
+        <span class="n">item_flow_rate_behaviour</span> <span class="o">=</span> <span class="n">ItemFlowRateLogic</span><span class="p">(</span><span class="n">blueprint_width</span><span class="p">,</span> <span class="n">blueprint_height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span>
+                                                     <span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">,</span> <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">conveyor</span><span class="p">,</span>
+                                                     <span class="n">route_behaviour</span><span class="o">.</span><span class="n">route</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">set_item_flow</span><span class="p">(</span><span class="n">item_flow_behaviour</span><span class="o">.</span><span class="n">item_flow</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">set_item_flow_rate</span><span class="p">(</span><span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">output_flow_rate</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;CONVEYOR&quot;</span><span class="p">:</span> <span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">conveyor</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ROUTE&quot;</span><span class="p">:</span> <span class="n">route_behaviour</span><span class="o">.</span><span class="n">route</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;INSERTER&quot;</span><span class="p">:</span> <span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">inserter</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ASSEMBLER&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">assembler</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ASSEMBLER_COLLISION&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">collision_area</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;ITEM_FLOW&quot;</span><span class="p">:</span> <span class="n">item_flow_behaviour</span><span class="o">.</span><span class="n">item_flow</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;INPUT_FLOW_RATE&quot;</span><span class="p">:</span> <span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">input_flow_rate</span><span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;OUTPUT_FLOW_RATE&quot;</span><span class="p">:</span> <span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">output_flow_rate</span><span class="p">})</span>
+
+        <span class="c1"># Add all the constraints of the model to the solver</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">conveyor_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="n">route_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="n">inserter_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="n">factory_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="n">item_flow_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="o">+</span> <span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">constraints</span><span class="p">()</span>
+                   <span class="p">)</span>
+
+        <span class="c1"># Selection of the optimization criteria</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">maximize</span><span class="p">(</span><span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">item_output</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">selected_opt</span> <span class="o">==</span> <span class="s1">&#39;minimize-loss&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">item_flow_rate_behaviour</span><span class="o">.</span><span class="n">item_loss</span><span class="p">())</span>
+        <span class="k">elif</span> <span class="n">selected_opt</span> <span class="o">==</span> <span class="s1">&#39;minimize-route&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">route_behaviour</span><span class="o">.</span><span class="n">route_length</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="FactorioSolver.find_solution"><a class="viewcode-back" href="../FactorioSolver.html#FactorioSolver.FactorioSolver.find_solution">[docs]</a>    <span class="k">def</span> <span class="nf">find_solution</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tells the solver to find a solution, saves the solving status (SAT, UNSAT, TIMED OUT), it also saves the time it</span>
+<span class="sd">        took the solver to finish.</span>
+
+<span class="sd">        :return: The solving status (solution found or not found)</span>
+<span class="sd">        :rtype: Bool</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">check</span><span class="p">()</span>
+        <span class="n">computing_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="o">==</span> <span class="n">sat</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="n">result</span> <span class="o">==</span> <span class="n">unsat</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">timed_out</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">solving_time</span> <span class="o">=</span> <span class="n">computing_time</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span></div>
+
+<div class="viewcode-block" id="FactorioSolver.model_to_json"><a class="viewcode-back" href="../FactorioSolver.html#FactorioSolver.FactorioSolver.model_to_json">[docs]</a>    <span class="k">def</span> <span class="nf">model_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if the solver found a solution, if so evaluates all model variables and store them in a dictionary,</span>
+<span class="sd">        it also saves the time spent in solving and the status of the solution.</span>
+
+<span class="sd">        :return: a JSON transformable dictionary with all the information of the solved instance</span>
+<span class="sd">        :rtype: Dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">instance_data_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;static/model_image/solved_instance.json&quot;</span>
+        <span class="n">instance_model</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_solution</span><span class="p">:</span>
+            <span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="o">.</span><span class="n">model</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">var_name</span><span class="p">,</span> <span class="n">var_value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">grid_variables</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">height</span><span class="p">,</span> <span class="n">width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">var_value</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">var_value</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                <span class="n">variable</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">):</span>
+                    <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">):</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">var_value</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]])</span>
+                        <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ASSEMBLER_COLLISION&#39;</span> <span class="ow">or</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ITEM_FLOW&#39;</span> <span class="ow">or</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ASSEMBLER&#39;</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s1">&#39;0&#39;</span><span class="p">:</span>
+                                <span class="n">value</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ITEM_FLOW&#39;</span><span class="p">:</span>
+                                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">variable_to_item</span><span class="p">[</span>
+                                        <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">var_value</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]])))]</span>
+                                <span class="k">elif</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ASSEMBLER_COLLISION&#39;</span> <span class="ow">or</span> <span class="n">var_name</span> <span class="o">==</span> <span class="s1">&#39;ASSEMBLER&#39;</span><span class="p">:</span>
+                                    <span class="n">value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">assembler_behaviour</span><span class="o">.</span><span class="n">selected_recipe</span><span class="p">[</span>
+                                        <span class="nb">int</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">model</span><span class="p">[</span><span class="n">var_value</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]])))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+                        <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                    <span class="n">variable</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+                <span class="n">instance_model</span><span class="p">[</span><span class="n">var_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">variable</span>
+            <span class="n">instance_model</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;SAT&quot;</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">timed_out</span><span class="p">:</span>
+            <span class="n">instance_model</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;TIMED_OUT&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">instance_model</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;UNSAT&quot;</span>
+        <span class="n">instance_model</span><span class="p">[</span><span class="s2">&quot;solving_time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solving_time</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">instance_data_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">instance_model</span><span class="p">,</span> <span class="n">f</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance_model</span></div></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">model</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">model</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Pau Jimeno.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

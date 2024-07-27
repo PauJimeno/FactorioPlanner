@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>FactorioSolver module &#8212; model 4/9/2024 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="module-FactorioSolver">
+<span id="factoriosolver-module"></span><h1>FactorioSolver module<a class="headerlink" href="#module-FactorioSolver" title="Permalink to this heading">¶</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="FactorioSolver.FactorioSolver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FactorioSolver.</span></span><span class="sig-name descname"><span class="pre">FactorioSolver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/FactorioSolver.html#FactorioSolver"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactorioSolver.FactorioSolver" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class manages all the components form the model given an instance, it also creates the Z3 Optimizer
+and allows to solve the instance and retrieve the solution in many ways.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>in_out_pos</strong> (<em>Dictionary</em>) – Contains the input and output positions and type of item carrying</p></li>
+<li><p><strong>recipes</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="FactorioSolver.FactorioSolver.find_solution">
+<span class="sig-name descname"><span class="pre">find_solution</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/FactorioSolver.html#FactorioSolver.find_solution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactorioSolver.FactorioSolver.find_solution" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FactorioSolver.FactorioSolver.initialize_model">
+<span class="sig-name descname"><span class="pre">initialize_model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">blueprint_width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blueprint_height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_opt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/FactorioSolver.html#FactorioSolver.initialize_model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactorioSolver.FactorioSolver.initialize_model" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FactorioSolver.FactorioSolver.model_to_json">
+<span class="sig-name descname"><span class="pre">model_to_json</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/FactorioSolver.html#FactorioSolver.model_to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactorioSolver.FactorioSolver.model_to_json" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="FactorioSolver.FactorioSolver.model_to_string">
+<span class="sig-name descname"><span class="pre">model_to_string</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/FactorioSolver.html#FactorioSolver.model_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactorioSolver.FactorioSolver.model_to_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">model</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../modules.html">model</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2024, Pau Jimeno.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../_sources/docs/FactorioSolver.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

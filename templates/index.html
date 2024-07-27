@@ -5,39 +5,47 @@
         <link rel="stylesheet" type="text/css" href="../static/homeStyle.css">
     </head>
     <body>
-        <!--Navigation menu-->
-        <nav>
-            <h2>MENU</h2>
-            <a href="generate.html" class="nav-link">Generate Instance</a>
-            <a href="visualize.html" class="nav-link">Visualize Instance</a>
-        </nav>
+        <!--Container for nav and main-->
+        <div class="content-container">
+            <!--Navigation menu-->
+            <nav>
+                <h2>MENU</h2>
+                <a href="generate.html" class="nav-link">Generate Instance</a>
+                <a href="visualize.html" class="nav-link">Visualize Instance</a>
+            </nav>
 
-        <!-- Main content -->
-        <main>
-            <h1>Factorio Planner</h1>
-            <h2>What is Factorio Planner?</h2>
-            <p>
-                Factorio planner is a tool developed using SMT technology with the Python API of Z3, a state of the art
-                SMT solver.
-            </p>
-            <p>
-                The purpose of the tool is to find the optimal arrangement of assemblers, inserters and conveyor belts
-                to maximize the output of the desired items to produce, the planner can also find layouts that minimize
-                the number of conveyors and inserters used, and can also minimize the item loss due to conveyors
-                accumulating unused items.
-            </p>
+            <!-- Main content -->
+            <main>
+                <h1>Factorio Planner</h1>
+                <h2>What is Factorio Planner?</h2>
+                <p>
+                    Factorio planner is a tool developed using SMT technology with the Python API of Z3, a state of the art
+                    SMT solver.
+                </p>
+                <p>
+                    The purpose of the tool is to find the optimal arrangement of assemblers, inserters and conveyor belts
+                    to maximize the output of the desired items to produce, the planner can also find layouts that minimize
+                    the number of conveyors and inserters used, and can also minimize the item loss due to conveyors
+                    accumulating unused items.
+                </p>
 
-            <h2>How do I use the tool?</h2>
-            <p>
-                The inputs needed to generate an instance are the input cells and their carrying items, you'll also need
-                to select the recipe that produces the desired item you want to produce, and the cell that the final
-                items will exit the blueprint.
-                Finally, once you entered all the input information the instance can be attempted to be solved. If the
-                solver finds a solution, the solved instance will be saved to later be visualized.
+                <h2>How do I use the tool?</h2>
+                <p>
+                    The inputs needed to generate an instance are the input cells and their carrying items, you'll also need
+                    to select the recipe that produces the desired item you want to produce, and the cell that the final
+                    items will exit the blueprint.
+                    Finally, once you entered all the input information the instance can be attempted to be solved. If the
+                    solver finds a solution, the solved instance will be saved to later be visualized.
 
-                The website is split in two parts, the instance generation and solving, and the instance visualization,
-                this two parts can be accessed from the menu on the left.
-            </p>
-        </main>
+                    The website is split in two parts, the instance generation and solving, and the instance visualization,
+                    this two parts can be accessed from the menu on the left.
+                </p>
+            </main>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p>All art assets, spritesheets and other Factorio game data used in this project belong to Wube Software Ltd and are not for redistribution.</p>
+        </footer>
     </body>
 </html>

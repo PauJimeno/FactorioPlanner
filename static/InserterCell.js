@@ -17,7 +17,7 @@ class InserterCell extends Cell{
         infoDiv.innerHTML = '';
 
         infoDiv.appendChild(this.createInfoElement('Description', `${this.formatItemName(this.dir)} facing inserter`));
-        infoDiv.appendChild(this.createInfoElement('Cell Item Flow', `The conveyor is transporting ${this.formatItemName(this.itemCarrying)} at a rate of:\nIn: ${this.inputFlow} per minute\nOut: ${this.outputFlow} per minute`));
+        infoDiv.appendChild(this.createInfoElement('Cell Item Flow', `The inserter is transporting ${this.formatItemName(this.itemCarrying)} at a rate of:\nIn: ${this.inputFlow} per minute\nOut: ${this.outputFlow} per minute`));
         infoDiv.appendChild(this.createInfoElement('Route Value', this.routeValue));
     }
 

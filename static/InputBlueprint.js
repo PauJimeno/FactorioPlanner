@@ -92,7 +92,6 @@ class InputBlueprint extends Blueprint{
                 }
             }
         }
-        console.log(JSON.stringify(inOutPos));
         return inOutPos;
     }
 

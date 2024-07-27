@@ -1,7 +1,6 @@
 class AssemblerCell extends Cell{
     constructor(itemProducing, x, y) {
         super(x, y, 'assembler');
-        this.description = 'assembler';
         this.itemProducing = itemProducing;
         this.isDrawn = false;
         this.inputItems = {};

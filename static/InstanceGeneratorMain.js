@@ -1,5 +1,4 @@
 const iconPath = "static/RecipeIcons"
-const instanceImagePath = "static/model_image/solved_instance.png";
 modelView = new InputBlueprint(5, 5);
 recipes = new Recipes(iconPath, modelView);
 let solvedInstance = {};
@@ -9,11 +8,13 @@ function solveInstance() {
     let dataLoad = {}
     let rows = parseInt(document.getElementById('rows').value);
     let cols = parseInt(document.getElementById('cols').value);
+    let optimize = document.getElementById('optimization').value;
     let inOutPos = modelView.inputItems(recipes.selectedRecipe);
 
     dataLoad["recipes"] = recipes.recipesInvolved;
     dataLoad["size"] = [cols, rows];
     dataLoad["inOutPos"] = inOutPos;
+    dataLoad["optimize"] = optimize;
 
     fetch('/solve-instance', {
         method: 'POST',
@@ -26,14 +27,14 @@ function solveInstance() {
     .then(data => {
         document.getElementById('download-solution').disabled = false;
         solvedInstance = data;
-        if (data.result === "SAT"){
-            document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: SAT";
+        if (solvedInstance['status'] === "SAT"){
+            document.getElementById("status-text").textContent = "Instance solved in " + solvedInstance["solving_time"] + " seconds: SAT";
         }
-        else if(data.result === "UNSAT"){
-            document.getElementById("status-text").textContent = "Instance solved in " + data.model["solving_time"] + " seconds: UNSAT";
+        else if(solvedInstance['status'] === "UNSAT"){
+            document.getElementById("status-text").textContent = "Instance solved in " + solvedInstance["solving_time"] + " seconds: UNSAT";
         }
-        else if(data.result === "TIMEOUT"){
-            document.getElementById("status-text").textContent = "Instance solved: TIMEOUT";
+        else if(solvedInstance['status'] === "TIMED_OUT"){
+            document.getElementById("status-text").textContent = "Instance not solved: TIMED OUT after "+ solvedInstance["solving_time"] + " seconds";
         }
     })
     .catch((error) => {
@@ -42,7 +43,7 @@ function solveInstance() {
 }
 
 function downloadSolution(){
-    var jsonString = JSON.stringify(solvedInstance["model"], null, 2);
+    var jsonString = JSON.stringify(solvedInstance, null, 2);
     var blob = new Blob([jsonString], {type: 'application/json'});
     var url = URL.createObjectURL(blob);
     var link = document.createElement('a');
@@ -50,17 +51,3 @@ function downloadSolution(){
     link.download = 'SolvedInstance.json';
     link.click();
 }
-
-function load_solved_instance(){
-
-}
-
-
-
-
-
-
-
-
-
-

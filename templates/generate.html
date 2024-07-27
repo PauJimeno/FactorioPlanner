@@ -120,16 +120,24 @@
 
         <!-- solve instance step -->
         <div id="step-4" class="step">
+            <div id="optimize-criteria">
+                <h3>1. Select optimization criteria</h3>
+                <select id="optimization">
+                    <option value="maximize-output" selected>Maximize output</option>
+                    <option value="minimize-route" >Maximize output + minimize route length</option>
+                    <option value="minimize-loss" >Maximize output + minimize item loss</option>
+                </select>
+            </div>
             <div id="instance-solve">
-                <h3>1. Solve instance</h3>
+                <h3>2. Solve instance</h3>
                 <button onclick="solveInstance()">Solve Instance</button>
             </div>
             <div id="instance-status">
-                <h3>2. Instance status </h3>
+                <h3>3. Instance status </h3>
                 <p id="status-text"> Waiting to send the instance to the solver</p>
             </div>
             <div id="save-instance">
-                <h3>3. Download solution </h3>
+                <h3>4. Download solution </h3>
                 <button onclick="downloadSolution()" type="button" id="download-solution" disabled>Download Solution</button>
             </div>
 

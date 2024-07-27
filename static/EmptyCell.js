@@ -2,7 +2,6 @@ class EmptyCell extends Cell{
     constructor(x, y) {
         super(x, y, 'empty');
         this.description = 'An empty cell (nothing to see here)';
-        this.isDrawable = false;
     }
 
     updateCellInfo() {
