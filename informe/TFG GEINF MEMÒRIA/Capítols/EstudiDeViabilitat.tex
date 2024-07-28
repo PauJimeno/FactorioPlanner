@@ -1,0 +1,34 @@
+% Indicate the main file. Must go at the beginning of the file.
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% CHAPTER TEMPLATE
+%----------------------------------------------------------------------------------------
+
+
+\chapter{Estudi de viabilitat} % Main chapter title
+
+\label{Estudi de viabilitat} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+En aquest capítol s'explicarà quins motius van fer que el projecte fos viable i els recursos emprats pel seu desenvolupament.
+%----------------------------------------------------------------------------------------
+% SECCIÓ 1: ESTUDI DE VIABILITAT
+%----------------------------------------------------------------------------------------
+\section{Viabilitat del projecte}
+Els motius que han fet que aquest projecte fos viable han sigut principalment que en tractar-se d'un projecte enfocat més en la recerca no ha calgut fer un pressupost ni hi ha hagut cap despesa. Pel que fa a les llibreries que s'han usat són d'ús lliure i no requereixen llicencia.\\
+
+Per poder fer proves amb el model des del grup de recerca en lògica i intel·ligència artificial es va posar en disposició el clúster per si es volien resoldre instàncies més difícils, tot i que la majoria de proves s'han pogut fer des del meu ordinador personal.\\
+
+El fet que des de la Universitat de Saint Andrews ja hagués explorat aquest problema donava més seguretat a l'hora dels possibles resultats que es podien esperar, donant així una mica de seguretat, ja que el model bàsic se sabia que era codificable. \\
+
+Finalment, com la llibreria Z3 que incorpora el SMT solver és de les que més reconeixement té i està molt consolidada amb una API fàcil d'usar del Python, va aportar la seguretat que connectar la interfície gràfica no seria gens difícil gràcies al fet que Python és dels llenguatges de programació més usats en l'actualitat i permet usar infinitat de llibreries tant si es volia desenvolupar la interfície d'usuari des del mateix Python com si es volia fer Web i després comunicar-ho usant una infraestructura client-servidor.\\
+
+Una de les coses que no es va tenir en compte a l'inici del projecte era les implicacions legals que pot tenir desenvolupar un projecte relacionat amb un producte de pagament en aquest cas el joc Factorio.\\
+Segons els termes de servei que s'expliquen a la pàgina web oficial del joc, l'única implicació es deu a l'ús dels Sprites del joc a la interfície web que s'ha desenvolupat sobre els quals l'estudi Wube Software Ltd. té tots els drets i si ho consideressin podrien demanar-me que les treies. Però com es tracta d'un treball de recerca, es fa menció que els drets de les imatges pertanyen a l'estudi Wube Software Ltd. i no es pretén monetitzar de cap manera el projecte desenvolupat no hi hauria d'haver cap problema.\\
+A banda aquest no és el primer projecte sobre el joc que usa Sprites oficials, existeix l'eina "Factorio-SAT" que se centra en el balanceig de flux i va rebre bastant suport per la comunitat del joc i no hi ha cap acció des de Wube Software Ltd. per retirar els Sprites.\\
+
+En última instància s'ha enviat un correu al suport del joc \ref{AppendixA}, explicant de què tracta el projecte i si aquest incompleix algun dels termes i condicions de la propietat intel·lectual del joc, la resposta al correu és que els sembla bé i que no hi hauria cap problema que es publiqui el projecte.
+
+\section{Recursos usats}
+Pel desenvolupament del model i les proves que se li han fet, s'ha necessitat un IDE per redactar el codi, concretament s'ha usat PyCharm desenvolupat per JetBrains del qual tenim una llicència proporcionada a tots els alumnes des de la UdG.\\
+Un ordinador per poder executar totes les instàncies, les especificacions de l'ordinador són: processador AMD Ryzen 5700U de 8 cores, 16 gigabytes DDR4 de memòria RAM.\\
+Les llibreries usades són Z3 que com ja s'ha comentat incorpora el SMT solver usant per a l'optimització de les fàbriques i Flask una llibreria de Python que permet iniciar un servidor, crear endpoints i és el que ha permès poder fer la interfície gràfica en HTML i JavaScript, l'explicació en detall de les llibreries es pot trobar al capítol 6 de Requisits del Sistema.

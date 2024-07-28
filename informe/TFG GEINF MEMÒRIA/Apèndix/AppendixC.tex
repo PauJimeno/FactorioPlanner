@@ -1,0 +1,53 @@
+% !TEX root = ../main.tex
+
+\chapter{Script per compilar la informació de les solucions} % Main appendix title
+\label{AppendixC}
+\begin{lstlisting}[language=Python]
+    def extract_data_and_write_to_excel(main_folder_path, destination_folder):
+    # Initialize a dictionary to store the data
+    data = {
+        "Iteration": [],
+        "Optimization Criteria": [],
+        "Status": [],
+        "Solving Time": []
+    }
+
+    # Function to sort file names based on the numerical part
+    def sort_key(file_name):
+        match = re.search(r'\d+', file_name)
+        if match:
+            return int(match.group())
+        return file_name
+
+    # Iterate over the iterations
+    for iteration in sorted(os.listdir(main_folder_path)):
+        iteration_path = os.path.join(main_folder_path, iteration)
+        
+        # Iterate over the optimization criteria folders
+        for criteria in sorted(os.listdir(iteration_path)):
+            criteria_path = os.path.join(iteration_path, criteria)
+            
+            # Iterate over the JSON files
+            for file in sorted(os.listdir(criteria_path), key=sort_key):
+                if file.endswith(".json"):
+                    file_path = os.path.join(criteria_path, file)
+                    
+                    # Open the JSON file and extract the data
+                    with open(file_path, "r") as json_file:
+                        json_data = json.load(json_file)
+                        status = json_data["status"]
+                        solving_time = json_data["solving_time"]
+                        
+                        # Store the data
+                        data["Iteration"].append(iteration)
+                        data["Optimization Criteria"].append(criteria)
+                        data["Status"].append(status)
+                        data["Solving Time"].append(solving_time)
+
+    # Convert the dictionary to a DataFrame
+    df = pd.DataFrame(data)
+
+    # Write the DataFrame to an Excel file
+    output_path = os.path.join(destination_folder, "output.xlsx")
+    df.to_excel(output_path, index=False)
+\end{lstlisting} 

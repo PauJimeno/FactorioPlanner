@@ -1,0 +1,188 @@
+% Indicate the main file. Must go at the beginning of the file.
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% CHAPTER TEMPLATE
+%----------------------------------------------------------------------------------------
+
+
+\chapter{Requisits del sistema} % Main chapter title
+
+\label{Requisits del sistema} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+%----------------------------------------------------------------------------------------
+% SECCIÓ 1: Requisits del sistema
+%----------------------------------------------------------------------------------------
+Per aquest projecte s'han usat dues llibreries principals que separen el treball en dues parts. Front end, es tracta de la web on es poden generar i visualitzar instàncies, back end fet en Python que conté tota la lògica i les modelitzacions.\\
+Com és un projecte fet en Python els requisits són molt fàcils d'instal·lar en un ordinador sense importar si el sistema operatiu és Windows o Linux. Els passos a seguir són:
+\begin{enumerate}[label=Pas \arabic*:]
+\item Tenir una màquina amb un intèrpret de Python amb la versió 3.9
+\item Crear un entorn virtual amb la comanda \texttt{python -m venv <directory>}
+\item Activar l'entorn virtual mitjançant la comanda \texttt{venv\\Scripts\\activate.bat} des d'un terminal cmd o \texttt{source myvenv/bin/activate} des d'un sistema Linux o MacOS.
+\item Clonar el repositori en un directori nou dins el directori on s'ha creat l'entorn virtual, l'estructura de fitxers hauria de ser la següent: 
+    \begin{verbatim}
+    projecte/
+        venv/                     # entorn virtual
+        FactorioPlanner/          # repositori clonat
+            script.py
+            requirements.txt
+            ...
+    \end{verbatim}
+\item Situar-se al directori principal del projecte i executar la comanda \texttt{pip install -r requisits.txt}, aquesta comanda instal·larà totes les dependències del projecte a l'entorn virtual.
+\item Executar la comanda \texttt{python mainWeb.py} per iniciar el servidor.
+\item Connectar-se al servidor localment des de qualsevol navegador usant l'URL \texttt{http://127.0.0.1:5000/}.
+\end{enumerate}
+
+A continuació es fa una explicació més en detall de les llibreries principals que formen part dels requisits:
+
+\section{Z3}
+Z3 com s'ha explicat per sobre a l'anterior apartat tracta d'un llenguatge de modelització de constraints. La peculiaritat del Z3 és que tracta d'un SMT (Satisfiability Modulo Theories) és a dir generalitza el problema SAT, afegint diferents teories (funcions no interpretades, àlgebra lineal, arrays...) al problema de satisfacció.\\
+
+Per aquest treball s'ha usat l'API de Z3 des de Python, a causa que al llarg de l'informe s'exposaran múltiples talls de codi, tot seguit es fa una explicació de com s'usen els operadors lògics i defineixen variables Z3 des de Python.
+
+\subsection{Tipus i declaració de variables}
+Z3 té molts tipus de variables (reals, enters, arrays, bit vectors, booleanes, uninterpreted functions i tipus defeinits customizables), per declarar aquestes variables és molt senzill simplement cal usar el constructor donat pel Z3. Una funció molt interessant és que en usar Python com a llenguatge podem guardar les nostres variables en qualsevol mena d'estructura de dades, cal tenir en compte, que l'accés a aquestes estructures només es pot fer mitjançant variables Python així que si cal accedir a una posició d'una matriu en funció del valor pres per una variable Z3, haurem d'usar la teoria dels Arrays.\\
+Per últim i molt important, el domini de les variables no es defineix a l'hora de declarar-les, sinó que cal definir restriccions que acotin el domini de la variable, crear un tipus enumerat amb el domini preestablert o usar bit vector amb un nombre determinat de bits.
+Tot seguit exemples de declaració de diferents tipus de variables.
+
+\begin{lstlisting}[language=Python, caption=Declaració de variables]
+real = Real("real_variable")
+enter = Int("integer_variable")
+bit_vector = BitVec("bit_vector_variable", n_bits)
+array = Array("array_variable", IntSort(), IntSort())
+function = Function("function_variable", IntSort(), BoolSort())
+bool = Bool("boolean_variable")
+color_type, colors = EnumSort("color", ["blue", "orange", "green", "yellow", "red"])
+\end{lstlisting}
+
+Alguns detalls importants són que els BitVectors necessiten el nombre de bits com a paràmetre, també que aquests es poden interpretar com a nombres amb signe o sense, per diferenciar-ne el tipus és important usar l'operador correcte a l'hora de definir les restriccions sobre variables del seu tipus, més endavant s'ensenyen les diferències.\\
+Les funcions i els Arrays requereixen el tipus de variable amb el qual indexen o prenen com a paràmetre i també el tipus que han de retornar, això s'indica posant "Sort" després del tipus que es vol que prenguin o retornin.\\
+
+Com s'ha explicat les variables Z3 es poden guardar en estructures Python, aquí un exemple de com es guardarien les files del problema de les n-reines.
+\begin{lstlisting}[language=Python, caption=Variables Z3 en arrays de Python]
+queens = [Int(f"Q_{row + 1}") for row in range(n_queens)]
+\end{lstlisting}
+En aquest cas s'usen les llistes per comprensió de Python per declarar un Array amb variables enteres Z3.
+
+\subsection{Operadors lògics}
+Per construir fórmules lògiques necessitem l'ús d'operadors lògics. Des de l'API de Python es proporcionen mètodes per cada operador, alguns d'aquests no són tan visualment entenedors com els d'altres llenguatges centrats en constraint programming com MiniZinc o EssencePrime, així i tot, a continuació es fa una comparació entre els operadors lògics i els de l'API de Z3.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Operador} & \textbf{Z3} \\
+\hline
+$a \land b$ & \verb|And(a, b)|  \\
+\hline
+$a \lor b$ & \verb|Or(a, b)|  \\
+\hline
+$\lnot a$ & \verb|Not(a)|  \\
+\hline
+$a \oplus b$ & \verb|Xor(a, b)|  \\
+\hline
+$a \Rightarrow b$ & \verb|Implies(a, b)|  \\
+\hline
+$a \Leftrightarrow b$ & \verb|a == b|  \\
+\hline
+$a > b$ & \verb|a > b, UGT(a, b)|  \\
+\hline
+$a < b$ & \verb|a < b, ULT(a, b)|  \\
+\hline
+$a \geq b$ & \verb|a >= b, UGE(a, b)|  \\
+\hline
+$a \leq b$ & \verb|a <= b, ULE(a, b)|  \\
+\hline
+$a \neq b$ & \verb|a != b|  \\
+\hline
+\end{tabular}
+\caption{Comparació d'operadors lògics}
+\label{tab:logic_oprator_comparison}
+\end{table}
+
+Com s'ha comentat anteriorment les variables de tipus BitVector requereixen operadors específics si es volen interpretar de manera "unsigned" per això els operadors ($>$, $<$, $\geq$, $\leq$) tenen les funcions (UGT, ULT, UGE i ULE), per les interpretacions unsigned dels BitVectors.\\
+
+Finalment, una funcionalitat molt interessant de Z3 és que permet entrar llistes de variables als operadors lògics i aquests l'apliquen per totes les variables de la llista.\\
+Per exemple:
+
+\begin{lstlisting}[language=Python, caption=Variable Declaration]
+int_variable = [Int(f"int_var_{i}") for i in range(10)]
+less_than_ten = [int_variable[i] < 10 for i in range(10)]
+
+all_and = And(less_than_ten)
+all_or = Or(less_than_ten)
+\end{lstlisting}
+
+\section{Flask}
+Flask és un framework desenvolupat en Python fàcil d'accedir des de la seva llibreria. El seu objectiu és per proporcionar una interfície de servidor, facilitant mètodes simples per crear endpoints i comunicar de manera senzilla un client, amb el servidor.\\
+En aquest projecte s'ha usat la llibreria per carregar tota la informació necessària de la pàgina web (html, css i fitxers Javascript), accedir a una col·lecció d'imatges per representar visualment les instàncies i per poder fer peticions al model desenvolupat i rebre els resultats.\\
+Crear endpoints amb Flask és molt senzill tot seguit s'ensenya com.
+
+\subsection{Crear Endpoints usant Flask}
+Per crear un endpoint al nostre servidor és tan senzill com definir una funció estàndard de Python i usar un decorador específic per assignar la ruta.
+\begin{lstlisting}[language=Python, caption=Declaració d'un endpoint]
+from flask import Flask
+app = Flask(__name__)
+@app.route("/exemple")
+def endpoint():
+    print("endpoint d'exemple")
+\end{lstlisting}
+
+Amb aquesta funció creada i el servidor en marxa ja podem fer una petició al servidor usant l'adreça corresponent, si volem que el servidor ens torni informació podem ampliar la informació que afegim al decorador i especificar si es tracta d'un GET o un POST. Per exemple:\\
+
+\begin{lstlisting}[language=Python, caption=Declaració d'un endpoint]
+@_app.route('/processar', methods=['POST'])
+def processar():
+    data = request.get_json()
+    resultat = processar_informacio(data)
+    return jsonify(resultat)
+\end{lstlisting}
+
+D'aquesta manera es rep la informació del client en format JSON, s'extrau i se li aplica el procés que sigui necessari, finalment es passa en format JSON i es retorna al client.\\
+El client pot estar implementat de moltes maneres, per aquest projecte s'ha optat per fer una pàgina web usant JavaScript. L'estructura de fitxers que ha de tenir el servidor ha de ser la següent.
+
+\subsection{Estructura de fitxers}
+Per poder guardar una pàgina web amb tots els elements que comporta (html, css i la lògica en JavaScript), es necessiten dos directoris. Un conté tots els htmls de les planes de la web i una altra contindrà la resta d'arxius que es vulguin guardar al servidor, imatges, fitxers d'estil html, dades en format JSON, scripts per la pàgina web...\\
+A més el codi que llença el servidor s'ha de trobar al directori arrel i la resta de fitxers Python amb la lògica de l'aplicació es poden organitzar com es vulgui.
+\begin{verbatim}
+servidor/
+    main.py               # llençador del servidor, endpoints...
+    static/               # arxius, imatges, css, javascript...
+        style.css
+        weblogic.js
+        images/
+    templates/            # arxius html per la web
+        index.html
+    application/          # lògica, classes...
+        app.py
+        logic.py
+\end{verbatim}
+
+\subsection{Peticions des del client web}
+Una de les maneres més estàndard de fer pàgines web és usant JavaScript. Per poder fer peticions des del client al servidor és necessari que es faci de manera asíncrona per no bloquejar la funcionalitat de la pàgina web mentre el servidor rep i processa la petició. Des de JavaScript enviar una petició es fa de la següent manera:
+
+\begin{lstlisting}[language=Python, caption=Enviar petició]
+function enviarPeticio() {
+    let data = "informacio"
+
+    fetch('/processar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("El servidor ha respost correctament", data)
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
+\end{lstlisting}
+
+En aquesta funció s'està enviant una petició de tipus POST a l'endpoint \texttt{/processar}, fetch() és una funció asíncrona que rep com a paràmetres l'URL corresponent a l'endpoint del servidor i el contingut que contindrà el paquet enviat.\\
+Un cop enviat el paquet, la resta del codi pot continuar i la funció then() es queda a l'espera que fetch() retorni la resposta del servidor. Si fetch() respon, la primera funció then() captura la informació enviada pel servidor, en cas que hi hagi un problema i el servidor no respongui o no es pugui llegir la informació enviada, catch() llençarà un error informant que la petició ha fallat.
+
+

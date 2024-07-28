@@ -1,0 +1,80 @@
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% APPENDIX B
+%----------------------------------------------------------------------------------------
+
+\chapter{Script per compilar la informació de les instàncies} % Main appendix title
+\label{AppendixB}
+\begin{lstlisting}[language=Python]
+    def extract_instance_data_and_write_to_excel(main_folder_path, destination_folder):
+    # Initialize a dictionary to store the data
+    data_output = {
+        "instance": [],
+        "height": [],
+        "width": [],
+        "max_recipes": [],
+        "max_items": [],
+        "max_assemblers": [],
+        "input items": [],
+        "input cells": [],
+        "output cells": [],
+        
+    }
+    
+    # Function to sort file names based on the numerical part
+    def sort_key(file_name):
+        match = re.search(r'\d+', file_name)
+        if match:
+            return int(match.group())
+        return file_name
+    i = 1
+    # Iterate over the JSON files
+    for file in sorted(os.listdir(main_folder_path), key=sort_key):
+        if file.endswith(".json"):
+            file_path = os.path.join(main_folder_path, file)
+            
+            # Open the JSON file and extract the data
+            with open(file_path, "r") as json_file:
+                data = json.load(json_file)
+                
+                # Extract the required data
+                unique_items = set()
+                for recipe in data['recipes'].values():
+                    for items in recipe.values():
+                        for item in items:
+                            unique_items.add(item[0])
+
+                num_unique_items = len(unique_items)
+                
+                unique_input_items = set()
+                for item in data['inOutPos']['IN'].values():
+                    unique_input_items.add(item['ITEM'])
+                num_unique_input_items = len(unique_input_items)
+                
+                num_recipes = len(data["recipes"])
+                num_unique_items = len(unique_items)
+                num_input_cells = len(data["inOutPos"]["IN"])
+                num_output_cells = len(data["inOutPos"]["OUT"])
+                height = data["size"][0]
+                width = data["size"][1]
+                
+                # Store the data
+                data_output["max_recipes"].append(num_recipes)
+                data_output["max_items"].append(num_unique_items)
+                data_output["input cells"].append(num_input_cells)
+                data_output["output cells"].append(num_output_cells)
+                data_output["input items"].append(num_unique_input_items)
+                data_output["height"].append(height)
+                data_output["max_assemblers"].append((width//3)*(height//3))
+                data_output["width"].append(width)
+                data_output["instance"].append(i)
+                i+=1
+
+    # Convert the dictionary to a DataFrame
+    df = pd.DataFrame(data_output)
+
+    # Write the DataFrame to an Excel file
+    output_path = os.path.join(destination_folder, "instance_values.xlsx")
+    df.to_excel(output_path, index=False)
+\end{lstlisting} 

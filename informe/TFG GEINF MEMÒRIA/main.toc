@@ -1,0 +1,132 @@
+\babel@toc {catalan}{}\relax 
+\contentsline {chapter}{\numberline {1}Introducció, motivacions, propòsit i objectius del projecte}{1}{chapter.2}%
+\contentsline {section}{\numberline {1.1}Introducció}{1}{section.3}%
+\contentsline {section}{\numberline {1.2}Motivacions i propòsit}{2}{section.5}%
+\contentsline {section}{\numberline {1.3}Objectius del projecte}{2}{section.6}%
+\contentsline {chapter}{\numberline {2}Estudi de viabilitat}{4}{chapter.7}%
+\contentsline {section}{\numberline {2.1}Viabilitat del projecte}{4}{section.8}%
+\contentsline {section}{\numberline {2.2}Recursos usats}{5}{section.9}%
+\contentsline {chapter}{\numberline {3}Metodologia}{6}{chapter.10}%
+\contentsline {chapter}{\numberline {4}Planificació}{7}{chapter.11}%
+\contentsline {section}{\numberline {4.1}Planificació inicial del projecte}{7}{section.12}%
+\contentsline {section}{\numberline {4.2}Seguiment de la planificació}{7}{section.13}%
+\contentsline {subsection}{\numberline {4.2.1}Ús de l'API de Z3}{7}{subsection.14}%
+\contentsline {subsection}{\numberline {4.2.2}Anàlisi del treball fet a St. Andrews}{8}{subsection.15}%
+\contentsline {subsection}{\numberline {4.2.3}Implementació del model bàsic}{8}{subsection.16}%
+\contentsline {subsection}{\numberline {4.2.4}Creació d'instàncies}{8}{subsection.17}%
+\contentsline {subsection}{\numberline {4.2.5}Aplicar millores sobre el model base}{9}{subsection.18}%
+\contentsline {subsection}{\numberline {4.2.6}Visualització de les instàncies resoltes}{9}{subsection.19}%
+\contentsline {chapter}{\numberline {5}Marc de treball i conceptes previs}{11}{chapter.21}%
+\contentsline {section}{\numberline {5.1}Problemes de satisfacció de restriccions}{11}{section.22}%
+\contentsline {section}{\numberline {5.2}Complexitat computacional}{12}{section.23}%
+\contentsline {subsection}{\numberline {5.2.1}Màquina de Turing}{12}{subsection.24}%
+\contentsline {subsection}{\numberline {5.2.2}Classes de complexitat}{12}{subsection.25}%
+\contentsline {subsubsection}{Classe P}{12}{section*.26}%
+\contentsline {subsubsection}{Classe NP i NP-complet}{12}{section*.27}%
+\contentsline {subsubsection}{NP-hard}{13}{section*.28}%
+\contentsline {section}{\numberline {5.3}SAT}{14}{section.30}%
+\contentsline {section}{\numberline {5.4}SMT}{14}{section.31}%
+\contentsline {section}{\numberline {5.5}Elements bàsics del joc Factorio}{16}{section.34}%
+\contentsline {subsection}{\numberline {5.5.1}Cinta transportadora}{16}{subsection.35}%
+\contentsline {subsection}{\numberline {5.5.2}Inseridor}{16}{subsection.37}%
+\contentsline {subsection}{\numberline {5.5.3}Assemblador}{17}{subsection.40}%
+\contentsline {subsubsection}{Receptes}{17}{section*.42}%
+\contentsline {section}{\numberline {5.6}Conceptes relacionats amb els elements bàsics del joc}{19}{section.44}%
+\contentsline {subsection}{\numberline {5.6.1}Ruta}{19}{subsection.45}%
+\contentsline {subsection}{\numberline {5.6.2}Tipus d'objectes}{19}{subsection.46}%
+\contentsline {subsection}{\numberline {5.6.3}Quantitat d'objectes}{20}{subsection.47}%
+\contentsline {section}{\numberline {5.7}El problema del blueprint}{20}{section.48}%
+\contentsline {subsection}{\numberline {5.7.1}Exemple del problema}{20}{subsection.49}%
+\contentsline {chapter}{\numberline {6}Requisits del sistema}{23}{chapter.52}%
+\contentsline {section}{\numberline {6.1}Z3}{24}{section.60}%
+\contentsline {subsection}{\numberline {6.1.1}Tipus i declaració de variables}{24}{subsection.61}%
+\contentsline {subsection}{\numberline {6.1.2}Operadors lògics}{25}{subsection.72}%
+\contentsline {section}{\numberline {6.2}Flask}{25}{section.80}%
+\contentsline {subsection}{\numberline {6.2.1}Crear Endpoints usant Flask}{26}{subsection.81}%
+\contentsline {subsection}{\numberline {6.2.2}Estructura de fitxers}{26}{subsection.94}%
+\contentsline {subsection}{\numberline {6.2.3}Peticions des del client web}{27}{subsection.95}%
+\contentsline {chapter}{\numberline {7}Estudis i decisions}{28}{chapter.115}%
+\contentsline {section}{\numberline {7.1}Llibreria de solving}{28}{section.116}%
+\contentsline {section}{\numberline {7.2}Llenguatge de programació}{28}{section.117}%
+\contentsline {section}{\numberline {7.3}Interfície gràfica}{28}{section.118}%
+\contentsline {section}{\numberline {7.4}Connexió client servidor}{29}{section.119}%
+\contentsline {section}{\numberline {7.5}Estructura del model}{29}{section.120}%
+\contentsline {section}{\numberline {7.6}Instàncies}{30}{section.121}%
+\contentsline {chapter}{\numberline {8}Disseny del model}{31}{chapter.122}%
+\contentsline {section}{\numberline {8.1}Implementació del model base}{31}{section.123}%
+\contentsline {subsection}{\numberline {8.1.1}Rutes}{31}{subsection.124}%
+\contentsline {subsubsection}{Augment de ruta}{31}{section*.126}%
+\contentsline {subsubsection}{Decrement de ruta}{33}{section*.152}%
+\contentsline {subsubsection}{Entrada i sortida de les cintes}{34}{section*.180}%
+\contentsline {subsubsection}{Entrada i sortida dels inseridors}{35}{section*.208}%
+\contentsline {subsection}{\numberline {8.1.2}Restriccions dels assembladors}{37}{subsection.240}%
+\contentsline {subsubsection}{Col·lisió dels assembladors}{38}{section*.242}%
+\contentsline {subsubsection}{Enllaçar col·lisió amb assemblador}{39}{section*.253}%
+\contentsline {subsection}{\numberline {8.1.3}Tipus d'objectes}{40}{subsection.266}%
+\contentsline {subsubsection}{Forma part de la ruta}{40}{section*.268}%
+\contentsline {subsubsection}{Entrada i sortida d'objectes}{40}{section*.272}%
+\contentsline {subsubsection}{Propagació del tipus d'objectes}{41}{section*.279}%
+\contentsline {subsection}{\numberline {8.1.4}Quantitat d'objectes}{42}{subsection.300}%
+\contentsline {subsubsection}{Forma part de la ruta}{43}{section*.302}%
+\contentsline {subsubsection}{Quantitat d'entrada}{43}{section*.308}%
+\contentsline {subsubsection}{Propagació de la quantitat d'objectes (Cintes)}{43}{section*.312}%
+\contentsline {subsubsection}{Propagació de la quantitat d'objectes (inseridors)}{44}{section*.336}%
+\contentsline {subsection}{\numberline {8.1.5}Receptes}{45}{subsection.362}%
+\contentsline {subsubsection}{Associar recepta}{47}{section*.364}%
+\contentsline {subsubsection}{Ingredients d'entrada i sortida}{47}{section*.373}%
+\contentsline {subsubsection}{Ràtios d'entrada}{48}{section*.416}%
+\contentsline {subsubsection}{Ràtio mínima}{49}{section*.442}%
+\contentsline {subsubsection}{Quantitat d'objectes de sortida}{50}{section*.452}%
+\contentsline {section}{\numberline {8.2}Canvis fets al model per aproximar-lo més al comportament real del joc}{50}{section.473}%
+\contentsline {subsection}{\numberline {8.2.1}Propagació de la quantitat d'objectes en inseridors}{50}{subsection.474}%
+\contentsline {subsection}{\numberline {8.2.2}Ràtios d'entrada i ràtio mínima}{51}{subsection.475}%
+\contentsline {subsection}{\numberline {8.2.3}Quantitat d’objectes de sortida}{52}{subsection.485}%
+\contentsline {section}{\numberline {8.3}Millores al model}{53}{section.510}%
+\contentsline {subsection}{\numberline {8.3.1}Upper bound}{53}{subsection.511}%
+\contentsline {subsection}{\numberline {8.3.2}Lower bound}{53}{subsection.512}%
+\contentsline {subsection}{\numberline {8.3.3}Pre computar les receptes associades als assemblers}{53}{subsection.520}%
+\contentsline {subsubsection}{Objectes i receptes}{54}{section*.521}%
+\contentsline {subsubsection}{Sistema d'equacions}{54}{section*.522}%
+\contentsline {subsubsection}{Limitar l'espai de solucions}{55}{section*.523}%
+\contentsline {subsubsection}{Optimització}{56}{section*.537}%
+\contentsline {subsection}{\numberline {8.3.4}Eliminació de simetries}{56}{subsection.540}%
+\contentsline {subsection}{\numberline {8.3.5}Eliminació de connexions redundants cinta-inseridor}{58}{subsection.560}%
+\contentsline {section}{\numberline {8.4}Criteris d'optimització}{60}{section.577}%
+\contentsline {subsection}{\numberline {8.4.1}Maximitzar la quantitat d'objectes}{60}{subsection.578}%
+\contentsline {subsection}{\numberline {8.4.2}Minimitzar la mida de les rutes}{61}{subsection.590}%
+\contentsline {subsection}{\numberline {8.4.3}Minimitzar la pèrdua d'objectes}{61}{subsection.591}%
+\contentsline {chapter}{\numberline {9}Disseny del front end}{62}{chapter.592}%
+\contentsline {section}{\numberline {9.1}Distribució de la pàgina web}{62}{section.593}%
+\contentsline {subsection}{\numberline {9.1.1}Pàgina principal}{62}{subsection.594}%
+\contentsline {subsection}{\numberline {9.1.2}Generar instàncies}{63}{subsection.596}%
+\contentsline {subsubsection}{Objecte a produir}{63}{section*.597}%
+\contentsline {subsubsection}{Mida del blueprint}{63}{section*.599}%
+\contentsline {subsubsection}{Entrades i sortides del blueprint}{64}{section*.601}%
+\contentsline {subsubsection}{Resoldre la instància}{65}{section*.603}%
+\contentsline {subsection}{\numberline {9.1.3}Visualitzar instàncies}{66}{subsection.605}%
+\contentsline {section}{\numberline {9.2}Implementació de la pàgina web}{67}{section.609}%
+\contentsline {subsection}{\numberline {9.2.1}Disseny del canvas interactiu}{67}{subsection.610}%
+\contentsline {subsubsection}{Estructura de dades per guardar la informació de la graella}{69}{section*.612}%
+\contentsline {subsection}{\numberline {9.2.2}Alguns detalls interessants}{71}{subsection.614}%
+\contentsline {subsubsection}{Demanar imatges al servidor}{71}{section*.615}%
+\contentsline {subsubsection}{Evitar fer crides de dibuixat innecessàries}{71}{section*.630}%
+\contentsline {chapter}{\numberline {10}Experimentació}{73}{chapter.646}%
+\contentsline {section}{\numberline {10.1}Generació d'instàncies}{73}{section.647}%
+\contentsline {subsection}{\numberline {10.1.1}Mida del blueprint}{73}{subsection.648}%
+\contentsline {subsection}{\numberline {10.1.2}Objecte a produir}{73}{subsection.649}%
+\contentsline {subsection}{\numberline {10.1.3}Posicions d'entrada i sortida}{74}{subsection.650}%
+\contentsline {section}{\numberline {10.2}Instàncies generades}{74}{section.651}%
+\contentsline {section}{\numberline {10.3}Models de proves}{75}{section.656}%
+\contentsline {subsection}{\numberline {10.3.1}Primera versió (model base)}{75}{subsection.657}%
+\contentsline {subsection}{\numberline {10.3.2}Segona versió (pre càlcul i bounds)}{76}{subsection.658}%
+\contentsline {subsection}{\numberline {10.3.3}Tercera versió (trencament de simetries 1)}{76}{subsection.659}%
+\contentsline {subsection}{\numberline {10.3.4}Quarta versió (trencament de simetries 2)}{76}{subsection.660}%
+\contentsline {subsection}{\numberline {10.3.5}Cinquena versió (inseridors redundants)}{76}{subsection.661}%
+\contentsline {section}{\numberline {10.4}Resultats}{76}{section.662}%
+\contentsline {subsection}{\numberline {10.4.1}Nombre d'instàncies resoltes}{76}{subsection.663}%
+\contentsline {subsection}{\numberline {10.4.2}Temps de resolució}{79}{subsection.666}%
+\contentsline {subsection}{\numberline {10.4.3}Representació gràfica d'algunes instàncies resoltes}{81}{subsection.670}%
+\contentsline {chapter}{\numberline {A}Conversa amb el suport de Factorio}{82}{appendix.671}%
+\contentsline {chapter}{\numberline {B}Script per compilar la informació de les instàncies}{83}{appendix.673}%
+\contentsline {chapter}{\numberline {C}Script per compilar la informació de les solucions}{85}{appendix.745}%
+\contentsline {chapter}{Bibliografia}{87}{appendix*.794}%

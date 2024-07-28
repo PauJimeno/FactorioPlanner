@@ -1,0 +1,222 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Template de l'elaboració de TFG del Grau en informàtica de la Universitat de Girona (udg.)
+% basat en https://github.com/matteodelucchi/ZHAW_thesis-template
+%
+% This template is based on previous works by:
+% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+% Matteo Delucchi (https://github.com/matteodelucchi/ZHAW_thesis-template)
+%
+% University specific changes were made by:
+%  Robert Martí (robert.marti@udg.edu)
+% 
+% Template license:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+% DOCUMENT SPECIFICATION
+%----------------------------------------------------------------------------------------
+\documentclass[
+    11pt,                      % Default font size
+    %oneside,                  % One-side binding. Default: Two-side binding / alternating margins
+    catalan,                   % Language. Feu servir english per anglès
+    singlespacing,             % Spacing option: singlespacing, onehalfspacing or doublespacing
+    %nolistspacing,            % Set spacing in lists to single
+    %draft,                    % Enable draft mode: no pictures, no links, overfull hboxes indicated
+    liststotoc,               % Include list of figures/tables/etc in the table of contents
+    %toctotoc,                 % Include the main table of contents to the table of contents
+    parskip,                  % Add vertical space between paragraphs
+    %nohyperref,               % Disable links in the entire document
+    headsepline,               % Show a horizontal line under the header
+    %chapterinoneline,         % Place the chapter title and chapter number on one line
+    consistentlayout,          % Have the same layout for special chapters: 
+                               % declaration, abstract and acknowledgements
+]{MastersDoctoralThesis}
+
+% Uncomment the following lines to only include a subset of chapters.
+% This is useful for long documents, as typesetting takes a bit of time
+%\includeonly{
+%    Front/titlepage,
+%    Front/imprint,
+%    Front/abstract,
+%    %Front/declaration,
+%    %Front/acknowledgements,
+%    %Front/symbols,
+%    Chapters/Chapter1,
+%    %Chapters/Chapter2
+%    }
+
+
+%----------------------------------------------------------------------------------------
+% PREAMBLE: PACKAGES AND CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\input{preamble}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{pgf-umlcd}
+\usepackage{pgfplots}
+\renewcommand{\umltextcolor}{black}
+\renewcommand{\umldrawcolor}{black}
+\renewcommand{\umlfillcolor}{white}
+\pgfplotsset{width=10cm,compat=1.9}
+%----------------------------------------------------------------------------------------
+% THESIS INFORMATION: MODIFY THIS SECTION!
+%----------------------------------------------------------------------------------------
+
+% The information below is used in the following parts:
+% - Title page
+% - Imprint
+% - Abstract / Zusammenfassung
+% - Meta information of PDF
+
+\thesistitle{Factorio Planner}             % Thesis title,              command: \ttitle
+\thesistype{Projecte Final de Grau}             % Type of thesis (e.g. Master Thesis) \ttype
+\thesisdocument{Memòria}
+\thesisdate{Setembre 2024}                     % Date of submission                  \tdate
+\keywords{gravity, physics, disruptive science}
+                                        % Keywords for the thesis,            \keywordnames
+\author{Pau Jimeno Román}             % Your name,                          \authorname
+\degree{Grau en Enginyeria Informàtica} % Degree name,                        \degreename
+\studyprogram{Grau en Enginyeria Informàtica} 
+                                        % Study program                       \studyprog
+% \studyprogramlink{https://www.zhaw.ch/en/lsfm/study/master/applied-computational-life-sciences/}
+                                        % Link to study program               \studyproglink
+
+\supervisorA{Dr. Mateu Villaret Auselle}       % Name of supervisor 1,               \supnameA
+\supervisorAmail{mvillaret@udg.edu}         % Email address of supervisor 1,      \supmailA
+\supervisorAweb{https://www.udg.edu/ca/directori/pagina-personal?ID=52807}  %            \supwebA
+\supervisorAinfo{                       % Formatted info about supervisor 1:  \supinfoA
+    \supnameA\\
+    Universitat de Girona\\
+    Email: \href{mailto:\supmailA}{\supmailA}\\
+    Web: \href{\supwebA}{Perfil UdG}
+}
+
+% Keep empty if there is no supervisor 2: \supervisorB{}
+\supervisorB{}              % Name of supervisor 2,               \supnameB
+\supervisorBmail{f=am@newton.com}       % Email address of supervisor 2,      \supmailB
+\supervisorBweb{https://ca.wikipedia.org/wiki/Isaac_Newton}                  % \supwebB
+\supervisorBinfo{                       % Formatted info about supervisor 2:  \supinfoB
+    \supnameB\\
+    University of Cambridge\\
+    Email: \href{mailto:\supmailB}{\supmailB}\\
+    Web: \href{\supwebB}{Link}
+}
+
+\university{University of Girona}
+                                        % University name                     \univname
+\universitycatalan{Universitat de Girona}
+                                        % University, in German               \univnameger
+\department{Arquitectura i Tecnologia de computadors} 
+                                        % Department,                         \deptname
+
+% % Links
+\universitylink      {https://www.udg.edu/}                   % \univlink
+% \universitylinkgerman{https://www.zhaw.ch/de/university/}                   % \univlinkger
+% \departmentlink      {https://www.zhaw.ch/de/lsfm/}                         % \deptlink
+% \institutelink       {https://www.zhaw.ch/en/lsfm/institutes-centres/icls/} % \instlink
+% \grouplink           {https://www.zhaw.ch/en/lsfm/institutes-centres/icls/computational-health/} % \grplink
+
+
+
+\AtBeginDocument{
+\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+\hypersetup{pdfauthor=\authorname} % Set the PDF's author to your name
+\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+}
+
+\begin{document}
+\frontmatter                  % Roman page numbering for the pre-content pages
+\pagestyle{plain}             % Default to the plain heading style until the thesis style 
+                              % is called for the body content
+
+
+%----------------------------------------------------------------------------------------
+% TITLE PAGE AND IMPRINT
+%----------------------------------------------------------------------------------------
+\include{Front/titlepage}
+\let\cleardoublepage\clearpage
+\include{Front/imprint}
+
+
+
+
+%----------------------------------------------------------------------------------------
+% ABSTRACT
+%----------------------------------------------------------------------------------------
+%\include{Front/abstract}
+
+
+%----------------------------------------------------------------------------------------
+% ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+%\include{Front/acknowledgements}
+
+
+%----------------------------------------------------------------------------------------
+% LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+% Comment out if any of the following is not needed:
+\tableofcontents  % Add main table of contents
+%\listoffigures    % Add list of figures
+%\listoftables     % Add list of tables
+
+
+%----------------------------------------------------------------------------------------
+% ABBREVIATIONS / SYMBOLS
+%----------------------------------------------------------------------------------------
+%\include{Front/symbols}
+
+
+%----------------------------------------------------------------------------------------
+% DEDICATION
+%----------------------------------------------------------------------------------------
+% \dedicatory{For/Dedicated to/To my\ldots} 
+
+
+%----------------------------------------------------------------------------------------
+% THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+\mainmatter % Begin numeric (1,2,3...) page numbering
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\include{Capítols/Introducció}
+\include{Capítols/EstudiDeViabilitat}
+\include{Capítols/Metodologia}
+\include{Capítols/Planificacio}
+\include{Capítols/MarcDeTreballIConceptesPrevis}
+\include{Capítols/RequisitsDelSistema}
+\include{Capítols/EstudisIDecisions}
+\include{Capítols/DissenyDelModel}
+\include{Capítols/DissenyDelFrontEnd}
+\include{Capítols/AnalisiDelsExperiments}
+
+%----------------------------------------------------------------------------------------
+% THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+% Uncomment the lines as you write the Appendices
+\include{Apèndix/AppendixA}
+\include{Apèndix/AppendixB}
+\include{Apèndix/AppendixC}
+
+
+%----------------------------------------------------------------------------------------
+% BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+\printbibliography[heading=bibintoc]
+
+%----------------------------------------------------------------------------------------
+
+\end{document}  

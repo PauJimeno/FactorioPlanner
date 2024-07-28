@@ -1,0 +1,41 @@
+% Indicate the main file. Must go at the beginning of the file.
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% CHAPTER TEMPLATE
+%----------------------------------------------------------------------------------------
+
+
+\chapter{Estudis i decisions} % Main chapter title
+
+\label{Estudis i decisions} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+%----------------------------------------------------------------------------------------
+% SECCIÓ 1: Estudis i decisions
+%----------------------------------------------------------------------------------------
+Fins ara s'han explicat totes les tecnologies usades i les tasques que s'han desenvolupat al projecte, però no s'ha aprofundit en el perquè. En aquest apartat es dona una explicació del perquè de les decisions més importants, des de la selecció de llibreries fins a les diferents modelitzacions que s'han usat al model.
+
+\section{Llibreria de solving}
+Com ja s'ha explicat, al projecte s'han usat principalment dues llibreries, la més important tracta de Z3. El motiu principal pel qual s'ha escollit és perquè al paper de St. Andrews el menciona a les propostes de millora. D'aquí s'ha fet una mica de recerca per saber-ne més i s'ha vist que és dels SMT solvers més reconeguts, a més el fet que estigui disponible per quasi tots els llenguatges de programació l'ha fet un candidat perfecte per desenvolupar el projecte. Per acabar de decidir-la com a llibreria per al projecte s'ha comentat al tutor i en Joan Espasa, membre del grup de recerca de la universitat de St. Andrews i col·laborador al paper mencionat, els quals han confirmat que es podia usar perfectament per desenvolupar el projecte.\\
+
+\section{Llenguatge de programació}
+La llibreria Z3 \cite{Z3Prover} està disponible per la majoria de llenguatges de programació. Entre ells s'hi troba Python que s'ha decidit usar per a aquest projecte, ja que és dels llenguatges on més ús es fa de la llibreria i on més recursos on-line es poden trobar. A banda el llenguatge en si és fàcil d'usar fent que a l'hora de modelitzar no sigui necessari preocupar-se de les particularitats del llenguatge.\\
+A banda també s'ha escollit amb la idea en ment que en algun moment del projecte s'hauria d'implementar una interfície gràfica i Python té molts recursos per crear-les de manera fàcil.
+
+\section{Interfície gràfica}
+Des de l'inici es tenia clar que es volia fer alguna mena d'interfície gràfica per visualitzar les instàncies, ja que els models complexos que contenen moltes variables, interpretar els resultats sense cap mena d'eina que permeti visualitzar els valors presos de les variables es fa difícil.\\
+En un bon principi es volia fer usant alguna llibreria gràfica de les que s'usen per crear videojocs com per exemple PyGame, però a mesura que el projecte ha evolucionat s'ha vist que a banda de crear una eina per poder visualitzar les instàncies resoltes també seria molt favorable crear-ne una altra per automatitzar-ne la generació. Això ha portat a la decisió que la millor opció era fer una web gràcies a la facilitat que té crear una interfície d'usuari amb botons, textos, entrada d'informació, descàrrega de fitxers, imatges, menús...\\
+Arran d'aquesta decisió la creació de la visualització de les instàncies s'ha fet mitjançant l'element canvas que ofereix html, el qual és molt versàtil i fàcil de desenvolupar usant JavaScript.\\
+
+\section{Connexió client servidor}
+Aïllar la interfície gràfica del projecte, crea el problema que ja no es poden comunicar entre ells usant el mateix llenguatge. Per solucionar aquest problema s'ha decidit usar la llibreria Flask que permet connectar la web amb el model que resol les instàncies mitjançant la creació d'un servidor el qual pot rebre les peticions des de la interfície web. Aquesta clara separació de la part visual de la part lògica en un front end i un back end, ha fet que el projecte quedi més professional.\\
+Aquí és on s'ha vist que la decisió d'escollir Python com a llenguatge de programació ha estat la correcta, ja que aquesta connexió client-servidor, s'ha pogut de manera molt simple i no ha causat els mals de cap que un altre llenguatge podria haver creat.
+
+\section{Estructura del model}
+Pel que fa al model, com s'ha comentat la idea bé del Paper de St. Andrews i la seva proposta a futur d'implementar-lo usant SMT. Tot i que hi ha conceptes que s'han usat al projecte que també es van usar al Paper, aquest usava una estructura multinivell que causava la comprovació de solucions redundants, per això s'ha decidit unificar tots els nivells en un per ajudar al solver a propagar millor. Aquesta decisió ha comportat que bàsicament tot el model sigui completament diferent i a més degut a la incorporació de variables reals gràcies a la tecnologia SMT, hi ha mecàniques que no es van poder implementar al Paper esmentat.\\
+
+A banda l'objectiu d'optimització i les entrades del model respecte al treball de St. Andrews també han canviat. S'ha decidit que la quantitat d'objectes que s'han d'entrar no sigui un input del model i que sigui el solver el que hagi de decidir, ja que en algunes instàncies és difícil determinar la quantitat que ha d'entrar de cada tipus així que s'ha decidit millor delegar la responsabilitat al solver.\\
+A més com que s'ha pogut implementar de manera precisa la quantitat d'objectes a cada casella del \textit{blueprint}, s'ha decidit implementar una optimització addicional que redueix la pèrdua d'objectes al \textit{blueprint}, on pèrdua s'entén com la quantitat d'objectes que no s'estan aprofitant per produir altres objectes. Finalment, com a extra també s'ha afegit la possibilitat d'optimitzar la quantitat de cintes i inseridors que s'usen per transportar objectes.
+
+\section{Instàncies}
+Les entrades del model permeten crear moltíssimes instàncies, però per avaluar el rendiment s'ha decidit seguir un patró força estàndard, el que s'ha fet ha sigut separar les instàncies per mida de \textit{blueprint} des de 5x5 fins a 8x8. A més per cada mida s'han creat instàncies per diferents receptes les quals s'han ordenat de menys a més materials d'entrada requerits. Finalment, un cop feta la divisió entre mides i recepta, s'han creat múltiples instàncies variant les posicions per on entren els diferents materials i per on ha de sortir el material de la recepta objectiu.

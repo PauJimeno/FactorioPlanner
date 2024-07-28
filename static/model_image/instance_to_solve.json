@@ -1,1 +1,1 @@
-{"recipes": {"copper-cable": {"IN": [["copper-plate", 120]], "OUT": [["copper-cable", 240]]}}, "size": [5, 5], "inOutPos": {"IN": {"(0,0)": {"ITEM": "copper-plate"}}, "OUT": {"(4,4)": {"ITEM": "copper-cable"}}}, "optimize": "maximize-output"}
+{"recipes": {"copper-cable": {"IN": [["copper-plate", 120]], "OUT": [["copper-cable", 240]]}}, "size": [5, 5], "inOutPos": {"IN": {"(0,0)": {"ITEM": "copper-plate"}}, "OUT": {"(4,4)": {"ITEM": "copper-cable"}}}, "optimize": "minimize-loss"}

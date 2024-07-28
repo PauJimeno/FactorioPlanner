@@ -1,0 +1,186 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{FactorioGame}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=ecc95c6b4922ed50772d754359c8b2de}{%
+           family={Software},
+           familyi={S\bibinitperiod},
+           given={Wube},
+           giveni={W\bibinitperiod}}}%
+      }
+      \strng{namehash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{fullhash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{fullhashraw}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{bibnamehash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{authorbibnamehash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{authornamehash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{authorfullhash}{ecc95c6b4922ed50772d754359c8b2de}
+      \strng{authorfullhashraw}{ecc95c6b4922ed50772d754359c8b2de}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Factorio}
+      \field{year}{2015}
+      \verb{urlraw}
+      \verb https://www.factorio.com/
+      \endverb
+      \verb{url}
+      \verb https://www.factorio.com/
+      \endverb
+    \endentry
+    \entry{Z3Tutorial}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=33b15f6af71ae8346aad37f39dccbe0f}{%
+           family={Zucker},
+           familyi={Z\bibinitperiod},
+           given={Philip},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{fullhash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{fullhashraw}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{bibnamehash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{authorbibnamehash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{authornamehash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{authorfullhash}{33b15f6af71ae8346aad37f39dccbe0f}
+      \strng{authorfullhashraw}{33b15f6af71ae8346aad37f39dccbe0f}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Z3 walk through}
+      \field{year}{2019}
+      \verb{urlraw}
+      \verb https://colab.research.google.com/github/philzook58/z3_tutorial/blob/master/Z3%20Tutorial.ipynb
+      \endverb
+      \verb{url}
+      \verb https://colab.research.google.com/github/philzook58/z3_tutorial/blob/master/Z3%20Tutorial.ipynb
+      \endverb
+    \endentry
+    \entry{Z3Documentation}{online}{}{}
+      \name{author}{2}{}{%
+        {{hash=a29a60a61fe8a4323f82505167946570}{%
+           family={Moura\bibnamedelimb Lev\bibnamedelima Nachmanson},
+           familyi={M\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim N\bibinitperiod},
+           given={Nikolaj\bibnamedelimb Bjørner\bibnamedelima Leonardo},
+           giveni={N\bibinitperiod\bibinitdelim B\bibinitperiod\bibinitdelim L\bibinitperiod},
+           prefix={de},
+           prefixi={d\bibinitperiod}}}%
+        {{hash=b4bf0300e08411dfb78fb2cd65a2d6bc}{%
+           family={Wintersteiger},
+           familyi={W\bibinitperiod},
+           given={Christoph},
+           giveni={C\bibinitperiod}}}%
+      }
+      \strng{namehash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{fullhash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{fullhashraw}{4649fdd4176df2307c157deecbc05c79}
+      \strng{bibnamehash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{authorbibnamehash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{authornamehash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{authorfullhash}{4649fdd4176df2307c157deecbc05c79}
+      \strng{authorfullhashraw}{4649fdd4176df2307c157deecbc05c79}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Programming Z3}
+      \verb{urlraw}
+      \verb https://theory.stanford.edu/~nikolaj/programmingz3.html
+      \endverb
+      \verb{url}
+      \verb https://theory.stanford.edu/~nikolaj/programmingz3.html
+      \endverb
+    \endentry
+    \entry{arxivpaper}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=93edf6b955e9ac231fdf19692aa1e63f}{%
+           family={Hoffmann},
+           familyi={H\bibinitperiod},
+           given={Sean\bibnamedelimb Patterson\bibnamedelimb Joan\bibnamedelimb Espasa\bibnamedelimb Mun\bibnamedelimb See\bibnamedelimb Chang\bibnamedelima Ruth},
+           giveni={S\bibinitperiod\bibinitdelim P\bibinitperiod\bibinitdelim J\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim M\bibinitperiod\bibinitdelim S\bibinitperiod\bibinitdelim C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+      }
+      \strng{namehash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{fullhash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{fullhashraw}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{bibnamehash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{authorbibnamehash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{authornamehash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{authorfullhash}{93edf6b955e9ac231fdf19692aa1e63f}
+      \strng{authorfullhashraw}{93edf6b955e9ac231fdf19692aa1e63f}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{Artificial Intelligence}
+      \field{eprinttype}{arXiv}
+      \field{title}{Towards Automatic Design of Factorio Blueprints}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2310.01505
+      \endverb
+    \endentry
+    \entry{SMT-solving}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=7fc119e72e6191c643f4e5da5c618c76}{%
+           family={Ábrahám},
+           familyi={Á\bibinitperiod},
+           given={Erika},
+           giveni={E\bibinitperiod}}}%
+      }
+      \strng{namehash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{fullhash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{fullhashraw}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{bibnamehash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{authorbibnamehash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{authornamehash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{authorfullhash}{7fc119e72e6191c643f4e5da5c618c76}
+      \strng{authorfullhashraw}{7fc119e72e6191c643f4e5da5c618c76}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SAT and SMT solving}
+      \verb{urlraw}
+      \verb https://ths.rwth-aachen.de/wp-content/uploads/sites/4/teaching/arc-teaching-material/smt-short.pdf
+      \endverb
+      \verb{url}
+      \verb https://ths.rwth-aachen.de/wp-content/uploads/sites/4/teaching/arc-teaching-material/smt-short.pdf
+      \endverb
+    \endentry
+    \entry{Z3Prover}{online}{}{}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labeltitlesource}{title}
+      \field{title}{Z3 prover repository}
+      \verb{urlraw}
+      \verb https://github.com/z3prover/z3
+      \endverb
+      \verb{url}
+      \verb https://github.com/z3prover/z3
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -1,0 +1,59 @@
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% IMPRINT
+%----------------------------------------------------------------------------------------
+
+\thispagestyle{empty}
+\vspace*{\fill}
+
+{\bfseries  \Large }
+\vspace{0.75cm}
+
+\begin{footnotesize}
+
+
+\begin{flushleft} 
+\begin{tabular}{ @{}lp{0.6\textwidth}@{} } 
+\emph{Projecte:}  & \ttype\\ 
+\emph{Document:}  & \tdocument\\ 
+\emph{Títol}:    & \ttitle\\
+\emph{Autor}:   & \authorname\\
+\emph{Data}:     & \tdate\\
+% \emph{Copyright}:& \univname
+
+\end{tabular}
+\end{flushleft}
+
+\vspace{0.75cm}
+
+
+\begin{minipage}[t]{0.95\textwidth}
+\begin{flushleft} 
+\emph{Estudi:}\\
+%\href{\studyproglink}{\studyprog}\\
+\studyprog\\
+\href{\univlink}{\univnamecat}
+\end{flushleft}
+\end{minipage}
+
+\vspace{0.75cm}
+
+\begin{minipage}[t]{0.50\textwidth}
+\begin{flushleft} 
+\emph{Supervisor 1:}\\
+\supinfoA
+\end{flushleft}
+\end{minipage}
+\begin{minipage}[t]{0.45\textwidth}
+\begin{flushleft} 
+\ifdefempty{\supnameB}
+{}
+{
+    \emph{Supervisor 2:}\\
+    \supinfoB
+}
+\end{flushleft}
+\end{minipage}
+
+\end{footnotesize}
