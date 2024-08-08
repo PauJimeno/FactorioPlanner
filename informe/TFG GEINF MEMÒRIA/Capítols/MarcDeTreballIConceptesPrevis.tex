@@ -68,19 +68,22 @@ $$cert  \land (cert \lor cert) \land (fals \lor cert) \land (fals \lor cert) $$
 $$cert \land cert  \land cert \land cert $$
 $$\textbf{cert}$$\\
 Aquesta satisfà la fórmula, és model. A més aquesta CNF té la propietat que les assignacions que satisfan la fórmula són aquelles on només un literal és cert.\\
+\begin{table}
+    \centering
+    \begin{tabular}{ccc|c}
+        $a$ & $b$ & $c$ & $(a \lor b \lor c) \land (\lnot a \lor \lnot b) \land (\lnot a \lor \lnot c) \land (\lnot b \lor \lnot c)$ \\
+        \hline
+        1 & 1 & 1 & 0 \\
+        1 & 1 & 0 & 0 \\
+        1 & 0 & 1 & 0 \\
+        1 & 0 & 0 & 1 \\
+        0 & 1 & 1 & 0 \\
+        0 & 1 & 0 & 1 \\
+        0 & 0 & 1 & 1 \\
+        0 & 0 & 0 & 0 \\
+    \end{tabular}
+\end{table}
 
-\begin{tabular}{ccc|c}
-$a$ & $b$ & $c$ & $(a \lor b \lor c) \land (\lnot a \lor \lnot b) \land (\lnot a \lor \lnot c) \land (\lnot b \lor \lnot c)$ \\
-\hline
-1 & 1 & 1 & 0 \\
-1 & 1 & 0 & 0 \\
-1 & 0 & 1 & 0 \\
-1 & 0 & 0 & 1 \\
-0 & 1 & 1 & 0 \\
-0 & 1 & 0 & 1 \\
-0 & 0 & 1 & 1 \\
-0 & 0 & 0 & 0 \\
-\end{tabular}
 
 Un dels problemes de SAT és que com que tracta de la satisfacció de les clàusules d'una CNF les quals estan formades per literals que són variables booleanes, hi ha problemes sobretot si aquests tracten amb variables numèriques que són molt difícils de reduir a SAT i encara que siguin reduïbles en certs casos generen tantes clàusules que usar un SAT solver passa a ser una opció inviable. Hi ha diverses alternatives que permeten fer modelitzacions similars a les que es farien amb SAT, però amb l'opció de poder usar variables de diferents tipus, per aquest projecte s'ha usat SMT (SAT Modulo Theories).
 
@@ -102,12 +105,12 @@ $$ [A=(c \le 5), B=(a \geq 3), C=(5a+b=c-3)] $$
 $$ A \land B \land C $$
 
 Dins de les teories que la llibreria de SMT-lib suporta \ref{fig:smt-theories}, les variables A i B tracten de la teoria (integer rational difference logic o QF\_IDL) i la variable C la teoria (real/integer linear arithmetic). Amb l'abstracció feta i les teories identificades el solver primer resol la part SAT de la fórmula, si es troba una assignació vàlida es criden els nuclis que resolen les teories, en cas que hi hagi una assignació que satisfaci les variables abstretes la fórmula és satisfacible, en cas contrari, el nucli del SAT solver aprèn com a lema que la variable no pot ser assignada un valor positiu i continua fent solving fins que es demostra satisfacibilitat o no hi ha més assignacions disponibles.\\
-En aquest exemple com la fórmula és molt simple el SAT solver demana als nuclis de les teories esmentades que avaluïn cert i aquestes per exemple podrien respondre el següent:\\
-\(A \Rightarrow c=4 \Rightarrow 4\le5 \Rightarrow cert\)\\
-\(B \Rightarrow a=3 \Rightarrow 3\geq5 \Rightarrow cert\)\\
-\(C \Rightarrow b=-14 \Rightarrow (15-14=4-3) \Rightarrow cert\)\\
+En aquest exemple com la fórmula és molt simple el SAT solver demana als nuclis de les teories esmentades que avaluïn cert i aquestes per exemple podrien respondre el següent:
+$$ A \Rightarrow c=4 \Rightarrow 4\le5 \Rightarrow cert $$
+$$ B \Rightarrow a=3 \Rightarrow 3\geq5 \Rightarrow cert $$
+$$ C \Rightarrow b=-14 \Rightarrow (15-14=4-3) \Rightarrow cert $$
 L'esquema de la figura \ref{fig:smt-solver-lazy} representa el procés de solving d'un SMT solver usant lazy solving.
-\begin{figure}
+\begin{figure}[H]
     \centering
     \includegraphics[width=0.5\linewidth]{Figures//miscelaneous/smt-lazy-zolver.png}
     \caption{Esquema d'un SMT solver lazy \cite{SMT-solving}}
@@ -241,6 +244,7 @@ Com l'espai del \textit{blueprint} és molt ajustat hi ha rutes que només tract
 
 Pel que fa a la distribució dels objectes primer cal saber la quantitat d'objectes per minut que requereix i produeix cada recepta.\\
 \begin{table}
+\centering  
 \begin{tabular}{|c|c|c|}
 \hline
 \textbf{Recepta} & \textbf{Requereix} & \textbf{Produeix} \\ \hline
@@ -269,13 +273,16 @@ Cable de coure & 120 Plaques de coure & 240 Cables de coure \\ \hline
 \end{table}
 Pel que fa als materials en cru que entren per les caselles emmarcades a la imatge, estan entrant les següents quantitats:
 
-\begin{tabular}{|c|c|}
-\hline
-\textbf{Material} & \textbf{Quantitat d'entrada} \\ \hline
-Placa de coure & 50\\ \hline
-Placa de ferro & 98.06\\ \hline
-Barra de plàstic & 20.0138\\ \hline
-\end{tabular}\\
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Material} & \textbf{Quantitat d'entrada} \\ \hline
+        Placa de coure & 50\\ \hline
+        Placa de ferro & 98.06\\ \hline
+        Barra de plàstic & 20.0138\\ \hline
+    \end{tabular}
+\end{table}
 
 D'aquestes quantitats d'entrada no s'aprofiten tots els objectes pel fet que alguns assembladors no tenen prou inseridors de sortida per poder aprofitar tot el material. Aquesta ``pèrdua'' es tradueix en material que s'acumula a les cintes d'on els inseridors agafen els materials d'entrada pel assembladors, concretament la cinta a la posició (7,0) acumula 0.138 barres de plàstic, fent que la quantitat d'entrada de l'assemblador de circuits avançats sigui de 20 barres de plàstic per minut. D'altra banda, la cinta a la posició (5,1) acumula 78.06 plaques de ferro, fent que l'entrada a l'assemblador sigui de 20 plaques de ferro per minut. Finalment, les plaques de coure que entren per la casella (0,7) s'aprofiten totes.\\
 
