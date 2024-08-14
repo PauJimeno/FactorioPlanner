@@ -5,6 +5,19 @@ from model.GridElement import GridElement
 
 
 class ConveyorLogic(DirectionalElement, GridElement):
+    """
+    This class contains all the constraints that implement the logic of the conveyors.
+    Note that all the constraints of the model are explained in detail in the project report.
+
+    :param width: Width of the blueprint
+    :type width: Int
+
+    :param height: Height of the blueprint
+    :type height: Int
+
+    :param in_out_pos: Contains the input and output positions and type of item carrying
+    :type in_out_pos: Dictionary
+    """
     def __init__(self, width, height, in_out_pos):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -12,6 +25,13 @@ class ConveyorLogic(DirectionalElement, GridElement):
                           for i in range(width)] for j in range(height)]
 
     def conveyor_input(self):
+        """
+        Creates the constraint that ensures the input of a conveyor is a valid element,
+        in all the three valid input positions of a conveyor there can only be inserters or other convetors pointing towards it
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         conveyor_input = []
         for i in range(self.height):
             for j in range(self.width):
@@ -29,6 +49,14 @@ class ConveyorLogic(DirectionalElement, GridElement):
         return conveyor_input
 
     def conveyor_output(self):
+        """
+        Creates the constraint that ensures the output of a conveyor is a valid element,
+        the output cell of a conveyor can only be another conveyor that is not pointing to it, or an
+        inserter pointing in the same direction of the conveyor.
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         conveyor_output = []
         for i in range(self.height):
             for j in range(self.width):
@@ -49,6 +77,13 @@ class ConveyorLogic(DirectionalElement, GridElement):
         return conveyor_output
 
     def end_of_route(self):
+        """
+        Creates the constraint that ensures the conveyor at the output of the blueprint doesn't have any other
+        conveyor in the direction its pointing.
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         # An output cell cant carry the items to any other cell (end of route)
         end_of_route = []
         for pos in self.output:
@@ -65,7 +100,19 @@ class ConveyorLogic(DirectionalElement, GridElement):
         return end_of_route
 
     def constraints(self):
+        """
+        Creates a list of all the constarints representing the logic of the class
+
+        :return: all the constraint of the class logic in a single array
+        :rtype: Array
+        """
         return self.conveyor_input() + self.conveyor_output() + self.end_of_route()
 
     def set_inserter(self, inserter):
+        """
+        Setter of the variable inserter
+
+        :param inserter: reference to the variable inserter
+        :type inserter: Arrat[Array] EnumSort
+        """
         self.inserter = inserter
