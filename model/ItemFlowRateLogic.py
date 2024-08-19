@@ -5,6 +5,29 @@ from model.GridElement import GridElement
 
 
 class ItemFlowRateLogic(DirectionalElement, GridElement):
+    """
+    This class contains all the constraints that implement the logic of the flow rate of items.
+    Note that all the constraints of the model are explained in detail in the project report.
+
+    :param width: Width of the blueprint
+    :type width: Int
+
+    :param height: Height of the blueprint
+    :type height: Int
+
+    :param route: reference to the route variable
+    :type route: Arrat[Array] EnumSort
+
+    :param conveyor: reference to the variable conveyor
+    :type conveyor: Arrat[Array] EnumSort
+
+    :param inserter: reference to the inserter variable
+    :type inserter: Arrat[Array] EnumSort
+
+    :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+                    of the items it requires and which rate in items/min needs and the outputting item and rate.
+    :type recipes: Dictionary
+    """
     def __init__(self, width, height, in_out_pos, inserter, conveyor, route):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -19,18 +42,46 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         self.output_flow_rate = [[Real(f"OUTPUT_FLOW_RATE_{i}_{j}") for i in range(width)] for j in range(height)]
 
     def item_input_rate(self):
+        """
+        The input cells rate is the rate specified in the input coordinates
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         # The input cells rate is the rate specified in the input coordinates
         return [self.input_flow_rate[coord[0]][coord[1]] == self.input_rate(coord[0], coord[1]) for coord in self.input]
 
     def variable_input_rate(self):
-        # The input cells rate is the rate specified in the input coordinates
+        """
+        The input cells rate is the rate specified in the input coordinates
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         return [And(self.input_flow_rate[coord[0]][coord[1]] >= 0, self.input_flow_rate[coord[0]][coord[1]] <= 450) for coord in self.input]
 
     def part_of_route(self):
+        """
+        A cell that cant transport items (route = 0) also cant have item flow rate (item_flow_rate = 0)
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         return [Implies(self.route[i][j] == 0, And(self.input_flow_rate[i][j] == 0, self.output_flow_rate[i][j] == 0))
                 for i in range(self.height) for j in range(self.width)]
 
     def belt_item_flow_propagation(self):
+        """
+        Creates a constraint that encodes the behaviour of how the ammount of items a conveyor
+        carries is propagated.
+        The input rate of a conveyor is the sum of all the outputs of the neighbouring cells
+        (inserter or conveyor) pointing towards the conveyor.
+        The output rate of a conveyor is its input minus the sum of inputs of inserters taking
+        items from the conveyor.
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         belt_flow_rate_propagation = []
 
         for i in range(self.height):
@@ -59,6 +110,18 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         return belt_flow_rate_propagation
 
     def inserter_item_flow_propagation(self):
+        """
+        Creates a constraint that encodes the behaviour of how the ammount of items an inserter
+        carries is propagated.
+        The input rate of an inserter is at max 50 if the input cell carries 50 or more items,
+        in the other hand if the input cell carries less than 50 the inserter will carry at most
+        the same amount of items.
+        The ouput flow rate of the inseter will always be the same as the input.
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
+        
         inserter_item_flow_propagation = []
 
         for i in range(self.height):
@@ -83,6 +146,14 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         return inserter_item_flow_propagation
 
     def item_loss(self):
+        """
+        Sums the number of items that are not getting used by assemblers (loss),
+        the loss happens when the flow rate of aconveyor feeding an inserter feeding an assembler
+        is greater than 0.
+
+        :return: sum of unsused items, used for optimization 
+        :rtype: Array
+        """
         loss = []
         for i in range(self.height):
             for j in range(self.width):
@@ -94,6 +165,12 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         return sum(loss)
 
     def item_output(self):
+        """
+        Sums the number of output items produced by the blueprint.
+
+        :return: sum of produced items, used for optimization 
+        :rtype: Array
+        """
         item_output = []
         for pos in self.output:
             i = pos[0]
@@ -102,4 +179,10 @@ class ItemFlowRateLogic(DirectionalElement, GridElement):
         return sum(item_output)
 
     def constraints(self):
+        """
+        Creates a list of all the constarints representing the logic of the class
+
+        :return: class constraints compacted in a single list
+        :rtype: Array
+        """
         return self.variable_input_rate() + self.belt_item_flow_propagation() + self.inserter_item_flow_propagation() + self.part_of_route()
