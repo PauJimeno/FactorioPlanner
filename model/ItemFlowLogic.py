@@ -6,6 +6,32 @@ from model.RecipeElement import RecipeElement
 
 
 class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
+    """
+    This class contains all the constraints that implement the logic of the flow of items.
+    Note that all the constraints of the model are explained in detail in the project report.
+
+    :param width: Width of the blueprint
+    :type width: Int
+
+    :param height: Height of the blueprint
+    :type height: Int
+
+    :param route: reference to the route variable
+    :type route: Arrat[Array] EnumSort
+
+    :param conveyor: reference to the variable conveyor
+    :type conveyor: Arrat[Array] EnumSort
+
+    :param inserter: reference to the inserter variable
+    :type inserter: Arrat[Array] EnumSort
+
+    :param in_out_pos: Contains the input and output positions and type of item carrying
+    :type in_out_pos: Dictionary
+
+    :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+                    of the items it requires and which rate in items/min needs and the outputting item and rate.
+    :type recipes: Dictionary
+    """
     def __init__(self, width, height, route, inserter, conveyor, in_out_pos, recipes):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -22,29 +48,63 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
                           for i in range(width)] for j in range(height)]
 
     def domain_constraint(self):
+        """
+        Creates a constraint that ensures teh variable item_flow
+        only takes values inside the domain [0..self.max_items]
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         return[ULE(self.item_flow[i][j], self.max_items)
                for i in range(self.height) for j in range(self.width)]
 
     def part_of_route(self):
-        # If a cell is part of route, then that cell must carry an item
+        """
+        If a cell is part of route, then that cell must carry an item
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         return [(UGT(self.route[i][j], 0)) == (UGT(self.item_flow[i][j], 0))
                 for i in range(self.height) for j in range(self.width)]
 
     def item_input(self):
-        # The input cells carry the item specified in the input coordinates
+        """
+        The input cells carry the item specified in the input coordinates
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
+        
         input_items = []
         for coord in self.input:
             input_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.input_item(coord[0], coord[1])))
         return input_items
 
     def item_output(self):
-        # The input cells carry the item specified in the input coordinates
+        """
+        The input cells carry the item specified in the input coordinates
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
+        
         output_items = []
         for coord in self.output:
             output_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.output_item(coord[0], coord[1])))
         return output_items
 
     def item_carry(self):
+        """
+        Creates a constraint that encode the behaviour of how items are
+        carryed between cells that transport them.
+        If a cell contains an inserter or a conveyor, its item_flow value will propagate
+        to the cell its pointing. Also if the cell has an inserter, the item_flow value
+        will not be propagated if the ouput of the inserter is an assembler.
+
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         item_carry_conveyor = []
         item_carry_inserter = []
         for i in range(self.height):
@@ -72,6 +132,12 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
         return item_carry_inserter + item_carry_conveyor
 
     def constraints(self):
+        """
+        Creates a list of all the constarints representing the logic of the class
+
+        :return: all the constraint of the class logic in a single array
+        :rtype: Array
+        """
         return self.part_of_route() + self.item_input() + self.item_output() + self.domain_constraint() + self.item_carry()
 
 
