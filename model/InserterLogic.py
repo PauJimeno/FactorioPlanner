@@ -5,6 +5,25 @@ from model.GridElement import GridElement
 
 
 class InserterLogic(DirectionalElement, GridElement):
+    """
+    This class contains all the constraints that implement the logic of the inserters.
+    Note that all the constraints of the model are explained in detail in the project report.
+
+    :param width: Width of the blueprint
+    :type width: Int
+
+    :param height: Height of the blueprint
+    :type height: Int
+
+    :param conveyor: reference to the variable conveyor
+    :type conveyor: Arrat[Array] EnumSort
+
+    :param assembler: reference to the collision variable of the assembler
+    :type assembler: Arrat[Array] EnumSort
+
+    :param in_out_pos: Contains the input and output positions and type of item carrying
+    :type in_out_pos: Dictionary
+    """
     def __init__(self, width, height, conveyor, assembler, in_out_pos):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -17,6 +36,14 @@ class InserterLogic(DirectionalElement, GridElement):
         self.assembler = assembler
 
     def inserter_input(self):
+        """
+        Creates the constraint that ensures the input of an inserter is a valid element,
+        the cell the inserter takes input can only be be a conveyor pointing any direction
+        or an assembler
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         inserter_input = []
 
         for i in range(self.height):
@@ -37,6 +64,14 @@ class InserterLogic(DirectionalElement, GridElement):
         return inserter_input
 
     def prevent_redundant_inserter(self):
+        """
+        Creates the constraint prevents redundant combination between inserters and conveyors,
+        precisely when the output of an inserter is a conveyor pointing the same direction as 
+        the inserter
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         redundant_inserter = []
 
         for i in range(self.height):
@@ -55,6 +90,14 @@ class InserterLogic(DirectionalElement, GridElement):
         return redundant_inserter
 
     def inserter_output(self):
+        """
+        Creates the constraint that ensures the output of an inserter is a valid element,
+        the ouptut cell of an inserter can only be a conveyor pointing a direction that its 
+        not the opposite direction of the inserter, or an assembler.
+        
+        :return: List with all the logic regarding the constarint
+        :rtype: Array
+        """
         inserter_output = []
 
         for i in range(self.height):
@@ -75,6 +118,12 @@ class InserterLogic(DirectionalElement, GridElement):
         return inserter_output
 
     def constraints(self):
+        """
+        Creates a list of all the constarints representing the logic of the class
+
+        :return: all the constraint of the class logic in a single array
+        :rtype: Array
+        """
         return self.inserter_input() + self.inserter_output() + self.prevent_redundant_inserter()
 
 
