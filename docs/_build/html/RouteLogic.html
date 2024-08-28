@@ -41,45 +41,140 @@
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RouteLogic.</span></span><span class="sig-name descname"><span class="pre">RouteLogic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assembler</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipe</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalElement</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GridElement</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RecipeElement</span></code></p>
+<p>This class contains the logic related with how elements interconnect between each other
+creating routes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>in_out_pos</strong> (<em>Dictionary</em>) – Contains the input and output positions and type of item carrying</p></li>
+<li><p><strong>conveyor</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – Reference to the conveyor directions variable</p></li>
+<li><p><strong>inserter</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – Reference to the inserter directions variable</p></li>
+<li><p><strong>assembler</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>BitVec</em>) – Reference to the assembler collision_area variable</p></li>
+<li><p><strong>recipe</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.backward_consistency">
 <span class="sig-name descname"><span class="pre">backward_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.backward_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.backward_consistency" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Constraint encoding the backward property of a route. If a cell contains a conveyor, the 3 input cell must have
+at least one route value smaller.
+In the other hand if the cell contains an inserter the input cell must have a route value lower than the inserter
+if there is no assembler, if there is then the inserter route value is 0 (route start)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.constraints">
 <span class="sig-name descname"><span class="pre">constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.constraints" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a list of all the constraints representing the logic of the class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>class constraints compacted in a single list</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.domain_constraint">
 <span class="sig-name descname"><span class="pre">domain_constraint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.domain_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.domain_constraint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constarint that forces the route variables to take values inside the self.domain variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.forward_consistency">
 <span class="sig-name descname"><span class="pre">forward_consistency</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.forward_consistency"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.forward_consistency" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Constraint encoding the forward property of a route. If a cell contains a conveyor, the cell its pointing
+must have a greater route value.
+In the opther hand if the cell contains an inserter the cell its pointing, can have an assembler (route value 0)
+if there is not an assembler the route value of the cell the inserter is pointing will have a grater route value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.part_of_route">
 <span class="sig-name descname"><span class="pre">part_of_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.part_of_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.part_of_route" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If a cell is part of route, then a conveyor or an inserter must be there</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.route_end">
 <span class="sig-name descname"><span class="pre">route_end</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.route_end"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.route_end" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Each output cell must have a larger route value than 1, and it must be a conveyor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.route_length">
 <span class="sig-name descname"><span class="pre">route_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.route_length"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.route_length" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sums the number of cells that contain a route value greater than 0.
+Used as an optimization criteria</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sum of route &gt; 0</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RouteLogic.RouteLogic.route_start">
 <span class="sig-name descname"><span class="pre">route_start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RouteLogic.html#RouteLogic.route_start"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RouteLogic.RouteLogic.route_start" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Each input cell is the start of a route, and it must be a conveyor</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the logic encoding the constant</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

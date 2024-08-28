@@ -6,6 +6,7 @@ class RecipeElement:
                     of the items it requires and which rate in items/min needs and the outputting item and rate.
     :type recipes: Dictionary
     """
+
     def __init__(self, recipes):
         self.recipes = recipes
 
@@ -32,7 +33,7 @@ class RecipeElement:
 
     def initialize_map_dictionaries(self, recipes):
         """
-        Creates the dictionaries that map the item names to item ids and visce-versa
+        Creates the dictionaries that map the item names to item ids and vice-versa
         
         :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
                         of the items it requires and which rate in items/min needs and the outputting item and rate.
@@ -60,9 +61,9 @@ class RecipeElement:
     def input_recipe_values(self):
         """
         Creates a matrix that each row represents a recipe and each column the items,
-        the value each cell takes is the ammount of items used by the recipe (0 if not used)
+        the value each cell takes is the amount of items used by the recipe (0 if not used)
 
-        :return: A matrix with the ammout of items each recipe uses
+        :return: A matrix with the amount of items each recipe uses
         :rtype: Array[Array]
         """
         recipe_input = []
@@ -77,9 +78,9 @@ class RecipeElement:
     def output_recipe_values(self):
         """
         Creates a matrix that each row represents a recipe and each column the items,
-        the value each cell takes is the ammount of items produced by the recipe (0 if not produced)
+        the value each cell takes is the amount of items produced by the recipe (0 if not produced)
 
-        :return: A matrix with the ammout of items each recipe produces
+        :return: A matrix with the amount of items each recipe produces
         :rtype: Array[Array]
         """
         recipe_output = []

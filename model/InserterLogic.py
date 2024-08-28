@@ -16,14 +16,15 @@ class InserterLogic(DirectionalElement, GridElement):
     :type height: Int
 
     :param conveyor: reference to the variable conveyor
-    :type conveyor: Arrat[Array] EnumSort
+    :type conveyor: Array[Array] EnumSort
 
     :param assembler: reference to the collision variable of the assembler
-    :type assembler: Arrat[Array] EnumSort
+    :type assembler: Array[Array] EnumSort
 
     :param in_out_pos: Contains the input and output positions and type of item carrying
     :type in_out_pos: Dictionary
     """
+
     def __init__(self, width, height, conveyor, assembler, in_out_pos):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -38,7 +39,7 @@ class InserterLogic(DirectionalElement, GridElement):
     def inserter_input(self):
         """
         Creates the constraint that ensures the input of an inserter is a valid element,
-        the cell the inserter takes input can only be be a conveyor pointing any direction
+        the cell the inserter takes input can only be a conveyor pointing any direction
         or an assembler
         
         :return: List with all the logic regarding the constarint
@@ -69,7 +70,7 @@ class InserterLogic(DirectionalElement, GridElement):
         precisely when the output of an inserter is a conveyor pointing the same direction as 
         the inserter
         
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
         redundant_inserter = []
@@ -80,7 +81,8 @@ class InserterLogic(DirectionalElement, GridElement):
                     direction_clauses = []
                     for direction in range(1, self.n_dir):
                         in_x, in_y = i + self.displacement[direction][0], j + self.displacement[direction][1]
-                        out_x, out_y = i + self.displacement[self.opposite_num_dir[direction]][0], j + self.displacement[self.opposite_num_dir[direction]][1]
+                        out_x, out_y = i + self.displacement[self.opposite_num_dir[direction]][0], j + \
+                                       self.displacement[self.opposite_num_dir[direction]][1]
                         if 0 <= in_x < self.height and 0 <= in_y < self.width and 0 <= out_x < self.height and 0 <= out_y < self.width:
                             direction_clauses.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
                                                                  self.inserter[i][j] == self.conveyor[in_x][in_y]),
@@ -92,10 +94,10 @@ class InserterLogic(DirectionalElement, GridElement):
     def inserter_output(self):
         """
         Creates the constraint that ensures the output of an inserter is a valid element,
-        the ouptut cell of an inserter can only be a conveyor pointing a direction that its 
+        the output cell of an inserter can only be a conveyor pointing a direction that it's
         not the opposite direction of the inserter, or an assembler.
         
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
         inserter_output = []
@@ -110,20 +112,18 @@ class InserterLogic(DirectionalElement, GridElement):
                             # Inserter can output to a conveyor or an assembler
                             direction_clauses.append(If(self.inserter[i][j] == self.direction[direction],
                                                         Or(And(self.conveyor[x][y] != self.direction[0],
-                                                           self.conveyor[x][y] != self.opposite_dir[direction]),
-                                                        self.assembler[x][y] != 0),
-                                                     False))
+                                                               self.conveyor[x][y] != self.opposite_dir[direction]),
+                                                           self.assembler[x][y] != 0),
+                                                        False))
                     inserter_output.append(If(self.inserter[i][j] != self.direction[0], Or(direction_clauses), True))
 
         return inserter_output
 
     def constraints(self):
         """
-        Creates a list of all the constarints representing the logic of the class
+        Creates a list of all the constraints representing the logic of the class
 
         :return: all the constraint of the class logic in a single array
         :rtype: Array
         """
         return self.inserter_input() + self.inserter_output() + self.prevent_redundant_inserter()
-
-

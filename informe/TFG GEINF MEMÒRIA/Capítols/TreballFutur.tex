@@ -1,0 +1,22 @@
+% Indicate the main file. Must go at the beginning of the file.
+% !TEX root = ../main.tex
+
+%----------------------------------------------------------------------------------------
+% CHAPTER TEMPLATE
+%----------------------------------------------------------------------------------------
+
+
+\chapter{Treball Futur} % Main chapter title
+
+\label{Treball Futur} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+Dels objectius plantejats a l'inici del projecte, n'hi ha hagut uns quants que no s'han pogut complir que serien molt interessants de desenvolupar en un futur per millorar el model. A més al llarg del procés d'optimització ha sorgit un tema que és molt interessant:\\
+
+La implementació de \textit{user propagators}, que en resum tracta d'interactuar amb l'API del solver Z3 a baix nivell per poder definir comportaments sobre certes variables en temps de solving, fent que algunes de les restriccions es puguin redefinir mitjançant una funció especifica que es crida per sota. Aquesta millora crec que és el que més prioritat tindria com a treball futur.\\
+
+D'altra banda pel que fa a funcionalitats del model, es poden afegir més mecàniques del joc com per exemple la possibilitat de tenir més d'un tipus d'objecte per cinta de transport, permetre l'ús de cintes subterrànies i la possibilitat de fer servir els dos carrils de les cintes transportadores. Aquesta última, però és de les més complexes, ja que afecta com els inseridors interactuen amb les cintes, part fonamental del projecte, i requeriria una redefinició completa d'aquesta part.\\
+
+Per últim es pot implementar un altre model, que utilitzi les solucions trobades pel model principal com a fàbriques, permetent així un disseny i optimització modular de fàbriques molt més grans. Aquest nou model podria reutilitzar moltes definicions del model principals.\\
+
+A nivell de tecnologia, crec que SMT tal com s'apuntava a l'article publicat de St. Andrews, és la més adient per aquest problema en concret i no provaria d'implementar-lo en cap altre llenguatge de CSP.\\
+
+Pel que fa al front-end, no hi ha tanta feina a futur que pugui aportar més, és veritat que es podria fer de manera molt més professional usant una base de dades per guardar les instàncies resoltes i algun altre petit canvi a la interfície, com per exemple fer que les instàncies resoltes es puguin visualitzar de manera animada en comptes d'imatges estàtiques.

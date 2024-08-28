@@ -41,30 +41,115 @@
 <dt class="sig sig-object py" id="GridElement.GridElement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">GridElement.</span></span><span class="sig-name descname"><span class="pre">GridElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_positions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class that implements shared behaviours between elements that are grid based</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>in_out_positions</strong> (<em>Dictionary</em>) – Contains the input and output positions and type of item carrying</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="GridElement.GridElement.input_item">
 <span class="sig-name descname"><span class="pre">input_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement.input_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement.input_item" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the input item at the position (x,y)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Int</em>) – row coordinate</p></li>
+<li><p><strong>y</strong> (<em>Int</em>) – column coordinate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the name of the item that the input cell at (x,y) is carrying</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GridElement.GridElement.input_rate">
 <span class="sig-name descname"><span class="pre">input_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement.input_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement.input_rate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the rate of the item at the position (x,y)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Int</em>) – row coordinate</p></li>
+<li><p><strong>y</strong> (<em>Int</em>) – column coordinate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>number of items per minute of the input cell (x,y)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GridElement.GridElement.is_input">
 <span class="sig-name descname"><span class="pre">is_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement.is_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement.is_input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns if a postition in the blueprint is an input</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Int</em>) – row coordinate</p></li>
+<li><p><strong>y</strong> (<em>Int</em>) – column coordinate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a boolean that is true if the (x,y) pos is an actual input</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GridElement.GridElement.is_output">
 <span class="sig-name descname"><span class="pre">is_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement.is_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement.is_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns if a postition in the blueprint is an output</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Int</em>) – row coordinate</p></li>
+<li><p><strong>y</strong> (<em>Int</em>) – column coordinate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>a boolean that is true if the (x,y) pos is an actual output</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="GridElement.GridElement.output_item">
 <span class="sig-name descname"><span class="pre">output_item</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/GridElement.html#GridElement.output_item"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#GridElement.GridElement.output_item" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns the output item at the position (x,y)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>Int</em>) – row coordinate</p></li>
+<li><p><strong>y</strong> (<em>Int</em>) – column coordinate</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>the name of the item that the output cell at (x,y) is carrying</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

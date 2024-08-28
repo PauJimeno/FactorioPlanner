@@ -41,40 +41,135 @@
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">RecipeElement.</span></span><span class="sig-name descname"><span class="pre">RecipeElement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Abstract class that implements shared behaviours between elements that use recipes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>recipes</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.initialize_map_dictionaries">
 <span class="sig-name descname"><span class="pre">initialize_map_dictionaries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.initialize_map_dictionaries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.initialize_map_dictionaries" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates the dictionaries that map the item names to item ids and vice-versa</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>recipes</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary that for each item name (key), has its id (value),
+and a dictionary that for each item id (key), has its name (value)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary, Dictionary</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.input_recipe_values">
 <span class="sig-name descname"><span class="pre">input_recipe_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.input_recipe_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.input_recipe_values" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a matrix that each row represents a recipe and each column the items,
+the value each cell takes is the amount of items used by the recipe (0 if not used)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A matrix with the amount of items each recipe uses</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array[Array]</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.is_recipe_input">
 <span class="sig-name descname"><span class="pre">is_recipe_input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.is_recipe_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.is_recipe_input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks if the item_name is an input of the recipe_name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recipe_name</strong> (<em>String</em>) – Recipe name</p></li>
+<li><p><strong>item_name</strong> (<em>String</em>) – Item name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the item_name is an input of recipe_name, false otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.is_recipe_output">
 <span class="sig-name descname"><span class="pre">is_recipe_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">recipe_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.is_recipe_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.is_recipe_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Checks if the item_name is an output of the recipe_name</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>recipe_name</strong> (<em>String</em>) – Recipe name</p></li>
+<li><p><strong>item_name</strong> (<em>String</em>) – Item name</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the item_name is an output of recipe_name, false otherwise</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Bool</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.memory_item_id">
 <span class="sig-name descname"><span class="pre">memory_item_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.memory_item_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.memory_item_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Given a item id returns its name if the name exists or -1 if it doesn’t</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>Int</em>) – Item id</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mapped name to the id</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>String</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.model_item_id">
 <span class="sig-name descname"><span class="pre">model_item_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item_id</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.model_item_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.model_item_id" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Given a item name returns its id if the name exists or -1 if it doesn’t</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item_id</strong> (<em>String</em>) – Item name</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The mapped id to the name</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Int</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="RecipeElement.RecipeElement.output_recipe_values">
 <span class="sig-name descname"><span class="pre">output_recipe_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/RecipeElement.html#RecipeElement.output_recipe_values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#RecipeElement.RecipeElement.output_recipe_values" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a matrix that each row represents a recipe and each column the items,
+the value each cell takes is the amount of items produced by the recipe (0 if not produced)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A matrix with the amount of items each recipe produces</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array[Array]</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

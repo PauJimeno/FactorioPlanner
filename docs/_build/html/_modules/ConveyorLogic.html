@@ -40,6 +40,19 @@
 
 
 <div class="viewcode-block" id="ConveyorLogic"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic">[docs]</a><span class="k">class</span> <span class="nc">ConveyorLogic</span><span class="p">(</span><span class="n">DirectionalElement</span><span class="p">,</span> <span class="n">GridElement</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class contains all the constraints that implement the logic of the conveyors.</span>
+<span class="sd">    Note that all the constraints of the model are explained in detail in the project report.</span>
+
+<span class="sd">    :param width: Width of the blueprint</span>
+<span class="sd">    :type width: Int</span>
+
+<span class="sd">    :param height: Height of the blueprint</span>
+<span class="sd">    :type height: Int</span>
+
+<span class="sd">    :param in_out_pos: Contains the input and output positions and type of item carrying</span>
+<span class="sd">    :type in_out_pos: Dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">):</span>
         <span class="n">DirectionalElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">GridElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">)</span>
@@ -47,6 +60,13 @@
                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span>
 
 <div class="viewcode-block" id="ConveyorLogic.conveyor_input"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic.conveyor_input">[docs]</a>    <span class="k">def</span> <span class="nf">conveyor_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint that ensures the input of a conveyor is a valid element,</span>
+<span class="sd">        in all the three valid input positions of a conveyor there can only be inserters or other convetors pointing towards it</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constarint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conveyor_input</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
@@ -64,6 +84,14 @@
         <span class="k">return</span> <span class="n">conveyor_input</span></div>
 
 <div class="viewcode-block" id="ConveyorLogic.conveyor_output"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic.conveyor_output">[docs]</a>    <span class="k">def</span> <span class="nf">conveyor_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint that ensures the output of a conveyor is a valid element,</span>
+<span class="sd">        the output cell of a conveyor can only be another conveyor that is not pointing to it, or an</span>
+<span class="sd">        inserter pointing in the same direction of the conveyor.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constarint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conveyor_output</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">):</span>
@@ -84,6 +112,13 @@
         <span class="k">return</span> <span class="n">conveyor_output</span></div>
 
 <div class="viewcode-block" id="ConveyorLogic.end_of_route"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic.end_of_route">[docs]</a>    <span class="k">def</span> <span class="nf">end_of_route</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint that ensures the conveyor at the output of the blueprint doesn&#39;t have any other</span>
+<span class="sd">        conveyor in the direction its pointing.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constarint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># An output cell cant carry the items to any other cell (end of route)</span>
         <span class="n">end_of_route</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">pos</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
@@ -100,9 +135,21 @@
         <span class="k">return</span> <span class="n">end_of_route</span></div>
 
 <div class="viewcode-block" id="ConveyorLogic.constraints"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic.constraints">[docs]</a>    <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a list of all the constarints representing the logic of the class</span>
+
+<span class="sd">        :return: all the constraint of the class logic in a single array</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_input</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_output</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_of_route</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="ConveyorLogic.set_inserter"><a class="viewcode-back" href="../ConveyorLogic.html#ConveyorLogic.ConveyorLogic.set_inserter">[docs]</a>    <span class="k">def</span> <span class="nf">set_inserter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inserter</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Setter of the variable inserter</span>
+
+<span class="sd">        :param inserter: reference to the variable inserter</span>
+<span class="sd">        :type inserter: Arrat[Array] EnumSort</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">inserter</span> <span class="o">=</span> <span class="n">inserter</span></div></div>
 </pre></div>
 

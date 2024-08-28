@@ -2,7 +2,9 @@ from flask import Flask, render_template, request, jsonify
 from ast import literal_eval
 from model.FactorioSolver import FactorioSolver
 import json
+
 _app = Flask(__name__, template_folder='templates', static_folder='static')
+
 
 @_app.route('/')
 def endpointHome():
@@ -14,6 +16,7 @@ def endpointHome():
     """
     return render_template('index.html')
 
+
 @_app.route('/generate.html')
 def endpointGenerate():
     """
@@ -24,6 +27,7 @@ def endpointGenerate():
     """
     return render_template('generate.html')
 
+
 @_app.route('/visualize.html')
 def endpointVisualize():
     """
@@ -33,6 +37,7 @@ def endpointVisualize():
     :rtype: HTML
     """
     return render_template('visualize.html')
+
 
 @_app.route('/solve-instance', methods=['POST'])
 def solve_instance():

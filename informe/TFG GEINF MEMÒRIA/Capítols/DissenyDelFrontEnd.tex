@@ -18,7 +18,7 @@ Aquest treball no se centra en el desenvolupament d'una aplicació o producte i 
 \section{Distribució de la pàgina web}
 Com s'ha explicat per fer la interfície d'usuari s'ha optat per fer-la en una web. Aquesta està distribuïda en tres parts:
 \subsection{Pàgina principal}
-La pàgina principal és on es rep l'usuari, aquesta conté una breu descripció del projecte i com usar la web. A més també inclou un menú a la dreta amb el qual es pot navegar als dos apartats principals, la generació d'instàncies i la visualització d'instàncies.\\
+La pàgina principal és on es rep l'usuari, aquesta conté una breu descripció del projecte i com usar la web. A més també inclou un menú a la dreta amb el qual es pot navegar als dos apartats principals, la generació d'instàncies i la visualització d'instàncies, la distribuació de la pàgina principal es pot veure a la figura \ref{fig:home-webpage}.\\
 
 \begin{figure}[H]
     \centering
@@ -31,7 +31,7 @@ La pàgina principal és on es rep l'usuari, aquesta conté una breu descripció
 Una de les funcionalitats principals de la interfície és poder generar instàncies de manera automàtica. Aquesta funcionalitat es troba a l'apartat \textit{Generate Instance} de la pàgina web. Des d'aquí sobre una pàgina nova la qual està separada en 4 seccions. Les tres primeres seccions són per afegir la informació d'entrada pel model:
 
 \subsubsection{Objecte a produir}
-En aquest apartat s'ha de seleccionar l'arxiu on es guarden totes les receptes del joc, concretament es troba al directori \texttt{/recipes} del projecte. Amb l'arxiu carregat es pot seleccionar l'objecte que es vol produir i a la web es carrega quins objectes es necessiten per fabricar-lo i en cas que l'objecte depengui de més receptes aquestes es mostraran juntament amb els objectes addicionals requerits per produir-los. D'aquesta manera és molt còmode saber els objectes i receptes implicats.
+En aquest apartat s'ha de seleccionar l'arxiu on es guarden totes les receptes del joc, concretament es troba al directori \lstinline{/recipes} del projecte. Amb l'arxiu carregat es pot seleccionar l'objecte que es vol produir i a la web es carrega quins objectes es necessiten per fabricar-lo i en cas que l'objecte depengui de més receptes aquestes es mostraran juntament amb els objectes addicionals requerits per produir-los. D'aquesta manera és molt còmode saber els objectes i receptes implicats.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{Figures//captures_web/generate_instance_recipe_web.png}
@@ -72,8 +72,9 @@ L'últim pas del procés de la generació de la instància tracta de seleccionar
 
 
 \subsection{Visualitzar instàncies}
-La segona part del front end tracta del visualitzador d'instàncies, aquest té la seva pròpia pàgina HTML. La interacció, de manera similar a la selecció d'entrades i sortides del generador d'instàncies, es fa mitjançant un canvas el qual conté tota la part interactiva i s'encarrega de mostrar de manera visual tota la informació relativa a cada casella de la instància resolta.\\
-A més també hi ha una part a l'HTML que mostra informació més detallada de la casella, el tipus d'objectes que transporta, quantitats... En cas que la casella seleccionada tracti d'un assemblador es mostra informació addicional com la recepta que produeix les quantitats d'entrada i sortida i les seves ràtios. Tot seguit algunes imatges de com està distribuïda la pàgina i com es mostren diferents informacions en funció de la instància (SAT, UNSAT) i les caselles seleccionades.
+La segona part del front end tracta del visualitzador d'instàncies, aquest té la seva pròpia pàgina HTML, que es pot veure a la figura \ref{fig:visualize_basic}. La interacció, de manera similar a la selecció d'entrades i sortides del generador d'instàncies, es fa mitjançant un canvas el qual conté tota la part interactiva i s'encarrega de mostrar de manera visual tota la informació relativa a cada casella de la instància resolta.\\
+A més també hi ha una part a l'HTML que mostra informació més detallada de la casella, el tipus d'objectes que transporta, quantitats... En cas que la casella seleccionada tracti d'un assemblador es mostra informació addicional com la recepta que produeix les quantitats d'entrada i sortida i les seves ràtios. A la figura \ref{fig:solved_instance_web} es pot veure com queda representada la informació d'una instància a la web, on les fletxes verdes indiquen les caselles d'entrada de materials i les fletxes vermelles les caselles de sortida del \textit{blueprint}.\\
+A la figura \ref{fig:error_caprure_web}, es pot veure com la web detecta possibles errors amb la instància que es vol obrir ja sigui perquè no s'ha pogut resoldre (TIMED OUT, UN-SAT) o bé perquè per alguna raó l'arxiu JSON no conté tots els camps que s'esperen o directament no és el format esperat.
 
 \begin{figure}[H]
     \centering
@@ -95,6 +96,7 @@ A més també hi ha una part a l'HTML que mostra informació més detallada de l
         \caption{Informació d'un assemblador (1.Breu descripció de la casella, 2.Objectes i quantitats que entren a l'assemblador, 3.Objecte i quantitat que l'assemblador produeix, 4.Ràtios entre els objectes d'entrada i l'objecte produït)}
     \end{subfigure}
     \caption{Exemple de com es veu una instància resolta i la informació dels seus elements}
+    \label{fig:solved_instance_web}
 \end{figure}
 
 \begin{figure}[H]
@@ -114,6 +116,7 @@ A més també hi ha una part a l'HTML que mostra informació més detallada de l
         \caption{Fitxer incorrecte}
     \end{subfigure}
     \caption{Exemples de com es capturen i mostren diferents errors}
+    \label{fig:error_caprure_web}
 \end{figure}
 
 
@@ -124,7 +127,7 @@ Com s'ha pogut veure a l'apartat anterior la pàgina es divideix en dos apartats
 El canvas és un element bàsic d'HTML que permet dibuixar imatges, formes geomètriques, text... Per aquest projecte s'ha decidit usar pel fet que no depèn d'altres llibreries i no afegeix més capes de complexitat al projecte.\\
 Aquest element s'ha usat en dues parts de la web, a la generació d'instàncies, concretament a l'hora de seleccionar per quines caselles entren els materials i quines caselles són de sortida i per mostrar tots els elements de les instàncies resoltes.\\
 
-Com hi ha moltes funcionalitats que són iguals tant al canvas de generació d'instàncies com el de visualització, s'ha optat per crear una classe abstracta \texttt{Blueprint}, que conté els atributs compartits com mida, casella seleccionada, la referència a l'element canvas HTML, nombre de files, nombre de columnes, informació de la graella... A més també implementa els mètodes encarregats de dibuixar la graella, detectar els clics a les caselles, actualitzar la informació d'una casella seleccionada... Finalment també obliga a les classes que hereten d'ella a implementar el mètode encarregat de reiniciar el canvas.
+Com hi ha moltes funcionalitats que són iguals tant al canvas de generació d'instàncies com el de visualització, s'ha optat per crear una classe abstracta \lstinline{Blueprint}, que conté els atributs compartits com mida, casella seleccionada, la referència a l'element canvas HTML, nombre de files, nombre de columnes, informació de la graella... A més també implementa els mètodes encarregats de dibuixar la graella, detectar els clics a les caselles, actualitzar la informació d'una casella seleccionada... Finalment també obliga a les classes que hereten d'ella a implementar el mètode encarregat de reiniciar el canvas. El diagrama de classes del \lstinline{Blueprint} es pot veure a la figura \ref{fig:blueprint_class_diagram}.
 
 \begin{figure}[H]
     \centering
@@ -189,8 +192,8 @@ Com hi ha moltes funcionalitats que són iguals tant al canvas de generació d'i
 Una part molt important del canvas interactiu és com emmagatzemar la informació de cada casella. Com hi ha diferents tipus de casella i cadascuna ha de guardar informació diferent i s'ha de representar gràficament al canvas de manera diferent, s'ha decidit guardar de la següent manera:
 
 \subsubsection{Estructura de dades per guardar la informació de la graella}
-Per guardar la informació de cada casella s'ha fet de manera similar a la classe \texttt{Blueprint}. S'ha creat una classe abstracta \texttt{Cell} que conté la informació que totes les caselles comparteixen i després s'han creat diferents classes que hereten d'aquesta i implementen els seus mètodes específics, d'aquesta manera es pot tenir una matriu, en aquest cas \texttt{gridInformation}, amb cel·les que parteixen de la mateixa classe pare i implementen el mateix mètode de maneres diferents, permetent així tenir un codi més net i genèric.\\
-L'estructura de classes, atributs i mètodes queda de la següent manera:
+Per guardar la informació de cada casella s'ha fet de manera similar a la classe \lstinline{Blueprint}. S'ha creat una classe abstracta \lstinline{Cell} que conté la informació que totes les caselles comparteixen i després s'han creat diferents classes que hereten d'aquesta i implementen els seus mètodes específics, d'aquesta manera es pot tenir una matriu, en aquest cas \lstinline{gridInformation}, amb cel·les que parteixen de la mateixa classe pare i implementen el mateix mètode de maneres diferents, permetent així tenir un codi més net i genèric.\\
+L'estructura de classes, atributs i mètodes es pot veure a la figura \ref{fig:cell_class_diagram}.
 
 
 \begin{figure}[H]
@@ -274,7 +277,7 @@ Amb aquesta estructura cada casella s'encarrega de com ha de mostrar la seva inf
 Al llarg de la implementació s'han hagut de prendre algunes decisions que són importants i s'han de mencionar.
 
 \subsubsection{Demanar imatges al servidor}
-Els canvas d'HTML dibuixen les imatges en ordre de crida de la funció \texttt{drawImage}, així que per obtenir el resultat correcte és molt important fer les crides de dibuixat en ordre, això pot semblar una ximpleria si el codi que sestà fent és concurrent, però en cas de les aplicacions web obtenir imatges es fa en paral·lel, ja que s'han de sol·licitar al servidor, fent que si no s'han carregat totes les imatges prèviament, aquestes es dibuixaran en ordre d'arribada fent que l'ordre de dibuixar inicial es perdi. Per arreglar aquest problema s'ha creat una funció que demana al servidor totes les imatges que la instància resolta necessita i aquestes es guarden en un diccionari que més tard es podrà consultar de manera completament síncrona.\\
+Els canvas d'HTML dibuixen les imatges en ordre de crida de la funció \lstinline{drawImage}, així que per obtenir el resultat correcte és molt important fer les crides de dibuixat en ordre, això pot semblar una ximpleria si el codi que s'està fent és concurrent, però en cas de les aplicacions web obtenir imatges es fa en paral·lel, ja que s'han de sol·licitar al servidor, fent que si no s'han carregat totes les imatges prèviament, aquestes es dibuixaran en ordre d'arribada fent que l'ordre de dibuixar inicial es perdi. Per arreglar aquest problema s'ha creat una funció que demana al servidor totes les imatges que la instància resolta necessita i aquestes es guarden en un diccionari que més tard es podrà consultar de manera completament síncrona.\\
 
 \begin{lstlisting}[language=Java, caption=Fetch sprite]
     fetchSprite(spriteName){
@@ -287,7 +290,7 @@ Els canvas d'HTML dibuixen les imatges en ordre de crida de la funció \texttt{d
     }
 \end{lstlisting}
 
-Aquesta funció retorna una promesa d'aquesta manera des de fora, es pot fer un codi que fins que totes les promeses corresponents a cada imatge no s'hagin resolt, no s'executi cert codi, per exemple es pot fer el següent:
+Aquesta funció retorna una \lstinline{Promise} d'aquesta manera des de fora, es pot fer un codi que fins que totes les \lstinline{Promise} corresponents a cada imatge no s'hagin resolt, no s'executi cert codi, per exemple es pot fer el següent:
 
 \begin{lstlisting}[language=Java, caption=Fetch all sprites]
     Promise.all(this.spriteNames.map(this.fetchSprite)).then(sprites => {
@@ -296,10 +299,10 @@ Aquesta funció retorna una promesa d'aquesta manera des de fora, es pot fer un 
     });
 \end{lstlisting}
 
-Amb aquest tall de codi el que s'està fent és cridar la funció anterior per cada imatge guardada a la llista \texttt{spriteNames} i fins que no s'han rebut totes no es continua, assegurant així que si després es volen dibuixar les imatges aquestes no s'hagin d'anar a buscar.
+Amb aquest tall de codi el que s'està fent és cridar la funció anterior per cada imatge guardada a la llista \lstinline{spriteNames} i fins que no s'han rebut totes no es continua, assegurant així que si després es volen dibuixar les imatges aquestes no s'hagin d'anar a buscar.
 
 \subsubsection{Evitar fer crides de dibuixat innecessàries}
-Un altre detall és que si es vol modificar alguna part del que s'hagi dibuixat al canvas HTML, cal esborrar tot el que hi havia, modificar la part desitjada i tornar a dibuixar, això com es pot comprendre només és factible si hi ha moltes parts del canvas que s'estan canviant, però si només és un element no val la pena. Per això s'ha decidit que per emmarcar la casella seleccionada no es faci al mateix canvas on es dibuixen tots els elements sinó que millor crear un segon canvas, superposar-lo al canvas on es dibuixen tots els elements i així només s'ha d'esborrar i redibuixar el quadrat que emmarca les caselles. D'aquesta manera es redueix molt temps de dibuixat quan la majoria d'elements del canvas són estàtiques.\\
+Un altre detall és que si es vol modificar alguna part del que s'hagi dibuixat al canvas HTML, cal esborrar tot el que hi havia, modificar la part desitjada i tornar a dibuixar, això com es pot comprendre només és factible si hi ha moltes parts del canvas que s'estan canviant, però si només és un element no val la pena. Per això s'ha decidit que per emmarcar la casella seleccionada no es faci al mateix canvas on es dibuixen tots els elements sinó que millor crear un segon canvas, superposar-lo al canvas on es dibuixen tots els elements i així només s'ha d'esborrar i redibuixar el quadrat que emmarca les caselles. D'aquesta manera es redueix molt temps de dibuixat quan la majoria d'elements del canvas són estàtcs.\\
 
 Per aconseguir l'efecte de superposició dels canvas s'ha fet el següent:
 

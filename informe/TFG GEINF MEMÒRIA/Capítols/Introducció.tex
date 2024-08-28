@@ -15,11 +15,12 @@
 %----------------------------------------------------------------------------------------
 
 \section{Introducció}
-Factorio \cite{FactorioGame} és un joc 2D en tercera persona que se centra en l'obtenció de recursos en un planeta desolat ple d'alienígenes hostils. L'objectiu principal tracta d'obtenir suficients recursos per a enviar un coet al teu planeta d'origen. La majoria de recursos s'han de processar en fabriques les quals amb la infraestructura adequada poden produir objectes de manera automàtica.\\
+Factorio \cite{FactorioGame} és un joc 2D en tercera persona que se centra en l'obtenció de recursos en un planeta desolat ple d'alienígenes hostils. L'objectiu principal tracta d'obtenir suficients recursos per a enviar un coet al teu planeta d'origen. La majoria de recursos s'han de processar en fàbriques les quals amb la infraestructura adequada poden produir objectes de manera automàtica.\\
 
 El joc encara està en desenvolupament i rep actualitzacions de manera freqüent. Darrere del joc s'hi troba Wube Software un estudi indie instal·lat a la República Txeca fundat l'any 2013 format per tres membres.\\
 
-L'interès pel joc sorgeix arran de les mecàniques que incorpora per la creació de fàbriques i com l'objectiu principal del joc et força a optimitzar-les, ampliar-les i unir-les per generar més recursos i més complexos, d'aquí sorgeix la frase "\textit{the factory must grow}", usada en clau d'humor per la comunitat del joc. Aquesta part del disseny de fàbriques és la que incorpora problemes d'optimització coneguts com Bin Packing, Flow i Routing. És aquí on una eina que pogués ajudar a fer dissenys òptims, parametritzables i de manera interactiva seria molt útil per la comunitat del Factorio.\\
+L'interès pel joc sorgeix arran de les mecàniques que incorpora per la creació de fàbriques i de com l'objectiu principal del joc et força a optimitzar-les, ampliar-les i unir-les per generar més recursos i més complexos.\\
+D'aquí sorgeix la frase "\textit{the factory must grow}", usada en clau d'humor per la comunitat del joc. Aquesta part del disseny de fàbriques és la que incorpora problemes d'optimització coneguts com Bin Packing, Flow i Routing. És aquí on una eina que pogués ajudar a fer dissenys òptims, parametritzables i de manera interactiva seria molt útil per la comunitat del Factorio.\\
 
 \begin{figure}
     \centering
@@ -31,7 +32,7 @@ L'interès pel joc sorgeix arran de les mecàniques que incorpora per la creaci�
 \section{Motivacions i propòsit}
 Des de petit que els jocs d'enginy, trencaclosques, Legos, Meccanos, cubs de Rubik... m'han apassionat i des que a la carrera vam veure la complexitat computacional que hi ha al darrere i com es poden abordar amb diferents tècniques aquesta passió s'ha desviat a com solucionar aquests problemes, optimitzar i respondre el màxim de preguntes que poden sorgir.\\
 
-En els últims anys jugant a jocs d'ordinador concretament els que se centren en explotació de recursos, creació de fàbriques, automatització de processos va sorgir el joc Factorio que com s'ha explicat el disseny de fàbriques conté diferents tipus de problemes d'optimització arran d'això vaig descobrir que des de la universitat de Saint Andrews ja s'havia abordat aquest problema usant Essence Prime i com a causa de la tecnologia usada es proposava una millora a futur que tractava de la implementació del model en SMT la qual permet usar nombres reals. Aquesta va ser una de les motivacions principals, la possible ampliació i millora d'un model usant una tecnologia nova per mi.\\
+En els últims anys jugant a jocs d'ordinador concretament els que se centren en explotació de recursos, creació de fàbriques, automatització de processos va sorgir el joc Factorio que com s'ha explicat, el disseny de fàbriques conté diferents tipus de problemes d'optimització. Arran d'això vaig descobrir que des de la universitat de Saint Andrews ja s'havia abordat aquest problema usant Essence Prime i com a causa de la tecnologia usada es proposava una millora a futur que tractava de la implementació del model en SMT la qual permet usar nombres reals. Aquesta va ser una de les motivacions principals, la possible ampliació i millora d'un model usant una tecnologia nova per mi.\\
 
 Així doncs, el propòsit del projecte és crear una eina amb interfície gràfica còmoda d'usar per a l'usuari i un optimitzador darrere que sigui capaç de trobar les configuracions òptimes en funció de diferents criteris (maximitzar la producció, minimitzar els elements que s'han d'usar...).
 
@@ -39,7 +40,7 @@ Així doncs, el propòsit del projecte és crear una eina amb interfície gràfi
 Els objectius que es van esbossar a l'inici del projecte van ser els següents:
 \begin{itemize}
     \item Agafar pràctica amb l'API del SMT solver Z3, resolent problemes clàssics com les N-reines.
-    \item Implementar un model bàsic en SMT fent ús de les seves característiques envers SAT solvers (ús de nombres reals, dominis no definits).
+    \item Implementar un model bàsic en SMT fent ús de les seves característiques envers SAT solvers (ús de nombres reals, dominis no finits).
     \item Crear una interfície gràfica que permeti la generació d'instàncies de manera còmoda i generar un conjunt d'instàncies que posin a prova el model.
     \item Amb el model bàsic en funcionament, fer una anàlisi de rendiment amb les instàncies generades, realitzar optimitzacions i evolucionar el model.
     \item Si el rendiment és prou bo, ampliar el model amb més mecàniques del joc.
@@ -47,4 +48,4 @@ Els objectius que es van esbossar a l'inici del projecte van ser els següents:
     \item Crear una interfície gràfica amb la qual poder visualitzar les instàncies amb una bona presentació.
 \end{itemize}
 
-Tenint en compte que el model s'ha hagut de crear des de zero a causa del canvi de tecnologia hi ha un parell d'objectius que eren massa ambiciosos i no s'han pogut assolir.\\ Tot i que el rendiment del model ho permet no s'han incorporat més mecàniques (cintes subterrànies, cintes amb múltiples objectes...), ja que la seva complexitat implicava molts canvis i hores de desenvolupament que haurien compromès la finalització del treball.\\ A banda tampoc s'han pogut usar les instàncies resoltes com a objecte de fabricació per al desenvolupament de dissenys subòptims a nivell macro, aquest objectiu, però té molt potencial per a feina futura, ja que no implica fer canvis al model, sinó dissenyar-ne un altre que sigui capaç d'usar els dissenys trobats com a elements de fabricació.
+Tenint en compte que el model s'ha hagut de crear des de zero a causa del canvi de tecnologia hi ha un parell d'objectius que eren massa ambiciosos i no s'han pogut assolir.\\ Tot i que el rendiment del model ho permet, no s'han incorporat més mecàniques (cintes subterrànies, cintes amb múltiples objectes...), ja que la seva complexitat implicava molts canvis i hores de desenvolupament que haurien compromès la finalització del treball.\\ A banda tampoc s'han pogut usar les instàncies resoltes com a objecte de fabricació per al desenvolupament de dissenys subòptims a nivell macro, aquest objectiu, però té molt potencial per a feina futura, ja que no implica fer canvis al model, sinó dissenyar-ne un altre que sigui capaç d'usar els dissenys trobats com a elements de fabricació.

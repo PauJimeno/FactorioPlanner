@@ -140,7 +140,7 @@ class FactorioSolver:
 
     def model_to_json(self):
         """
-        Checks if the solver found a solution, if so evaluates all model variables and store them in a dictionary,
+        Checks if the solver found a solution, if so evaluates all the model variables and store them in a dictionary,
         it also saves the time spent in solving and the status of the solution.
 
         :return: a JSON transformable dictionary with all the information of the solved instance

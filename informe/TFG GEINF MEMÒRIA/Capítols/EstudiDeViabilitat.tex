@@ -26,9 +26,32 @@ Una de les coses que no es va tenir en compte a l'inici del projecte era les imp
 Segons els termes de servei que s'expliquen a la pàgina web oficial del joc, l'única implicació es deu a l'ús dels Sprites del joc a la interfície web que s'ha desenvolupat sobre els quals l'estudi Wube Software Ltd. té tots els drets i si ho consideressin podrien demanar-me que les treies. Però com es tracta d'un treball de recerca, es fa menció que els drets de les imatges pertanyen a l'estudi Wube Software Ltd. i no es pretén monetitzar de cap manera el projecte desenvolupat no hi hauria d'haver cap problema.\\
 A banda aquest no és el primer projecte sobre el joc que usa Sprites oficials, existeix l'eina "Factorio-SAT" que se centra en el balanceig de flux i va rebre bastant suport per la comunitat del joc i no hi ha cap acció des de Wube Software Ltd. per retirar els Sprites.\\
 
-En última instància s'ha enviat un correu al suport del joc \ref{AppendixA}, explicant de què tracta el projecte i si aquest incompleix algun dels termes i condicions de la propietat intel·lectual del joc, la resposta al correu és que els sembla bé i que no hi hauria cap problema que es publiqui el projecte.
+En última instància s'ha enviat un correu al suport del joc vegeu annex \ref{AppendixA}, explicant de què tracta el projecte i si aquest incompleix algun dels termes i condicions de la propietat intel·lectual del joc, la resposta al correu és que els sembla bé i que no hi hauria cap problema que es publiqui el projecte.
 
 \section{Recursos usats}
 Pel desenvolupament del model i les proves que se li han fet, s'ha necessitat un IDE per redactar el codi, concretament s'ha usat PyCharm desenvolupat per JetBrains del qual tenim una llicència proporcionada a tots els alumnes des de la UdG.\\
 Un ordinador per poder executar totes les instàncies, les especificacions de l'ordinador són: processador AMD Ryzen 5700U de 8 cores, 16 gigabytes DDR4 de memòria RAM.\\
 Les llibreries usades són Z3 que com ja s'ha comentat incorpora el SMT solver usant per a l'optimització de les fàbriques i Flask una llibreria de Python que permet iniciar un servidor, crear endpoints i és el que ha permès poder fer la interfície gràfica en HTML i JavaScript, l'explicació en detall de les llibreries es pot trobar al capítol 6 de Requisits del Sistema.
+
+\section{Viabilitat econòmica}
+Les màquines usades pel desenvolupament del projecte i la realització de les proves, no s'han hagut de comprar expressament, així i tot a la taula \ref{tab:pressupost}, es pot veure el cost de cada despresa del projecte, des de les hores de feina fines la llicència de l'editor de codi.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Concepte} & \textbf{Cost} \\ \hline
+        Llicència PyCharm (7 mesos) & 210,91\\ \hline
+        Hores de treball (7 mesos mitja a jornada) & 7280\\ \hline
+        Màquina per testejar el model & 632,41\\ \hline
+        Equip de desenvolupament & 3200\\ \hline
+        Llicència joc Factorio & 32\\ \hline
+        \multicolumn{1}{l|}{} & \multicolumn{1}{c|}{\textbf{11354,6}} \\ \cline{2-2}
+    \end{tabular}
+    \caption{Pressupost del desenvolupament}
+    \label{tab:pressupost}
+\end{table}
+
+
+
+

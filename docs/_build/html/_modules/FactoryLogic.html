@@ -8,6 +8,7 @@
     <title>FactoryLogic &#8212; model 4/9/2024 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/graphviz.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
@@ -36,6 +37,25 @@
 
 
 <div class="viewcode-block" id="FactoryLogic"><a class="viewcode-back" href="../FactoryLogic.html#FactoryLogic.FactoryLogic">[docs]</a><span class="k">class</span> <span class="nc">FactoryLogic</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class conatins the logic that prevents any collisions between all factory elements.</span>
+
+<span class="sd">    :param width: Width of the blueprint</span>
+<span class="sd">    :type width: Int</span>
+
+<span class="sd">    :param height: Height of the blueprint</span>
+<span class="sd">    :type height: Int</span>
+
+<span class="sd">    :param conveyor: Reference to the conveyor directions variable</span>
+<span class="sd">    :type conveyor: Array[Array] EnumSort</span>
+
+<span class="sd">    :param inserter: Reference to the inserter directions variable</span>
+<span class="sd">    :type inserter: Array[Array] EnumSort</span>
+<span class="sd">    </span>
+<span class="sd">    :param assembler: Reference to the assembler collision_area variable</span>
+<span class="sd">    :type assembler: Array[Array] BitVec</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">conveyor</span><span class="p">,</span> <span class="n">inserter</span><span class="p">,</span> <span class="n">assembler</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span> <span class="o">=</span> <span class="n">conveyor</span><span class="o">.</span><span class="n">conveyor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_dir</span> <span class="o">=</span> <span class="n">conveyor</span><span class="o">.</span><span class="n">direction</span>
@@ -46,19 +66,28 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="o">=</span> <span class="n">height</span>
 
 <div class="viewcode-block" id="FactoryLogic.collision"><a class="viewcode-back" href="../FactoryLogic.html#FactoryLogic.FactoryLogic.collision">[docs]</a>    <span class="k">def</span> <span class="nf">collision</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a constarint that ensures that all elements of the blueprint (conveyors, inserters and assemblers) don&#39;t collide between each other</span>
+
+<span class="sd">        :return: the constraint that ensures there can&#39;t be any elements in the same cell of the blueprint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">PbLe</span><span class="p">([(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserter_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">),</span>
                       <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)],</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span> <span class="o">+</span>\
-                <span class="p">[</span><span class="n">If</span><span class="p">(</span><span class="n">Or</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserter_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                       <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">assembler</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
-                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span> <span class="o">+</span> \
+            <span class="p">[</span><span class="n">If</span><span class="p">(</span><span class="n">Or</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserter_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor_dir</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">assembler</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="FactoryLogic.constraints"><a class="viewcode-back" href="../FactoryLogic.html#FactoryLogic.FactoryLogic.constraints">[docs]</a>    <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a list of all the constarints representing the logic of the class</span>
+
+<span class="sd">        :return: the constraint that ensures there can&#39;t be any elements in the same cell of the blueprint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">collision</span><span class="p">()</span></div></div>
-
-
-
 </pre></div>
 
           </div>

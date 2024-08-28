@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.7.15)  28 JUL 2024 20:13
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.4) (preloaded format=pdflatex 2024.7.15)  28 AUG 2024 17:43
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**"e:/TFG/Memoria/TFG GEINF Template v1.0 (1)/main.tex"
-(e:/TFG/Memoria/TFG GEINF Template v1.0 (1)/main.tex
+**"e:/TFG/FactorioPlanner/informe/TFG GEINF MEMÒRIA/main.tex"
+(e:/TFG/FactorioPlanner/informe/TFG GEINF MEMÒRIA/main.tex
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2024-05-27>
 (MastersDoctoralThesis.cls
@@ -1085,7 +1085,7 @@ package with kernel methods
 )
 Package scrhack Info: hyperref hack deactivated because of
 (scrhack)             detection of hyperref version, that doesn't
-(scrhack)             need that hack, on input line 134.
+(scrhack)             need that hack, on input line 135.
 Package hyperref Info: Driver (autodetected): hpdftex.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/hyperref\hpdftex.def
 File: hpdftex.def 2024-05-23 v7.01i Hyperref driver for pdfTeX
@@ -1104,42 +1104,42 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 28
 )
 \Hy@SectionHShift=\skip90
 )
-Package hyperref Info: Option `bookmarksopen' set `true' on input line 134.
-Package hyperref Info: Option `hypertexnames' set `false' on input line 134.
-Package hyperref Info: Option `colorlinks' set `true' on input line 134.
-Package hyperref Info: Option `unicode' set `true' on input line 134.
-Package hyperref Info: Option `breaklinks' set `true' on input line 134.
-LaTeX Font Info:    Trying to load font information for T1+ppl on input line 134.
+Package hyperref Info: Option `bookmarksopen' set `true' on input line 135.
+Package hyperref Info: Option `hypertexnames' set `false' on input line 135.
+Package hyperref Info: Option `colorlinks' set `true' on input line 135.
+Package hyperref Info: Option `unicode' set `true' on input line 135.
+Package hyperref Info: Option `breaklinks' set `true' on input line 135.
+LaTeX Font Info:    Trying to load font information for T1+ppl on input line 135.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
-) (main.aux (Front/titlepage.aux) (Front/imprint.aux) (Capítols/Introducció.aux) (Capítols/EstudiDeViabilitat.aux) (Capítols/Metodologia.aux) (Capítols/Planificacio.aux) (Capítols/MarcDeTreballIConceptesPrevis.aux) (Capítols/RequisitsDelSistema.aux) (Capítols/EstudisIDecisions.aux) (Capítols/DissenyDelModel.aux) (Capítols/DissenyDelFrontEnd.aux) (Capítols/AnalisiDelsExperiments.aux) (Apèndix/AppendixA.aux) (Apèndix/AppendixB.aux) (Apèndix/AppendixC.aux))
+) (main.aux (Front/titlepage.aux) (Front/imprint.aux) (Capítols/Introducció.aux) (Capítols/EstudiDeViabilitat.aux) (Capítols/Metodologia.aux) (Capítols/Planificacio.aux) (Capítols/MarcDeTreballIConceptesPrevis.aux) (Capítols/RequisitsDelSistema.aux) (Capítols/EstudisIDecisions.aux) (Capítols/DissenyDelModel.aux) (Capítols/DissenyDelFrontEnd.aux) (Capítols/AnalisiDelsExperiments.aux) (Capítols/Conclusions.aux) (Capítols/TreballFutur.aux) (Apèndix/AppendixA.aux) (Apèndix/AppendixB.aux) (Apèndix/AppendixC.aux) (Apèndix/AppendixD.aux))
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 134.
-LaTeX Font Info:    ... okay on input line 134.
-LaTeX Info: Redefining \l on input line 134.
-LaTeX Info: Redefining \L on input line 134.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 135.
+LaTeX Font Info:    ... okay on input line 135.
+LaTeX Info: Redefining \l on input line 135.
+LaTeX Info: Redefining \L on input line 135.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/translations/dicts\translations-basic-dictionary-catalan.trsl
 File: translations-basic-dictionary-spanish.trsl (spanish translation file `translations-basic-dictionary')
 )
 
-Package translations Warning: file `translations-basic-dictionary-catalan.trsl' does not appear to be a dictionary on input line 134.
+Package translations Warning: file `translations-basic-dictionary-catalan.trsl' does not appear to be a dictionary on input line 135.
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -1202,9 +1202,9 @@ Package caption Info: End \AtBeginDocument code.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package scrbase Info: activating catalan \abbrevname on input line 134.
-Package scrbase Info: activating catalan \byname on input line 134.
-Package scrbase Info: activating catalan \acknowledgementname on input line 134.
+Package scrbase Info: activating catalan \abbrevname on input line 135.
+Package scrbase Info: activating catalan \byname on input line 135.
+Package scrbase Info: activating catalan \acknowledgementname on input line 135.
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape.sty
 Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/pdflscape\pdflscape-nometadata.sty
@@ -1221,7 +1221,7 @@ Package scrhack Info: \landscape patched to make \textheight change optional on 
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
 \c@lstlisting=\count525
-Package tocbasic Info: setting babel extension for `lol' on input line 134.
+Package tocbasic Info: setting babel extension for `lol' on input line 135.
 Package biblatex Info: Trying to load language 'catalan'...
 Package biblatex Info: ... file 'catalan.lbx' found.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\catalan.lbx
@@ -1235,12 +1235,12 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
  (main.bbl)
-Package biblatex Info: Reference section=0 on input line 134.
-Package biblatex Info: Reference segment=0 on input line 134.
+Package biblatex Info: Reference section=0 on input line 135.
+Package biblatex Info: Reference segment=0 on input line 135.
 
 Package pgfplots notification 'compat/show suggested version=true': you might benefit from \pgfplotsset{compat=1.18} (current compat level: 1.9).
 
-Package hyperref Info: Link coloring ON on input line 134.
+Package hyperref Info: Link coloring ON on input line 135.
 (main.out) (main.out)
 \@outlinefile=\write5
 \openout5 = `main.out'.
@@ -1282,7 +1282,7 @@ Package hyperref Info: Link coloring ON on input line 134.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<Figures/EPS_centrat.png, id=530, 2590.42781pt x 711.4078pt>
+<Figures/EPS_centrat.png, id=546, 2590.42781pt x 711.4078pt>
 File: Figures/EPS_centrat.png Graphic file (type png)
 <use Figures/EPS_centrat.png>
 Package pdftex.def Info: Figures/EPS_centrat.png  used on input line 14.
@@ -1333,18 +1333,20 @@ File: ot1zplm.fd 2002/09/08 Fontinst v1.914 font definitions for OT1/zplm.
 
 
 ]
-LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 63.
+LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 65.
  (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 
-[4])
+[4]
+
+[5])
 \tf@toc=\write6
 \openout6 = `main.toc'.
 
 
 
-[5]
+[6]
 1: section
 \openout2 = `Capítols/Introducció.aux'.
 
@@ -1361,17 +1363,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 20--21
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 22--23
+Underfull \hbox (badness 10000) in paragraph at lines 22--24
 
  []
 
-<Figures//miscelaneous/factorio-sceenshot.png, id=693, 1927.2pt x 1084.05pt>
+<Figures//miscelaneous/factorio-sceenshot.png, id=717, 1927.2pt x 1084.05pt>
 File: Figures//miscelaneous/factorio-sceenshot.png Graphic file (type png)
 <use Figures//miscelaneous/factorio-sceenshot.png>
-Package pdftex.def Info: Figures//miscelaneous/factorio-sceenshot.png  used on input line 26.
+Package pdftex.def Info: Figures//miscelaneous/factorio-sceenshot.png  used on input line 27.
 (pdftex.def)             Requested size: 202.01454pt x 113.62184pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 32--33
+Underfull \hbox (badness 10000) in paragraph at lines 33--34
 
  []
 
@@ -1383,7 +1385,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 32--33
 
 
  <./Figures//miscelaneous/factorio-sceenshot.png (PNG copy)>]
-Underfull \hbox (badness 10000) in paragraph at lines 34--35
+Underfull \hbox (badness 10000) in paragraph at lines 35--36
 
  []
 
@@ -1480,10 +1482,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 17--18
 ]
 
 [8]
-<Figures//miscelaneous/diagrama-grantt.png, id=738, 1490.56876pt x 813.0375pt>
+Underfull \hbox (badness 10000) in paragraph at lines 63--64
+
+ []
+
+<Figures//miscelaneous/diagrama-grantt.png, id=766, 1490.56876pt x 813.0375pt>
 File: Figures//miscelaneous/diagrama-grantt.png Graphic file (type png)
 <use Figures//miscelaneous/diagrama-grantt.png>
-Package pdftex.def Info: Figures//miscelaneous/diagrama-grantt.png  used on input line 62.
+Package pdftex.def Info: Figures//miscelaneous/diagrama-grantt.png  used on input line 69.
 (pdftex.def)             Requested size: 693.49821pt x 378.26944pt.
 )
 
@@ -1520,7 +1526,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--28
 ]
 
 [12]
-<Figures//miscelaneous/time-complexity-classes.png, id=760, 1927.2pt x 1204.5pt>
+<Figures//miscelaneous/time-complexity-classes.png, id=788, 1927.2pt x 1204.5pt>
 File: Figures//miscelaneous/time-complexity-classes.png Graphic file (type png)
 <use Figures//miscelaneous/time-complexity-classes.png>
 Package pdftex.def Info: Figures//miscelaneous/time-complexity-classes.png  used on input line 54.
@@ -1537,72 +1543,67 @@ Underfull \hbox (badness 10000) in paragraph at lines 63--65
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 69--71
-
- []
-
-<Figures//miscelaneous/smt-lib-theories.png, id=768, 813.0375pt x 445.665pt>
+<Figures//miscelaneous/smt-lib-theories.png, id=797, 813.0375pt x 445.665pt>
 File: Figures//miscelaneous/smt-lib-theories.png Graphic file (type png)
 <use Figures//miscelaneous/smt-lib-theories.png>
-Package pdftex.def Info: Figures//miscelaneous/smt-lib-theories.png  used on input line 91.
+Package pdftex.def Info: Figures//miscelaneous/smt-lib-theories.png  used on input line 94.
 (pdftex.def)             Requested size: 202.01454pt x 110.72914pt.
 
 
 [14]
-Underfull \hbox (badness 10000) in paragraph at lines 99--101
+Underfull \hbox (badness 10000) in paragraph at lines 102--104
 
  []
 
-<Figures//miscelaneous/smt-lazy-zolver.png, id=778, 710.655pt x 508.90125pt>
+<Figures//miscelaneous/smt-lazy-zolver.png, id=807, 710.655pt x 508.90125pt>
 File: Figures//miscelaneous/smt-lazy-zolver.png Graphic file (type png)
 <use Figures//miscelaneous/smt-lazy-zolver.png>
-Package pdftex.def Info: Figures//miscelaneous/smt-lazy-zolver.png  used on input line 112.
+Package pdftex.def Info: Figures//miscelaneous/smt-lazy-zolver.png  used on input line 115.
 (pdftex.def)             Requested size: 202.01454pt x 144.65787pt.
 
 
 [15 <./Figures//miscelaneous/smt-lib-theories.png (PNG copy)>]
-<Figures/captures_joc/conveyor.png, id=788, 261.97874pt x 260.975pt>
+<Figures/captures_joc/conveyor.png, id=816, 261.97874pt x 260.975pt>
 File: Figures/captures_joc/conveyor.png Graphic file (type png)
 <use Figures/captures_joc/conveyor.png>
-Package pdftex.def Info: Figures/captures_joc/conveyor.png  used on input line 127.
+Package pdftex.def Info: Figures/captures_joc/conveyor.png  used on input line 130.
 (pdftex.def)             Requested size: 181.81184pt x 181.12025pt.
-<Figures/captures_joc/conveyor_inputs.png, id=789, 436.63126pt x 437.635pt>
+<Figures/captures_joc/conveyor_inputs.png, id=817, 436.63126pt x 437.635pt>
 File: Figures/captures_joc/conveyor_inputs.png Graphic file (type png)
 <use Figures/captures_joc/conveyor_inputs.png>
-Package pdftex.def Info: Figures/captures_joc/conveyor_inputs.png  used on input line 132.
+Package pdftex.def Info: Figures/captures_joc/conveyor_inputs.png  used on input line 135.
 (pdftex.def)             Requested size: 181.81184pt x 182.22949pt.
-<Figures/captures_joc/inserter.png, id=790, 262.9825pt x 264.99pt>
+<Figures/captures_joc/inserter.png, id=820, 262.9825pt x 264.99pt>
 File: Figures/captures_joc/inserter.png Graphic file (type png)
 <use Figures/captures_joc/inserter.png>
-Package pdftex.def Info: Figures/captures_joc/inserter.png  used on input line 145.
+Package pdftex.def Info: Figures/captures_joc/inserter.png  used on input line 148.
 (pdftex.def)             Requested size: 133.33032pt x 134.35464pt.
 
 
 [16 <./Figures//miscelaneous/smt-lazy-zolver.png (PNG copy)>]
-<Figures/captures_joc/inserter_allowed_inputs.png, id=795, 398.48875pt x 707.64375pt>
+<Figures/captures_joc/inserter_allowed_inputs.png, id=828, 398.48875pt x 707.64375pt>
 File: Figures/captures_joc/inserter_allowed_inputs.png Graphic file (type png)
 <use Figures/captures_joc/inserter_allowed_inputs.png>
-Package pdftex.def Info: Figures/captures_joc/inserter_allowed_inputs.png  used on input line 154.
+Package pdftex.def Info: Figures/captures_joc/inserter_allowed_inputs.png  used on input line 157.
 (pdftex.def)             Requested size: 181.81184pt x 322.86383pt.
-<Figures/captures_joc/inserter_allowed_outputs.png, id=796, 350.30875pt x 609.27625pt>
+<Figures/captures_joc/inserter_allowed_outputs.png, id=829, 350.30875pt x 609.27625pt>
 File: Figures/captures_joc/inserter_allowed_outputs.png Graphic file (type png)
 <use Figures/captures_joc/inserter_allowed_outputs.png>
-Package pdftex.def Info: Figures/captures_joc/inserter_allowed_outputs.png  used on input line 159.
+Package pdftex.def Info: Figures/captures_joc/inserter_allowed_outputs.png  used on input line 162.
 (pdftex.def)             Requested size: 181.81184pt x 316.22118pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<Figures/captures_joc/assembler.png, id=797, 529.98pt x 527.9725pt>
+<Figures/captures_joc/assembler.png, id=831, 529.98pt x 527.9725pt>
 File: Figures/captures_joc/assembler.png Graphic file (type png)
 <use Figures/captures_joc/assembler.png>
-Package pdftex.def Info: Figures/captures_joc/assembler.png  used on input line 173.
+Package pdftex.def Info: Figures/captures_joc/assembler.png  used on input line 176.
 (pdftex.def)             Requested size: 181.81184pt x 181.1195pt.
-<Figures/captures_joc/inserters_assembler.png, id=798, 436.63126pt x 434.62375pt>
+<Figures/captures_joc/inserters_assembler.png, id=832, 436.63126pt x 434.62375pt>
 File: Figures/captures_joc/inserters_assembler.png Graphic file (type png)
 <use Figures/captures_joc/inserters_assembler.png>
-Package pdftex.def Info: Figures/captures_joc/inserters_assembler.png  used on input line 178.
+Package pdftex.def Info: Figures/captures_joc/inserters_assembler.png  used on input line 181.
 (pdftex.def)             Requested size: 181.81184pt x 180.97562pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -1610,57 +1611,45 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 [17 <./Figures/captures_joc/conveyor.png> <./Figures/captures_joc/conveyor_inputs.png> <./Figures/captures_joc/inserter.png>]
-<Figures/captures_joc/assembler_recipe.png, id=808, 774.895pt x 608.2725pt>
+<Figures/captures_joc/assembler_recipe.png, id=843, 774.895pt x 608.2725pt>
 File: Figures/captures_joc/assembler_recipe.png Graphic file (type png)
 <use Figures/captures_joc/assembler_recipe.png>
-Package pdftex.def Info: Figures/captures_joc/assembler_recipe.png  used on input line 192.
+Package pdftex.def Info: Figures/captures_joc/assembler_recipe.png  used on input line 198.
 (pdftex.def)             Requested size: 202.01454pt x 158.57407pt.
 
 
-[18 <./Figures/captures_joc/inserter_allowed_inputs.png> <./Figures/captures_joc/inserter_allowed_outputs.png> <./Figures/captures_joc/assembler_recipe.png>]
+[18 <./Figures/captures_joc/inserter_allowed_inputs.png> <./Figures/captures_joc/inserter_allowed_outputs.png>]
 
-[19 <./Figures/captures_joc/assembler.png> <./Figures/captures_joc/inserters_assembler.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 217--219
-
- []
-
-<Figures//captures_joc//exemples_model/exemple_base.png, id=825, 648.92438pt x 649.67719pt>
-File: Figures//captures_joc//exemples_model/exemple_base.png Graphic file (type png)
-<use Figures//captures_joc//exemples_model/exemple_base.png>
-Package pdftex.def Info: Figures//captures_joc//exemples_model/exemple_base.png  used on input line 227.
-(pdftex.def)             Requested size: 303.0218pt x 303.37558pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 240--241
+[19 <./Figures/captures_joc/assembler.png> <./Figures/captures_joc/inserters_assembler.png> <./Figures/captures_joc/assembler_recipe.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 223--225
 
  []
 
 
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 244--267
+<Figures//captures_joc//exemples_model/exemple_base.png, id=864, 648.92438pt x 649.67719pt>
+File: Figures//captures_joc//exemples_model/exemple_base.png Graphic file (type png)
+<use Figures//captures_joc//exemples_model/exemple_base.png>
+Package pdftex.def Info: Figures//captures_joc//exemples_model/exemple_base.png  used on input line 233.
+(pdftex.def)             Requested size: 303.0218pt x 303.37558pt.
 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 272--279
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 280--281
+Underfull \hbox (badness 10000) in paragraph at lines 246--247
 
  []
 
 
 
 [21 <./Figures//captures_joc//exemples_model/exemple_base.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 282--284
+Underfull \hbox (badness 10000) in paragraph at lines 294--296
 
  []
 
-)
 
-[22]
+
+[22])
+
+[23]
 \openout2 = `Capítols/RequisitsDelSistema.aux'.
 
  (Capítols/RequisitsDelSistema.tex
@@ -1669,11 +1658,6 @@ LaTeX Font Info:    Trying to load font information for T1+fvm on input line 20.
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/bera\t1fvm.fd
 File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
 )
-Overfull \hbox (3.13153pt too wide) in paragraph at lines 31--32
-[]\T1/ppl/m/n/10.95 Situar-se al di-rec-to-ri prin-ci-pal del pro-jec-te i exe-cu-tar la co-man-da \T1/fvm/m/n/10.95 pip install
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
  []
@@ -1681,7 +1665,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 39--40
 
 
 1: section
-[23
+[24
 
 
 
@@ -1695,14 +1679,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 58--60
 
 
 
-[24]
+[25]
 Underfull \hbox (badness 10000) in paragraph at lines 103--104
 
  []
 
 
 
-[25]
+[26]
 Underfull \hbox (badness 10000) in paragraph at lines 131--132
 
  []
@@ -1719,14 +1703,9 @@ Overfull \hbox (11.25989pt too wide) in paragraph at lines 150--150
 
 
 
-[26]
-Overfull \hbox (4.43346pt too wide) in paragraph at lines 185--187
-[]\T1/ppl/m/n/10.95 En aques-ta fun-ci� s'es-t� en-vi-ant una pe-ti-ci� de ti-pus POST a l'end-point \T1/fvm/m/n/10.95 /processar\T1/ppl/m/n/10.95 ,
- []
+[27])
 
-)
-
-[27]
+[28]
 \openout2 = `Capítols/EstudisIDecisions.aux'.
 
  (Capítols/EstudisIDecisions.tex
@@ -1744,7 +1723,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--29
 
 
 1: section
-[28
+[29
 
 
 
@@ -1756,9 +1735,9 @@ Underfull \hbox (badness 10000) in paragraph at lines 35--36
 
 )
 
-[29]
-
 [30]
+
+[31]
 \openout2 = `Capítols/DissenyDelModel.aux'.
 
  (Capítols/DissenyDelModel.tex
@@ -1766,385 +1745,372 @@ Cap\'{\i }tol 8.
 
 
 1: section
-[31
+[32
 
 
 
 
 ]
-<Figures//captures_joc//exemples_model/start_end_pos.png, id=940, 308.65312pt x 220.57407pt>
+<Figures//captures_joc//exemples_model/start_end_pos.png, id=990, 308.65312pt x 220.57407pt>
 File: Figures//captures_joc//exemples_model/start_end_pos.png Graphic file (type png)
 <use Figures//captures_joc//exemples_model/start_end_pos.png>
-Package pdftex.def Info: Figures//captures_joc//exemples_model/start_end_pos.png  used on input line 46.
+Package pdftex.def Info: Figures//captures_joc//exemples_model/start_end_pos.png  used on input line 56.
 (pdftex.def)             Requested size: 202.01454pt x 144.37105pt.
 
-Overfull \hbox (8.87866pt too wide) detected at line 83
-[]
- []
 
-
-
-[32 <./Figures//captures_joc//exemples_model/start_end_pos.png>]
-
-[33]
-Overfull \hbox (19.55518pt too wide) detected at line 152
-[]
- []
-
-
+[33 <./Figures//captures_joc//exemples_model/start_end_pos.png>]
 
 [34]
-Overfull \hbox (25.75514pt too wide) detected at line 175
-[]
- []
-
-
 
 [35]
-Overfull \hbox (4.32648pt too wide) detected at line 220
+
+[36]
+Overfull \hbox (0.63051pt too wide) detected at line 212
 []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 222--223
+
+[37]
+Underfull \hbox (badness 10000) in paragraph at lines 248--249
 
  []
 
-<Figures/captures_joc/exemples_model/5x5_route_instance.png, id=1060, 581.17125pt x 617.30624pt>
+<Figures/captures_joc/exemples_model/5x5_route_instance.png, id=1135, 581.17125pt x 617.30624pt>
 File: Figures/captures_joc/exemples_model/5x5_route_instance.png Graphic file (type png)
 <use Figures/captures_joc/exemples_model/5x5_route_instance.png>
-Package pdftex.def Info: Figures/captures_joc/exemples_model/5x5_route_instance.png  used on input line 229.
+Package pdftex.def Info: Figures/captures_joc/exemples_model/5x5_route_instance.png  used on input line 255.
 (pdftex.def)             Requested size: 163.62955pt x 173.80533pt.
 
-Underfull \hbox (badness 5548) in paragraph at lines 230--230
+Underfull \hbox (badness 5548) in paragraph at lines 256--256
  []\T1/ppl/m/sc/9 (a) |\T1/ppl/m/n/9 Re-pre-sen-ta-ci� gr�-fi-ca de la va-ri-a-ble 
  []
 
 
-Overfull \hbox (22.85184pt too wide) in paragraph at lines 237--245
+Overfull \hbox (22.85184pt too wide) in paragraph at lines 263--271
  [][] 
  []
 
-<Figures/captures_joc/exemples_model/5x5_instance_3_out.png, id=1061, 599.23875pt x 554.07pt>
+<Figures/captures_joc/exemples_model/5x5_instance_3_out.png, id=1136, 599.23875pt x 554.07pt>
 File: Figures/captures_joc/exemples_model/5x5_instance_3_out.png Graphic file (type png)
 <use Figures/captures_joc/exemples_model/5x5_instance_3_out.png>
-Package pdftex.def Info: Figures/captures_joc/exemples_model/5x5_instance_3_out.png  used on input line 256.
+Package pdftex.def Info: Figures/captures_joc/exemples_model/5x5_instance_3_out.png  used on input line 283.
 (pdftex.def)             Requested size: 163.62955pt x 151.29178pt.
 
-Underfull \hbox (badness 5548) in paragraph at lines 257--257
+Underfull \hbox (badness 5548) in paragraph at lines 284--284
  []\T1/ppl/m/sc/9 (a) |\T1/ppl/m/n/9 Re-pre-sen-ta-ci� gr�-fi-ca de la va-ri-a-ble 
  []
 
 
-Overfull \hbox (22.85184pt too wide) in paragraph at lines 264--272
+Overfull \hbox (22.85184pt too wide) in paragraph at lines 291--299
  [][] 
  []
 
-
-
-[36 <./Figures/captures_joc/exemples_model/5x5_route_instance.png>]
-<Figures/captures_joc/exemples_model/example_route_values.png, id=1076, 648.92438pt x 649.67719pt>
+<Figures/captures_joc/exemples_model/example_route_values.png, id=1137, 648.92438pt x 649.67719pt>
 File: Figures/captures_joc/exemples_model/example_route_values.png Graphic file (type png)
 <use Figures/captures_joc/exemples_model/example_route_values.png>
-Package pdftex.def Info: Figures/captures_joc/exemples_model/example_route_values.png  used on input line 280.
+Package pdftex.def Info: Figures/captures_joc/exemples_model/example_route_values.png  used on input line 308.
 (pdftex.def)             Requested size: 181.81184pt x 182.01741pt.
-<Figures/captures_joc/exemples_model/example_dir_values.png, id=1077, 648.92438pt x 649.67719pt>
+<Figures/captures_joc/exemples_model/example_dir_values.png, id=1138, 648.92438pt x 649.67719pt>
 File: Figures/captures_joc/exemples_model/example_dir_values.png Graphic file (type png)
 <use Figures/captures_joc/exemples_model/example_dir_values.png>
-Package pdftex.def Info: Figures/captures_joc/exemples_model/example_dir_values.png  used on input line 285.
+Package pdftex.def Info: Figures/captures_joc/exemples_model/example_dir_values.png  used on input line 313.
 (pdftex.def)             Requested size: 181.81184pt x 182.01741pt.
-
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Overfull \hbox (20.90297pt too wide) in paragraph at lines 312--314
-\T1/ppl/m/n/10.95 Aquesta res-tric-ci� s'as-se-gu-ra que per ca-da po-si-ci� de la ma-triu de la va-ri-a-ble \T1/fvm/m/n/10.95 assembler
+
+[38 <./Figures/captures_joc/exemples_model/5x5_route_instance.png> <./Figures/captures_joc/exemples_model/5x5_instance_3_out.png>]
+Overfull \hbox (10.33797pt too wide) in paragraph at lines 342--344
+\T1/ppl/m/n/10.95 Aquesta res-tric-ci� s'as-se-gu-ra que per ca-da po-si-ci� de la ma-triu de la va-ri-a-ble []
  []
 
 
 
-[37 <./Figures/captures_joc/exemples_model/5x5_instance_3_out.png> <./Figures/captures_joc/exemples_model/example_route_values.png> <./Figures/captures_joc/exemples_model/example_dir_values.png>]
-Overfull \hbox (22.85184pt too wide) in paragraph at lines 353--361
+[39 <./Figures/captures_joc/exemples_model/example_route_values.png> <./Figures/captures_joc/exemples_model/example_dir_values.png>]
+Overfull \hbox (22.85184pt too wide) in paragraph at lines 386--394
  [][] 
  []
 
 
-
-[38]
-Overfull \hbox (31.59901pt too wide) in paragraph at lines 392--403
+Overfull \hbox (31.59901pt too wide) in paragraph at lines 425--436
  [][] 
- []
-
-
-
-[39]
-Overfull \hbox (25.17342pt too wide) in paragraph at lines 429--443
-\T1/ppl/m/n/10.95 Per mo-de-lar quin ti-pus d'ob-jec-tes pas-sen per ca-da ca-se-lla s'-ha usat la va-ri-a-ble \T1/fvm/m/n/10.95 item_flow
- []
-
-
-Overfull \hbox (16.49934pt too wide) in paragraph at lines 429--443
-\T1/ppl/m/n/10.95 que trac-ta d'u-na ma-triu de mi-da $\OML/zplm/m/it/10.95 width \OMS/zplm/m/n/10.95 ^^B \OML/zplm/m/it/10.95 height$ \T1/ppl/m/n/10.95 amb do-mi-ni $\OT1/zplm/m/n/10.95 [\OT1/ppl/m/n/10.95 0..\OML/zplm/m/it/10.95 max[]items\OT1/zplm/m/n/10.95 ]$\T1/ppl/m/n/10.95 . \T1/fvm/m/n/10.95 max_items
  []
 
 
 
 [40]
-Underfull \hbox (badness 10000) in paragraph at lines 477--478
-
+Overfull \hbox (9.08954pt too wide) in paragraph at lines 462--476
+\T1/ppl/m/n/10.95 Per mo-de-lar quin ti-pus d'ob-jec-te trans-por-ta ca-da ca-se-lla s'-ha usat la va-ri-a-ble []
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 479--482
-
+Overfull \hbox (8.01485pt too wide) in paragraph at lines 462--476
+[][][] \T1/ppl/m/n/10.95 que trac-ta d'u-na ma-triu de mi-da $\OML/zplm/m/it/10.95 width \OMS/zplm/m/n/10.95 ^^B \OML/zplm/m/it/10.95 height$ \T1/ppl/m/n/10.95 amb do-mi-ni $\OT1/zplm/m/n/10.95 [\OT1/ppl/m/n/10.95 0..\OML/zplm/m/it/10.95 max[]items\OT1/zplm/m/n/10.95 ]$\T1/ppl/m/n/10.95 . []
  []
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
 
 [41]
-Overfull \hbox (13.8951pt too wide) detected at line 509
-[]
- []
+Underfull \hbox (badness 10000) in paragraph at lines 510--514
 
-
-Overfull \hbox (10.42375pt too wide) in paragraph at lines 511--513
-\T1/ppl/m/n/10.95 Nom�s cal te-nir en comp-te que la ca-se-lla ve-�-na tin-gui un va-lor a la va-ri-a-ble \T1/fvm/m/n/10.95 item_flow
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 511--513
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 514--515
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 516--517
-
- []
-
-
-Overfull \hbox (14.14716pt too wide) in paragraph at lines 518--519
-[]\T1/ppl/m/n/10.95 Les im-pli-ca-ci-ons fi-nals s�n re-dun-dants, ja que no-m�s ite-rem per les di-rec-ci-ons \T1/fvm/m/n/10.95 [north,
  []
 
 
 
 [42]
-Overfull \hbox (31.73396pt too wide) in paragraph at lines 572--577
-\T1/ppl/m/n/10.95 va-ri-a-ble \T1/fvm/m/n/10.95 output_flow_rate \T1/ppl/m/n/10.95 a la po-si-ci� \T1/fvm/m/n/10.95 i j \T1/ppl/m/n/10.95 se-r� el va-lor la va-ri-a-ble \T1/fvm/m/n/10.95 input_flow_rate
+Underfull \hbox (badness 10000) in paragraph at lines 557--559
+
  []
 
 
 
 [43]
-Underfull \hbox (badness 10000) in paragraph at lines 604--605
+Underfull \hbox (badness 10000) in paragraph at lines 560--561
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 606--607
+Underfull \hbox (badness 10000) in paragraph at lines 562--563
 
  []
 
 
 
 [44]
-Underfull \hbox (badness 10000) in paragraph at lines 608--609
+Underfull \hbox (badness 10000) in paragraph at lines 605--609
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 640--641
-
+Overfull \hbox (5.90796pt too wide) detected at line 617
+[]
  []
 
 
 
 [45]
-Underfull \hbox (badness 10000) in paragraph at lines 642--643
+Underfull \hbox (badness 10000) in paragraph at lines 657--658
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 644--645
+Underfull \hbox (badness 10000) in paragraph at lines 659--660
 
  []
 
 
-Overfull \hbox (19.31706pt too wide) in paragraph at lines 646--650
-\T1/ppl/m/n/10.95 ri-a-ble \T1/fvm/m/n/10.95 input_ratio \T1/ppl/m/n/10.95 que trac-ta d'u-na ma-triu de mi-da \T1/fvm/m/n/10.95 max_assemblers$\OMS/zplm/m/n/10.95 ^^B$\T1/fvm/m/n/10.95 max_items\T1/ppl/m/n/10.95 ,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 646--650
+Underfull \hbox (badness 10000) in paragraph at lines 661--662
 
  []
 
 
 
 [46]
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 669--670
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 671--672
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 673--677
+
+ []
+
+
 
 [47]
-Overfull \hbox (60.71786pt too wide) in paragraph at lines 743--745
-\T1/ppl/m/n/10.95 l'en-tra-da d'ob-jec-tes mit-jan-�ant in-se-ri-dors, ens guar-dem la su-ma de \T1/fvm/m/n/10.95 output_flow_rate[i][j]
+Underfull \hbox (badness 10000) in paragraph at lines 678--679
+
  []
 
 
 
 [48]
-Overfull \hbox (87.8732pt too wide) in paragraph at lines 790--792
-\T1/ppl/m/n/10.95 rant mul-ti-pli-cat pel m�-xim te-�-ric que pot pro-duir la re-cep-ta \T1/fvm/m/n/10.95 recipe_output[recepta][objecte]\T1/ppl/m/n/10.95 . 
- []
-
-
 
 [49]
-Underfull \hbox (badness 10000) in paragraph at lines 822--824
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 825--827
-
- []
-
-
 
 [50]
-Underfull \hbox (badness 10000) in paragraph at lines 828--832
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 836--838
-
+Overfull \hbox (2.38431pt too wide) in paragraph at lines 824--826
+\T1/ppl/m/n/10.95 l'en-tra-da d'ob-jec-tes mit-jan-�ant in-se-ri-dors, ens guar-dem la su-ma de []
  []
 
 
 
 [51]
-Underfull \hbox (badness 10000) in paragraph at lines 853--854
-
- []
-
-
 
 [52]
-Underfull \hbox (badness 10000) in paragraph at lines 901--902
-
- []
-
-
 
 [53]
-Underfull \hbox (badness 10000) in paragraph at lines 903--904
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 906--907
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 908--909
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 927--929
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 935--937
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 938--939
+Underfull \hbox (badness 10000) in paragraph at lines 952--955
 
  []
 
 
 
 [54]
-Overfull \hbox (4.55312pt too wide) in paragraph at lines 941--942
-\T1/ppl/m/n/10.95 xim d'as-sem-bla-dors que es po-den en-ca-bir en les di-men-si-ons del blu-e-print $\OT1/zplm/m/n/10.95 (\OML/zplm/m/it/10.95 width\OT1/zplm/m/n/10.95 /\OT1/ppl/m/n/10.95 3\OT1/zplm/m/n/10.95 ) \OMS/zplm/m/n/10.95 ^^C
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 941--942
+Underfull \hbox (badness 10000) in paragraph at lines 955--956
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 952--953
+Underfull \hbox (badness 10000) in paragraph at lines 956--957
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 958--960
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 961--963
 
  []
 
 
 
 [55]
-Underfull \hbox (badness 10000) in paragraph at lines 980--981
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 982--985
-
- []
-
-
 
 [56]
-Underfull \hbox (badness 10000) in paragraph at lines 999--1000
+Underfull \hbox (badness 10000) in paragraph at lines 1022--1024
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1039--1040
 
  []
 
 
 
 [57]
-<Figures//captures_joc/redundant_inserter.png, id=1454, 226.59656pt x 331.99031pt>
-File: Figures//captures_joc/redundant_inserter.png Graphic file (type png)
-<use Figures//captures_joc/redundant_inserter.png>
-Package pdftex.def Info: Figures//captures_joc/redundant_inserter.png  used on input line 1026.
-(pdftex.def)             Requested size: 181.81184pt x 266.37779pt.
-<Figures//captures_joc/conveyor_alternative.png, id=1455, 230.36063pt x 322.20375pt>
-File: Figures//captures_joc/conveyor_alternative.png Graphic file (type png)
-<use Figures//captures_joc/conveyor_alternative.png>
-Package pdftex.def Info: Figures//captures_joc/conveyor_alternative.png  used on input line 1031.
-(pdftex.def)             Requested size: 181.81184pt x 254.29726pt.
-
 
 [58]
-Underfull \hbox (badness 10000) in paragraph at lines 1038--1039
+Underfull \hbox (badness 10000) in paragraph at lines 1093--1094
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1095--1096
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1123--1126
 
  []
 
 
 
-[59 <./Figures//captures_joc/redundant_inserter.png> <./Figures//captures_joc/conveyor_alternative.png>]
-<Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG, id=1491, 374.14781pt x 374.14781pt>
+[59]
+Underfull \hbox (badness 10000) in paragraph at lines 1133--1135
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1136--1137
+
+ []
+
+
+Overfull \hbox (4.55312pt too wide) in paragraph at lines 1139--1140
+\T1/ppl/m/n/10.95 xim d'as-sem-bla-dors que es po-den en-ca-bir en les di-men-si-ons del blu-e-print $\OT1/zplm/m/n/10.95 (\OML/zplm/m/it/10.95 width\OT1/zplm/m/n/10.95 /\OT1/ppl/m/n/10.95 3\OT1/zplm/m/n/10.95 ) \OMS/zplm/m/n/10.95 ^^C
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1139--1140
+
+ []
+
+
+
+[60]
+Underfull \hbox (badness 10000) in paragraph at lines 1150--1151
+
+ []
+
+
+
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 1178--1179
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1180--1183
+
+ []
+
+
+
+[62]
+Underfull \hbox (badness 10000) in paragraph at lines 1197--1198
+
+ []
+
+
+
+[63]
+<Figures//captures_joc/redundant_inserter.png, id=1591, 226.59656pt x 331.99031pt>
+File: Figures//captures_joc/redundant_inserter.png Graphic file (type png)
+<use Figures//captures_joc/redundant_inserter.png>
+Package pdftex.def Info: Figures//captures_joc/redundant_inserter.png  used on input line 1224.
+(pdftex.def)             Requested size: 181.81184pt x 266.37779pt.
+<Figures//captures_joc/conveyor_alternative.png, id=1592, 230.36063pt x 322.20375pt>
+File: Figures//captures_joc/conveyor_alternative.png Graphic file (type png)
+<use Figures//captures_joc/conveyor_alternative.png>
+Package pdftex.def Info: Figures//captures_joc/conveyor_alternative.png  used on input line 1229.
+(pdftex.def)             Requested size: 181.81184pt x 254.29726pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1236--1237
+
+ []
+
+
+
+[64 <./Figures//captures_joc/redundant_inserter.png> <./Figures//captures_joc/conveyor_alternative.png>]
+<Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG, id=1608, 374.14781pt x 374.14781pt>
 File: Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG Graphic file (type png)
 <use Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG>
-Package pdftex.def Info: Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG  used on input line 1063.
+Package pdftex.def Info: Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG  used on input line 1261.
 (pdftex.def)             Requested size: 181.81184pt x 181.80971pt.
-<Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG, id=1492, 374.90062pt x 374.90062pt>
+<Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG, id=1609, 374.90062pt x 374.90062pt>
 File: Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG Graphic file (type png)
 <use Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG>
-Package pdftex.def Info: Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG  used on input line 1068.
+Package pdftex.def Info: Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG  used on input line 1266.
 (pdftex.def)             Requested size: 181.81184pt x 181.81514pt.
 
 
-[60 <./Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG> <./Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG>])
+[65 <./Figures//captures_joc/exemples_model/instancia_amb_redundancia.PNG> <./Figures//captures_joc/exemples_model/instancia_sense_redundancia.PNG>]
+<Figures/captures_joc/exemples_model/item_loss_example.png, id=1625, 372.64218pt x 370.38374pt>
+File: Figures/captures_joc/exemples_model/item_loss_example.png Graphic file (type png)
+<use Figures/captures_joc/exemples_model/item_loss_example.png>
+Package pdftex.def Info: Figures/captures_joc/exemples_model/item_loss_example.png  used on input line 1315.
+(pdftex.def)             Requested size: 202.01454pt x 200.78981pt.
 
-[61]
+
+[66]
+Underfull \hbox (badness 10000) in paragraph at lines 1332--1333
+
+ []
+
+)
+
+[67 <./Figures/captures_joc/exemples_model/item_loss_example.png>]
 \openout2 = `Capítols/DissenyDelFrontEnd.aux'.
 
  (Capítols/DissenyDelFrontEnd.tex
@@ -2154,7 +2120,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
  []
 
-<Figures//captures_web/home_web.png, id=1515, 1428.83812pt x 701.62125pt>
+<Figures//captures_web/home_web.png, id=1666, 1428.83812pt x 701.62125pt>
 File: Figures//captures_web/home_web.png Graphic file (type png)
 <use Figures//captures_web/home_web.png>
 Package pdftex.def Info: Figures//captures_web/home_web.png  used on input line 25.
@@ -2162,415 +2128,415 @@ Package pdftex.def Info: Figures//captures_web/home_web.png  used on input line 
 
 
 1: section
-[62
+[68
 
 
 
 
  <./Figures//captures_web/home_web.png>]
-<Figures//captures_web/generate_instance_recipe_web.png, id=1522, 1442.38875pt x 715.17188pt>
+<Figures//captures_web/generate_instance_recipe_web.png, id=1672, 1442.38875pt x 715.17188pt>
 File: Figures//captures_web/generate_instance_recipe_web.png Graphic file (type png)
 <use Figures//captures_web/generate_instance_recipe_web.png>
 Package pdftex.def Info: Figures//captures_web/generate_instance_recipe_web.png  used on input line 37.
 (pdftex.def)             Requested size: 404.02908pt x 200.32314pt.
-<Figures//captures_web/generate_instance_size_web.png, id=1523, 1442.38875pt x 715.17188pt>
+<Figures//captures_web/generate_instance_size_web.png, id=1673, 1442.38875pt x 715.17188pt>
 File: Figures//captures_web/generate_instance_size_web.png Graphic file (type png)
 <use Figures//captures_web/generate_instance_size_web.png>
 Package pdftex.def Info: Figures//captures_web/generate_instance_size_web.png  used on input line 46.
 (pdftex.def)             Requested size: 404.02908pt x 200.32314pt.
 
 
-[63 <./Figures//captures_web/generate_instance_recipe_web.png>]
+[69 <./Figures//captures_web/generate_instance_recipe_web.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 52--53
 
  []
 
-<Figures//captures_web/generate_instance_input_web.png, id=1529, 1445.4pt x 720.44156pt>
+<Figures//captures_web/generate_instance_input_web.png, id=1679, 1445.4pt x 720.44156pt>
 File: Figures//captures_web/generate_instance_input_web.png Graphic file (type png)
 <use Figures//captures_web/generate_instance_input_web.png>
 Package pdftex.def Info: Figures//captures_web/generate_instance_input_web.png  used on input line 59.
 (pdftex.def)             Requested size: 404.02908pt x 201.38147pt.
 
 
-[64 <./Figures//captures_web/generate_instance_size_web.png>]
-<Figures//captures_web/generate_instance_solving_web.PNG, id=1535, 1444.64719pt x 716.6775pt>
+[70 <./Figures//captures_web/generate_instance_size_web.png>]
+<Figures//captures_web/generate_instance_solving_web.PNG, id=1685, 1444.64719pt x 716.6775pt>
 File: Figures//captures_web/generate_instance_solving_web.PNG Graphic file (type png)
 <use Figures//captures_web/generate_instance_solving_web.PNG>
 Package pdftex.def Info: Figures//captures_web/generate_instance_solving_web.PNG  used on input line 68.
 (pdftex.def)             Requested size: 404.02908pt x 200.42775pt.
 
 
-[65 <./Figures//captures_web/generate_instance_input_web.png> <./Figures//captures_web/generate_instance_solving_web.PNG>]
-<Figures//captures_web/visualize_instance_basic.PNG, id=1543, 715.17188pt x 585.68813pt>
+[71 <./Figures//captures_web/generate_instance_input_web.png> <./Figures//captures_web/generate_instance_solving_web.PNG>]
+<Figures//captures_web/visualize_instance_basic.PNG, id=1696, 715.17188pt x 585.68813pt>
 File: Figures//captures_web/visualize_instance_basic.PNG Graphic file (type png)
 <use Figures//captures_web/visualize_instance_basic.PNG>
-Package pdftex.def Info: Figures//captures_web/visualize_instance_basic.PNG  used on input line 80.
+Package pdftex.def Info: Figures//captures_web/visualize_instance_basic.PNG  used on input line 81.
 (pdftex.def)             Requested size: 404.02908pt x 330.87866pt.
-<Figures/captures_web/visualize_instance_sat_conv.png, id=1544, 825.0825pt x 579.66562pt>
+<Figures/captures_web/visualize_instance_sat_conv.png, id=1697, 825.0825pt x 579.66562pt>
 File: Figures/captures_web/visualize_instance_sat_conv.png Graphic file (type png)
 <use Figures/captures_web/visualize_instance_sat_conv.png>
-Package pdftex.def Info: Figures/captures_web/visualize_instance_sat_conv.png  used on input line 89.
+Package pdftex.def Info: Figures/captures_web/visualize_instance_sat_conv.png  used on input line 90.
 (pdftex.def)             Requested size: 181.81184pt x 127.73026pt.
-<Figures/captures_web/visualize_instance_sat_ass.png, id=1545, 782.925pt x 590.205pt>
+<Figures/captures_web/visualize_instance_sat_ass.png, id=1698, 782.925pt x 590.205pt>
 File: Figures/captures_web/visualize_instance_sat_ass.png Graphic file (type png)
 <use Figures/captures_web/visualize_instance_sat_ass.png>
-Package pdftex.def Info: Figures/captures_web/visualize_instance_sat_ass.png  used on input line 94.
+Package pdftex.def Info: Figures/captures_web/visualize_instance_sat_ass.png  used on input line 95.
 (pdftex.def)             Requested size: 181.81184pt x 137.05013pt.
 
 
-[66 <./Figures//captures_web/visualize_instance_basic.PNG>]
-<Figures/captures_web/visualize_instance_unsat.PNG, id=1551, 434.37282pt x 580.41844pt>
+[72 <./Figures//captures_web/visualize_instance_basic.PNG>]
+<Figures/captures_web/visualize_instance_unsat.PNG, id=1706, 434.37282pt x 580.41844pt>
 File: Figures/captures_web/visualize_instance_unsat.PNG Graphic file (type png)
 <use Figures/captures_web/visualize_instance_unsat.PNG>
-Package pdftex.def Info: Figures/captures_web/visualize_instance_unsat.PNG  used on input line 103.
+Package pdftex.def Info: Figures/captures_web/visualize_instance_unsat.PNG  used on input line 105.
 (pdftex.def)             Requested size: 121.20995pt x 161.9581pt.
-<Figures/captures_web/visualize_instance_time_out.PNG, id=1552, 459.21562pt x 563.85657pt>
+<Figures/captures_web/visualize_instance_time_out.PNG, id=1707, 459.21562pt x 563.85657pt>
 File: Figures/captures_web/visualize_instance_time_out.PNG Graphic file (type png)
 <use Figures/captures_web/visualize_instance_time_out.PNG>
-Package pdftex.def Info: Figures/captures_web/visualize_instance_time_out.PNG  used on input line 108.
+Package pdftex.def Info: Figures/captures_web/visualize_instance_time_out.PNG  used on input line 110.
 (pdftex.def)             Requested size: 121.20995pt x 148.82762pt.
-<Figures/captures_web/visualize_instance_incorrect_file.PNG, id=1553, 423.08063pt x 576.65437pt>
+<Figures/captures_web/visualize_instance_incorrect_file.PNG, id=1708, 423.08063pt x 576.65437pt>
 File: Figures/captures_web/visualize_instance_incorrect_file.PNG Graphic file (type png)
 <use Figures/captures_web/visualize_instance_incorrect_file.PNG>
-Package pdftex.def Info: Figures/captures_web/visualize_instance_incorrect_file.PNG  used on input line 113.
+Package pdftex.def Info: Figures/captures_web/visualize_instance_incorrect_file.PNG  used on input line 115.
 (pdftex.def)             Requested size: 121.20995pt x 165.2017pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 124--126
+Underfull \hbox (badness 10000) in paragraph at lines 127--129
 
  []
 
 
 
-[67 <./Figures/captures_web/visualize_instance_sat_conv.png> <./Figures/captures_web/visualize_instance_sat_ass.png> <./Figures/captures_web/visualize_instance_unsat.PNG> <./Figures/captures_web/visualize_instance_time_out.PNG> <./Figures/captures_web/visualize_instance_incorrect_file.PNG>]
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+[73 <./Figures/captures_web/visualize_instance_sat_conv.png> <./Figures/captures_web/visualize_instance_sat_ass.png> <./Figures/captures_web/visualize_instance_unsat.PNG> <./Figures/captures_web/visualize_instance_time_out.PNG> <./Figures/captures_web/visualize_instance_incorrect_file.PNG>]
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 [][]\T1/ppl/m/n/10.95 - spri-te-Can-vas : htm-lObj 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - spri-te-Con-text : htm-lObj 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - cur-sor-Can-vas : htm-lObj 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - rows : int 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - co-lumns : int 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - se-lec-ted-CellX : int 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - se-lec-ted-CellY : int 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - gri-dIn-for-ma-ti-on : ar-ray 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 [][]\T1/ppl/m/it/10.95 + re-set-Blu-e-print() : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 + cons-truc-tor() 
  []
 
 
-Underfull \hbox (badness 2027) in paragraph at lines 183--183
+Underfull \hbox (badness 2027) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - cal-cu-la-te-Grid-Si-ze(rows: int, cols: int) : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - get-Cell-Cen-ter() : [int, int] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - hand-le-Cell-Click(e : event) : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - up-da-te-Se-lec-ted-Cell(e : event) : void 
  []
 
 
-Underfull \hbox (badness 4647) in paragraph at lines 183--183
+Underfull \hbox (badness 4647) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - for-ma-tI-tem-Na-me(name : string) : string 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 [][]\T1/ppl/m/n/10.95 + re-set-Gri-dIn-fo() : void 
  []
 
 
-Underfull \hbox (badness 3792) in paragraph at lines 183--183
+Underfull \hbox (badness 3792) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - item-Se-lec-ti-on-Hand-ler() : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - isOut-put-Hand-ler() : void 
  []
 
 
-Underfull \hbox (badness 7740) in paragraph at lines 183--183
+Underfull \hbox (badness 7740) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - si-zeIn-put-Hand-ler() : void 
  []
 
 
-Underfull \hbox (badness 1817) in paragraph at lines 183--183
+Underfull \hbox (badness 1817) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - se-tI-tem-sI-nU-se(items : list) : void 
  []
 
 
-Underfull \hbox (badness 2990) in paragraph at lines 183--183
+Underfull \hbox (badness 2990) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - in-pu-tI-tems(item : string) : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 [][]\T1/ppl/m/n/10.95 - sol-ve-dIns-tan-ce : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - ad-ja-cent-Pos : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - dir-Co-ord : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - op-po-si-te-Dir : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - spri-te-Na-mes : ar-ray 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 [][]\T1/ppl/m/n/10.95 + re-set-Gri-dIn-fo() : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 183--183
+Underfull \hbox (badness 10000) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 + draw() : void 
  []
 
 
-Underfull \hbox (badness 6493) in paragraph at lines 183--183
+Underfull \hbox (badness 6493) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - con-veyorS-pri-te(x : int, y : int) : string 
  []
 
 
-Underfull \hbox (badness 6173) in paragraph at lines 183--183
+Underfull \hbox (badness 6173) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - fetchS-pri-te(spriteName : string) : void 
  []
 
 
-Underfull \hbox (badness 1895) in paragraph at lines 183--183
+Underfull \hbox (badness 1895) in paragraph at lines 186--186
 \T1/ppl/m/n/10.95 - con-veyor-Rou-teS-ta-tus(x : int, y : int) : string 
  []
 
 
 
-[68]
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+[74]
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 - x : flo-at 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - y : flo-at 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 [][]\T1/ppl/m/it/10.95 + up-da-te-Ce-llIn-fo() : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + cons-truc-tor(x : flo-at, y : flo-at, ty-pe : string) 
  []
 
 
-Underfull \hbox (badness 4673) in paragraph at lines 265--265
+Underfull \hbox (badness 4673) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + cre-a-teIn-fo-E-le-ment(title : string, va-lue:string) : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 - dir : string 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - item-Carrying : string 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - in-put-Flow : flo-at 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - out-put-Flow : flo-at 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - rou-te-Va-lue : int 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 + cons-truc-tor(dir : string, ic : string, if : flo-at, of 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 : flo-at, rv : int, x : flo-at, y : flo-at, ty-pe : string) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + draw(spr : ima-ge, itemS-pr: ima-ge, can- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 vas : htm-lObj, rows : int, cols : int) : void 
  []
 
 
-Underfull \hbox (badness 5563) in paragraph at lines 265--265
+Underfull \hbox (badness 5563) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 + cons-truc-tor(dir : string, ic : 
  []
 
 
-Underfull \hbox (badness 1902) in paragraph at lines 265--265
+Underfull \hbox (badness 1902) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 string, if : flo-at, of : flo-at, rv : int, 
  []
 
 
-Underfull \hbox (badness 3375) in paragraph at lines 265--265
+Underfull \hbox (badness 3375) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 x : flo-at, y : flo-at, ty-pe : string) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 - item-Pro-du-cing : string 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - is-Drawn : bo-ol 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - in-pu-tI-tems : dict 
  []
 
 
-Underfull \hbox (badness 2608) in paragraph at lines 265--265
+Underfull \hbox (badness 2608) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 + cons-truc-tor(itemProducing : string, x : flo-at, y : flo-at) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + draw(spr : ima-ge, itemS-pr: ima-ge, can- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 vas : htm-lObj, rows : int, cols : int) : void 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + up-da-te-Ce-llIn-fo() : void 
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 265--265
+Underfull \hbox (badness 1953) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 - cal-cu-la-te-Ra-ti-os(input : dict, out-put : dict) : ra-ti-os : dict 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 + draw-Se-lec-te-dOut-li-ne(canvas : htm- 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 265--265
+Underfull \hbox (badness 10000) in paragraph at lines 268--268
 \T1/ppl/m/n/10.95 lObj, rows : int, co-lumns : int) : void 
  []
 
 
-Underfull \hbox (badness 1859) in paragraph at lines 265--265
+Underfull \hbox (badness 1859) in paragraph at lines 268--268
 [][]\T1/ppl/m/n/10.95 - item-Carrying : string 
  []
 
 
-Overfull \hbox (12.41788pt too wide) in paragraph at lines 198--266
+Overfull \hbox (12.41788pt too wide) in paragraph at lines 201--269
  [][] 
  []
 
 
 
-[69]
+[75]
 Overfull \vbox (38.822pt too high) has occurred while \output is active []
 
 
 
-[70]
-Underfull \hbox (badness 10000) in paragraph at lines 277--278
+[76]
+Underfull \hbox (badness 10000) in paragraph at lines 280--281
 
  []
 
 (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
 )
-Underfull \hbox (badness 10000) in paragraph at lines 302--303
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
 
  []
 
 
 
-[71] (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
+[77] (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2024/05/25 1.10b listings language file
 ) (C:\Users\Usuario\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2024/05/25 1.10b (Carsten Heinz)
 ))
 
-[72]
+[78]
 \openout2 = `Capítols/AnalisiDelsExperiments.aux'.
 
  (Capítols/AnalisiDelsExperiments.tex
@@ -2583,72 +2549,72 @@ Underfull \hbox (badness 10000) in paragraph at lines 23--24
 
 
 1: section
-[73
+[79
 
 
 
 
 ]
-<Figures/miscelaneous/instances_5x5.png, id=1627, 527.72156pt x 214.55156pt>
+<Figures/miscelaneous/instances_5x5.png, id=1783, 527.72156pt x 214.55156pt>
 File: Figures/miscelaneous/instances_5x5.png Graphic file (type png)
 <use Figures/miscelaneous/instances_5x5.png>
 Package pdftex.def Info: Figures/miscelaneous/instances_5x5.png  used on input line 34.
 (pdftex.def)             Requested size: 404.02908pt x 164.26234pt.
-<Figures/miscelaneous/instances_6x6.png, id=1628, 527.72156pt x 231.11343pt>
+<Figures/miscelaneous/instances_6x6.png, id=1784, 527.72156pt x 231.11343pt>
 File: Figures/miscelaneous/instances_6x6.png Graphic file (type png)
 <use Figures/miscelaneous/instances_6x6.png>
 Package pdftex.def Info: Figures/miscelaneous/instances_6x6.png  used on input line 39.
 (pdftex.def)             Requested size: 404.02908pt x 176.94226pt.
-<Figures/miscelaneous/instances_7x7.png, id=1629, 527.72156pt x 125.71968pt>
+<Figures/miscelaneous/instances_7x7.png, id=1785, 527.72156pt x 125.71968pt>
 File: Figures/miscelaneous/instances_7x7.png Graphic file (type png)
 <use Figures/miscelaneous/instances_7x7.png>
 Package pdftex.def Info: Figures/miscelaneous/instances_7x7.png  used on input line 44.
 (pdftex.def)             Requested size: 404.02908pt x 96.25195pt.
 
 
-[74 <./Figures/miscelaneous/instances_5x5.png>]
-<Figures/miscelaneous/instances_8x8.png, id=1636, 527.72156pt x 124.96687pt>
+[80 <./Figures/miscelaneous/instances_5x5.png>]
+<Figures/miscelaneous/instances_8x8.png, id=1791, 527.72156pt x 124.96687pt>
 File: Figures/miscelaneous/instances_8x8.png Graphic file (type png)
 <use Figures/miscelaneous/instances_8x8.png>
 Package pdftex.def Info: Figures/miscelaneous/instances_8x8.png  used on input line 49.
 (pdftex.def)             Requested size: 404.02908pt x 95.67561pt.
 
 
-[75 <./Figures/miscelaneous/instances_6x6.png> <./Figures/miscelaneous/instances_7x7.png> <./Figures/miscelaneous/instances_8x8.png>]
-<Figures/experiment_results/instances_solved_1.png, id=1652, 301.8778pt x 650.43pt>
+[81 <./Figures/miscelaneous/instances_6x6.png> <./Figures/miscelaneous/instances_7x7.png> <./Figures/miscelaneous/instances_8x8.png>]
+<Figures/experiment_results/instances_solved_1.png, id=1807, 301.8778pt x 650.43pt>
 File: Figures/experiment_results/instances_solved_1.png Graphic file (type png)
 <use Figures/experiment_results/instances_solved_1.png>
 Package pdftex.def Info: Figures/experiment_results/instances_solved_1.png  used on input line 81.
 (pdftex.def)             Requested size: 161.60916pt x 348.19992pt.
-<Figures/experiment_results/instances_solved_2.png, id=1653, 301.8778pt x 650.43pt>
+<Figures/experiment_results/instances_solved_2.png, id=1808, 301.8778pt x 650.43pt>
 File: Figures/experiment_results/instances_solved_2.png Graphic file (type png)
 <use Figures/experiment_results/instances_solved_2.png>
 Package pdftex.def Info: Figures/experiment_results/instances_solved_2.png  used on input line 85.
 (pdftex.def)             Requested size: 161.60916pt x 348.19992pt.
-<Figures/experiment_results/instances_solved_3.png, id=1654, 301.8778pt x 650.43pt>
+<Figures/experiment_results/instances_solved_3.png, id=1809, 301.8778pt x 650.43pt>
 File: Figures/experiment_results/instances_solved_3.png Graphic file (type png)
 <use Figures/experiment_results/instances_solved_3.png>
 Package pdftex.def Info: Figures/experiment_results/instances_solved_3.png  used on input line 89.
 (pdftex.def)             Requested size: 161.60916pt x 348.19992pt.
 
 
-[76]
+[82]
 Overfull \vbox (37.90163pt too high) has occurred while \output is active []
 
 
 
-[77 <./Figures/experiment_results/instances_solved_1.png> <./Figures/experiment_results/instances_solved_2.png> <./Figures/experiment_results/instances_solved_3.png>]
-<Figures/experiment_results/solved_instances_count_1.png, id=1664, 361.35pt x 216.81pt>
+[83 <./Figures/experiment_results/instances_solved_1.png> <./Figures/experiment_results/instances_solved_2.png> <./Figures/experiment_results/instances_solved_3.png>]
+<Figures/experiment_results/solved_instances_count_1.png, id=1819, 361.35pt x 216.81pt>
 File: Figures/experiment_results/solved_instances_count_1.png Graphic file (type png)
 <use Figures/experiment_results/solved_instances_count_1.png>
 Package pdftex.def Info: Figures/experiment_results/solved_instances_count_1.png  used on input line 100.
 (pdftex.def)             Requested size: 242.4199pt x 145.45381pt.
-<Figures/experiment_results/solved_instances_count_2.png, id=1665, 362.10281pt x 216.81pt>
+<Figures/experiment_results/solved_instances_count_2.png, id=1820, 362.10281pt x 216.81pt>
 File: Figures/experiment_results/solved_instances_count_2.png Graphic file (type png)
 <use Figures/experiment_results/solved_instances_count_2.png>
 Package pdftex.def Info: Figures/experiment_results/solved_instances_count_2.png  used on input line 104.
 (pdftex.def)             Requested size: 242.4199pt x 145.15277pt.
-<Figures/experiment_results/solved_instances_count_3.png, id=1666, 362.10281pt x 216.81pt>
+<Figures/experiment_results/solved_instances_count_3.png, id=1821, 362.10281pt x 216.81pt>
 File: Figures/experiment_results/solved_instances_count_3.png Graphic file (type png)
 <use Figures/experiment_results/solved_instances_count_3.png>
 Package pdftex.def Info: Figures/experiment_results/solved_instances_count_3.png  used on input line 108.
@@ -2660,24 +2626,24 @@ Underfull \hbox (badness 10000) in paragraph at lines 113--114
 
 
 
-[78 <./Figures/experiment_results/solved_instances_count_1.png> <./Figures/experiment_results/solved_instances_count_2.png> <./Figures/experiment_results/solved_instances_count_3.png>]
-<Figures/experiment_results/solving_time_1.png, id=1672, 1193.20781pt x 633.11531pt>
+[84 <./Figures/experiment_results/solved_instances_count_1.png> <./Figures/experiment_results/solved_instances_count_2.png> <./Figures/experiment_results/solved_instances_count_3.png>]
+<Figures/experiment_results/solving_time_1.png, id=1827, 1193.20781pt x 633.11531pt>
 File: Figures/experiment_results/solving_time_1.png Graphic file (type png)
 <use Figures/experiment_results/solving_time_1.png>
 Package pdftex.def Info: Figures/experiment_results/solving_time_1.png  used on input line 122.
 (pdftex.def)             Requested size: 404.02908pt x 214.37724pt.
-<Figures/experiment_results/solving_time_2.png, id=1673, 1192.455pt x 633.11531pt>
-File: Figures/experiment_results/solving_time_2.png Graphic file (type png)
-<use Figures/experiment_results/solving_time_2.png>
-Package pdftex.def Info: Figures/experiment_results/solving_time_2.png  used on input line 129.
+<Figures/experiment_results/solving_time_3.png, id=1828, 1192.455pt x 633.11531pt>
+File: Figures/experiment_results/solving_time_3.png Graphic file (type png)
+<use Figures/experiment_results/solving_time_3.png>
+Package pdftex.def Info: Figures/experiment_results/solving_time_3.png  used on input line 129.
 (pdftex.def)             Requested size: 404.02908pt x 214.51248pt.
 
 
-[79 <./Figures/experiment_results/solving_time_1.png>]
-<Figures/experiment_results/solving_time_3.png, id=1679, 1192.455pt x 633.11531pt>
-File: Figures/experiment_results/solving_time_3.png Graphic file (type png)
-<use Figures/experiment_results/solving_time_3.png>
-Package pdftex.def Info: Figures/experiment_results/solving_time_3.png  used on input line 136.
+[85 <./Figures/experiment_results/solving_time_1.png>]
+<Figures/experiment_results/solving_time_2.png, id=1835, 1192.455pt x 633.11531pt>
+File: Figures/experiment_results/solving_time_2.png Graphic file (type png)
+<use Figures/experiment_results/solving_time_2.png>
+Package pdftex.def Info: Figures/experiment_results/solving_time_2.png  used on input line 136.
 (pdftex.def)             Requested size: 404.02908pt x 214.51248pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 141--142
@@ -2685,20 +2651,112 @@ Underfull \hbox (badness 10000) in paragraph at lines 141--142
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 143--145
+
+[86 <./Figures/experiment_results/solving_time_3.png> <./Figures/experiment_results/solving_time_2.png>]
+<Figures/experiment_results/solved_instance_21_output.PNG, id=1847, 374.90062pt x 375.65344pt>
+File: Figures/experiment_results/solved_instance_21_output.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_21_output.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_21_output.PNG  used on input line 155.
+(pdftex.def)             Requested size: 181.81184pt x 182.18022pt.
+<Figures/experiment_results/solved_instance_21_route.PNG, id=1848, 374.90062pt x 375.65344pt>
+File: Figures/experiment_results/solved_instance_21_route.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_21_route.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_21_route.PNG  used on input line 160.
+(pdftex.def)             Requested size: 181.81184pt x 182.18022pt.
+<Figures/experiment_results/solved_instance_29_output.PNG, id=1849, 374.90062pt x 374.14781pt>
+File: Figures/experiment_results/solved_instance_29_output.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_29_output.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_29_output.PNG  used on input line 170.
+(pdftex.def)             Requested size: 181.81184pt x 181.45004pt.
+<Figures/experiment_results/solved_instance_29_route.PNG, id=1850, 374.14781pt x 374.90062pt>
+File: Figures/experiment_results/solved_instance_29_route.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_29_route.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_29_route.PNG  used on input line 175.
+(pdftex.def)             Requested size: 181.81184pt x 182.17552pt.
+
+
+[87 <./Figures/experiment_results/solved_instance_21_output.PNG> <./Figures/experiment_results/solved_instance_21_route.PNG>]
+<Figures/experiment_results/solved_instance_39_output.PNG, id=1861, 374.90062pt x 374.90062pt>
+File: Figures/experiment_results/solved_instance_39_output.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_39_output.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_39_output.PNG  used on input line 185.
+(pdftex.def)             Requested size: 181.81184pt x 181.81514pt.
+<Figures/experiment_results/solved_instance_39_route.PNG, id=1862, 375.65344pt x 374.14781pt>
+File: Figures/experiment_results/solved_instance_39_route.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_39_route.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_39_route.PNG  used on input line 190.
+(pdftex.def)             Requested size: 181.81184pt x 181.08466pt.
+<Figures/experiment_results/solved_instance_37_output.PNG, id=1863, 374.90062pt x 374.14781pt>
+File: Figures/experiment_results/solved_instance_37_output.PNG Graphic file (type png)
+<use Figures/experiment_results/solved_instance_37_output.PNG>
+Package pdftex.def Info: Figures/experiment_results/solved_instance_37_output.PNG  used on input line 199.
+(pdftex.def)             Requested size: 404.02908pt x 403.24008pt.
+
+
+[88 <./Figures/experiment_results/solved_instance_29_output.PNG> <./Figures/experiment_results/solved_instance_29_route.PNG> <./Figures/experiment_results/solved_instance_39_output.PNG> <./Figures/experiment_results/solved_instance_39_route.PNG>])
+
+[89 <./Figures/experiment_results/solved_instance_37_output.PNG>]
+\openout2 = `Capítols/Conclusions.aux'.
+
+ (Capítols/Conclusions.tex
+Cap\'{\i }tol 11.
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--14
+
+ []
+
+)
+
+1: section
+[90
+
+
+
+
+]
+\openout2 = `Capítols/TreballFutur.aux'.
+
+ (Capítols/TreballFutur.tex
+Cap\'{\i }tol 12.
+
+Underfull \hbox (badness 10000) in paragraph at lines 12--13
 
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 14--15
 
-[80 <./Figures/experiment_results/solving_time_2.png> <./Figures/experiment_results/solving_time_3.png>])
+ []
 
-[81]
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--17
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 20--21
+
+ []
+
+)
+
+1: section
+[91
+
+
+
+
+]
 \openout2 = `Apèndix/AppendixA.aux'.
 
  (Apèndix/AppendixA.tex
 Ap\`endix A.
-<Figures/miscelaneous/suport_conv.png, id=1692, 1074.26344pt x 579.66562pt>
+<Figures/miscelaneous/suport_conv.png, id=1885, 1074.26344pt x 579.66562pt>
 File: Figures/miscelaneous/suport_conv.png Graphic file (type png)
 <use Figures/miscelaneous/suport_conv.png>
 Package pdftex.def Info: Figures/miscelaneous/suport_conv.png  used on input line 12.
@@ -2706,7 +2764,7 @@ Package pdftex.def Info: Figures/miscelaneous/suport_conv.png  used on input lin
 )
 
 1: section
-[82
+[92
 
 
 
@@ -2719,14 +2777,14 @@ Ap\`endix B.
 
 
 1: section
-[83
+[93
 
 
 
 
 ])
 
-[84]
+[94]
 \openout2 = `Apèndix/AppendixC.aux'.
 
  (Apèndix/AppendixC.tex
@@ -2734,43 +2792,63 @@ Ap\`endix C.
 
 
 1: section
-[85
+[95
 
 
 
 
 ])
 
-[86]
+[96]
+\openout2 = `Apèndix/AppendixD.aux'.
+
+ (Apèndix/AppendixD.tex
+Ap\`endix D.
+<Figures/experiment_results/solving_times_compiled.png, id=2027, 720.44156pt x 650.43pt>
+File: Figures/experiment_results/solving_times_compiled.png Graphic file (type png)
+<use Figures/experiment_results/solving_times_compiled.png>
+Package pdftex.def Info: Figures/experiment_results/solving_times_compiled.png  used on input line 13.
+(pdftex.def)             Requested size: 554.80067pt x 500.88226pt.
+)
 
 1: section
-[87
+[97
 
 
 
-] (main.aux (Front/titlepage.aux) (Front/imprint.aux) (Capítols/Introducció.aux) (Capítols/EstudiDeViabilitat.aux) (Capítols/Metodologia.aux) (Capítols/Planificacio.aux) (Capítols/MarcDeTreballIConceptesPrevis.aux) (Capítols/RequisitsDelSistema.aux) (Capítols/EstudisIDecisions.aux) (Capítols/DissenyDelModel.aux) (Capítols/DissenyDelFrontEnd.aux) (Capítols/AnalisiDelsExperiments.aux) (Apèndix/AppendixA.aux) (Apèndix/AppendixB.aux) (Apèndix/AppendixC.aux))
+
+]
+
+[98 <./Figures/experiment_results/solving_times_compiled.png>]
+
+1: section
+[99
+
+
+
+] (main.aux (Front/titlepage.aux) (Front/imprint.aux) (Capítols/Introducció.aux) (Capítols/EstudiDeViabilitat.aux) (Capítols/Metodologia.aux) (Capítols/Planificacio.aux) (Capítols/MarcDeTreballIConceptesPrevis.aux) (Capítols/RequisitsDelSistema.aux) (Capítols/EstudisIDecisions.aux) (Capítols/DissenyDelModel.aux) (Capítols/DissenyDelFrontEnd.aux) (Capítols/AnalisiDelsExperiments.aux) (Capítols/Conclusions.aux) (Capítols/TreballFutur.aux) (Apèndix/AppendixA.aux) (Apèndix/AppendixB.aux) (Apèndix/AppendixC.aux) (Apèndix/AppendixD.aux))
  ***********
 LaTeX2e <2024-06-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 539D46FA30A68CD5E7EBE7686FBFC973;25045.
+(rerunfilecheck)             Checksum: 09F30736D7F75FCF488607BB6877A896;25671.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 59236 strings out of 473903
- 1426283 string characters out of 5725635
- 2761736 words of memory out of 5000000
- 80285 multiletter control sequences out of 15000+600000
- 623611 words of font info for 155 fonts, out of 8000000 for 9000
+ 59525 strings out of 473903
+ 1436005 string characters out of 5725635
+ 2828216 words of memory out of 5000000
+ 80475 multiletter control sequences out of 15000+600000
+ 625216 words of font info for 158 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 105i,21n,104p,1259b,2760s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/bera/fvmr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on main.pdf (92 pages, 13097839 bytes).
+ 105i,21n,104p,1278b,2783s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/public/mathpazo/fplmr.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/bera/fvmr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplb8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplr8a.pfb><C:/Users/Usuario/AppData/Local/Programs/MiKTeX/fonts/type1/urw/palatino/uplri8a.pfb>
+Output written on main.pdf (105 pages, 17215643 bytes).
 PDF statistics:
- 2075 PDF objects out of 2487 (max. 8388607)
- 892 named destinations out of 1000 (max. 500000)
- 1306 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2296 PDF objects out of 2487 (max. 8388607)
+ 966 named destinations out of 1000 (max. 500000)
+ 1383 words of extra memory for PDF output out of 10000 (max. 10000000)
 

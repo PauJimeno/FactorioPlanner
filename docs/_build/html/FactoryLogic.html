@@ -41,15 +41,45 @@
 <dt class="sig sig-object py" id="FactoryLogic.FactoryLogic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">FactoryLogic.</span></span><span class="sig-name descname"><span class="pre">FactoryLogic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">assembler</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/FactoryLogic.html#FactoryLogic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactoryLogic.FactoryLogic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class conatins the logic that prevents any collisions between all factory elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>conveyor</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – Reference to the conveyor directions variable</p></li>
+<li><p><strong>inserter</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – Reference to the inserter directions variable</p></li>
+<li><p><strong>assembler</strong> (<em>Array</em><em>[</em><em>Array</em><em>] </em><em>BitVec</em>) – Reference to the assembler collision_area variable</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="FactoryLogic.FactoryLogic.collision">
 <span class="sig-name descname"><span class="pre">collision</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/FactoryLogic.html#FactoryLogic.collision"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactoryLogic.FactoryLogic.collision" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constarint that ensures that all elements of the blueprint (conveyors, inserters and assemblers) don’t collide between each other</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the constraint that ensures there can’t be any elements in the same cell of the blueprint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="FactoryLogic.FactoryLogic.constraints">
 <span class="sig-name descname"><span class="pre">constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/FactoryLogic.html#FactoryLogic.constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#FactoryLogic.FactoryLogic.constraints" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a list of all the constarints representing the logic of the class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>the constraint that ensures there can’t be any elements in the same cell of the blueprint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

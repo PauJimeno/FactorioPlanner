@@ -41,45 +41,144 @@
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ItemFlowRateLogic.</span></span><span class="sig-name descname"><span class="pre">ItemFlowRateLogic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalElement</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GridElement</span></code></p>
+<p>This class contains all the constraints that implement the logic of the flow rate of items.
+Note that all the constraints of the model are explained in detail in the project report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>route</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the route variable</p></li>
+<li><p><strong>conveyor</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the variable conveyor</p></li>
+<li><p><strong>inserter</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the inserter variable</p></li>
+<li><p><strong>recipes</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.belt_item_flow_propagation">
 <span class="sig-name descname"><span class="pre">belt_item_flow_propagation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.belt_item_flow_propagation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.belt_item_flow_propagation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constraint that encodes the behaviour of how the amount of items a conveyor
+carries is propagated.
+The input rate of a conveyor is the sum of all the outputs of the neighbouring cells
+(inserter or conveyor) pointing towards the conveyor.
+The output rate of a conveyor is its input minus the sum of inputs of inserters taking
+items from the conveyor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.constraints">
 <span class="sig-name descname"><span class="pre">constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.constraints" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a list of all the constraints representing the logic of the class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>class constraints compacted in a single list</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.inserter_item_flow_propagation">
 <span class="sig-name descname"><span class="pre">inserter_item_flow_propagation</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.inserter_item_flow_propagation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.inserter_item_flow_propagation" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constraint that encodes the behaviour of how the amount of items an inserter
+carries is propagated.
+The input rate of an inserter is at max 50 if the input cell carries 50 or more items,
+in the other hand if the input cell carries less than 50 the inserter will carry at most
+the same amount of items.
+The output flow rate of the inserter will always be the same as the input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.item_input_rate">
 <span class="sig-name descname"><span class="pre">item_input_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.item_input_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.item_input_rate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The input cells rate is the rate specified in the input coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.item_loss">
 <span class="sig-name descname"><span class="pre">item_loss</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.item_loss"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.item_loss" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sums the number of items that are not getting used by assemblers (loss),
+the loss happens when the flow rate of a conveyor feeding an inserter feeding an assembler
+is greater than 0.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sum of unused items, used for optimization</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.item_output">
 <span class="sig-name descname"><span class="pre">item_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.item_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.item_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Sums the number of output items produced by the blueprint.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>sum of produced items, used for optimization</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.part_of_route">
 <span class="sig-name descname"><span class="pre">part_of_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.part_of_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.part_of_route" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>A cell that cant transport items (route = 0) also cant have item flow rate (item_flow_rate = 0)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowRateLogic.ItemFlowRateLogic.variable_input_rate">
 <span class="sig-name descname"><span class="pre">variable_input_rate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowRateLogic.html#ItemFlowRateLogic.variable_input_rate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowRateLogic.ItemFlowRateLogic.variable_input_rate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The input cells rate is the rate specified in the input coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

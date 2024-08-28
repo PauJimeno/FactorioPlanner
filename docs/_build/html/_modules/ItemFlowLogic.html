@@ -41,6 +41,33 @@
 
 
 <div class="viewcode-block" id="ItemFlowLogic"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic">[docs]</a><span class="k">class</span> <span class="nc">ItemFlowLogic</span><span class="p">(</span><span class="n">DirectionalElement</span><span class="p">,</span> <span class="n">GridElement</span><span class="p">,</span> <span class="n">RecipeElement</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class contains all the constraints that implement the logic of the flow of items.</span>
+<span class="sd">    Note that all the constraints of the model are explained in detail in the project report.</span>
+
+<span class="sd">    :param width: Width of the blueprint</span>
+<span class="sd">    :type width: Int</span>
+
+<span class="sd">    :param height: Height of the blueprint</span>
+<span class="sd">    :type height: Int</span>
+
+<span class="sd">    :param route: reference to the route variable</span>
+<span class="sd">    :type route: Arrat[Array] EnumSort</span>
+
+<span class="sd">    :param conveyor: reference to the variable conveyor</span>
+<span class="sd">    :type conveyor: Arrat[Array] EnumSort</span>
+
+<span class="sd">    :param inserter: reference to the inserter variable</span>
+<span class="sd">    :type inserter: Arrat[Array] EnumSort</span>
+
+<span class="sd">    :param in_out_pos: Contains the input and output positions and type of item carrying</span>
+<span class="sd">    :type in_out_pos: Dictionary</span>
+
+<span class="sd">    :param recipes: Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list</span>
+<span class="sd">                    of the items it requires and which rate in items/min needs and the outputting item and rate.</span>
+<span class="sd">    :type recipes: Dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">route</span><span class="p">,</span> <span class="n">inserter</span><span class="p">,</span> <span class="n">conveyor</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">,</span> <span class="n">recipes</span><span class="p">):</span>
         <span class="n">DirectionalElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">GridElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">)</span>
@@ -50,36 +77,72 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">inserter</span> <span class="o">=</span> <span class="n">inserter</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span> <span class="o">=</span> <span class="n">conveyor</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">item_bits</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_items</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">item_bits</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_items</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
         <span class="c1"># Z3 variable that represents what item is present in each blueprint cell</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span> <span class="o">=</span> <span class="p">[[</span><span class="n">BitVec</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ITEM_FLOW_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_bits</span><span class="p">)</span>
-                          <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span>
+                           <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">width</span><span class="p">)]</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">height</span><span class="p">)]</span>
 
 <div class="viewcode-block" id="ItemFlowLogic.domain_constraint"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.domain_constraint">[docs]</a>    <span class="k">def</span> <span class="nf">domain_constraint</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span><span class="p">[</span><span class="n">ULE</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_items</span><span class="p">)</span>
-               <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a constraint that ensures teh variable item_flow</span>
+<span class="sd">        only takes values inside the domain [0..self.max_items]</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">ULE</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_items</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="ItemFlowLogic.part_of_route"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.part_of_route">[docs]</a>    <span class="k">def</span> <span class="nf">part_of_route</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># If a cell is part of route, then that cell must carry an item</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        If a cell is part of route, then that cell must carry an item</span>
+
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[(</span><span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span> <span class="o">==</span> <span class="p">(</span><span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">))</span>
                 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">)]</span></div>
 
 <div class="viewcode-block" id="ItemFlowLogic.item_input"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.item_input">[docs]</a>    <span class="k">def</span> <span class="nf">item_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># The input cells carry the item specified in the input coordinates</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The input cells carry the item specified in the input coordinates</span>
+
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">input_items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input</span><span class="p">:</span>
-            <span class="n">input_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_item_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_item</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="n">input_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_item_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_item</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
         <span class="k">return</span> <span class="n">input_items</span></div>
 
 <div class="viewcode-block" id="ItemFlowLogic.item_output"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.item_output">[docs]</a>    <span class="k">def</span> <span class="nf">item_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="c1"># The input cells carry the item specified in the input coordinates</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The input cells carry the item specified in the input coordinates</span>
+
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
         <span class="n">output_items</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">coord</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">output</span><span class="p">:</span>
-            <span class="n">output_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_item_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_item</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
+            <span class="n">output_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_item_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_item</span><span class="p">(</span><span class="n">coord</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">coord</span><span class="p">[</span><span class="mi">1</span><span class="p">])))</span>
         <span class="k">return</span> <span class="n">output_items</span></div>
 
 <div class="viewcode-block" id="ItemFlowLogic.item_carry"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.item_carry">[docs]</a>    <span class="k">def</span> <span class="nf">item_carry</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a constraint that encode the behaviour of how items are</span>
+<span class="sd">        carryed between cells that transport them.</span>
+<span class="sd">        If a cell contains an inserter or a conveyor, its item_flow value will propagate</span>
+<span class="sd">        to the cell its pointing. Also, if the cell has an inserter, the item_flow value</span>
+<span class="sd">        will not be propagated if the output of the inserter is an assembler.</span>
+
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">item_carry_conveyor</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">item_carry_inserter</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
@@ -91,26 +154,32 @@
                     <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
                         <span class="c1"># An inserter takes items from the neighbouring cell pointing to it</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_input</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
-                            <span class="n">inserter_carry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">opposite_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span> <span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">)),</span>
-                                                     <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]))</span>
+                            <span class="n">inserter_carry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span>
+                                <span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">opposite_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span> <span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">)),</span>
+                                <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]))</span>
                             <span class="c1"># An inserter puts items to the neighbouring cell it is pointing to</span>
-                            <span class="n">inserter_carry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span> <span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">)),</span>
-                                                     <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]))</span>
+                            <span class="n">inserter_carry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                                <span class="n">Implies</span><span class="p">(</span><span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span> <span class="n">UGT</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">route</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">],</span> <span class="mi">0</span><span class="p">)),</span>
+                                        <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]))</span>
                         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_output</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
                             <span class="c1"># A conveyor puts items to the neighbouring cell it is pointing to</span>
                             <span class="n">conveyor_carry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span>
-                                                     <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]))</span>
-                <span class="c1"># Tot i que la implicació és redundant ja que inserter i conveyor carry forcen que les direccions estiguin entre 1-4, la implicació reduieix el temps de solving</span>
+                                                          <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_flow</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]))</span>
+                <span class="c1"># Tot i que la implicació és redundant ja que inserter i conveyor carry forcen que les direccions</span>
+                <span class="c1"># estiguin entre 1-4, la implicació reduieix el temps de solving</span>
                 <span class="n">item_carry_conveyor</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">And</span><span class="p">(</span><span class="n">conveyor_carry</span><span class="p">)))</span>
                 <span class="n">item_carry_inserter</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">And</span><span class="p">(</span><span class="n">inserter_carry</span><span class="p">)))</span>
 
         <span class="k">return</span> <span class="n">item_carry_inserter</span> <span class="o">+</span> <span class="n">item_carry_conveyor</span></div>
 
 <div class="viewcode-block" id="ItemFlowLogic.constraints"><a class="viewcode-back" href="../ItemFlowLogic.html#ItemFlowLogic.ItemFlowLogic.constraints">[docs]</a>    <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a list of all the constraints representing the logic of the class</span>
+
+<span class="sd">        :return: all the constraint of the class logic in a single array</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">part_of_route</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_input</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_output</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">domain_constraint</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_carry</span><span class="p">()</span></div></div>
-
-
-
 </pre></div>
 
           </div>

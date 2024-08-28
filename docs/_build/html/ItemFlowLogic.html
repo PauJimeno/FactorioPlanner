@@ -41,35 +41,110 @@
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">ItemFlowLogic.</span></span><span class="sig-name descname"><span class="pre">ItemFlowLogic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">route</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inserter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conveyor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">in_out_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">recipes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">DirectionalElement</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">GridElement</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">RecipeElement</span></code></p>
+<p>This class contains all the constraints that implement the logic of the flow of items.
+Note that all the constraints of the model are explained in detail in the project report.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<em>Int</em>) – Width of the blueprint</p></li>
+<li><p><strong>height</strong> (<em>Int</em>) – Height of the blueprint</p></li>
+<li><p><strong>route</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the route variable</p></li>
+<li><p><strong>conveyor</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the variable conveyor</p></li>
+<li><p><strong>inserter</strong> (<em>Arrat</em><em>[</em><em>Array</em><em>] </em><em>EnumSort</em>) – reference to the inserter variable</p></li>
+<li><p><strong>in_out_pos</strong> (<em>Dictionary</em>) – Contains the input and output positions and type of item carrying</p></li>
+<li><p><strong>recipes</strong> (<em>Dictionary</em>) – Contains the recipes that the assemblers in the blueprint will use, for each recipe it has a list
+of the items it requires and which rate in items/min needs and the outputting item and rate.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.constraints">
 <span class="sig-name descname"><span class="pre">constraints</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.constraints" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a list of all the constraints representing the logic of the class</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>all the constraint of the class logic in a single array</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.domain_constraint">
 <span class="sig-name descname"><span class="pre">domain_constraint</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.domain_constraint"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.domain_constraint" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constraint that ensures teh variable item_flow
+only takes values inside the domain [0..self.max_items]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.item_carry">
 <span class="sig-name descname"><span class="pre">item_carry</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.item_carry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.item_carry" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a constraint that encode the behaviour of how items are
+carryed between cells that transport them.
+If a cell contains an inserter or a conveyor, its item_flow value will propagate
+to the cell its pointing. Also, if the cell has an inserter, the item_flow value
+will not be propagated if the output of the inserter is an assembler.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.item_input">
 <span class="sig-name descname"><span class="pre">item_input</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.item_input"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.item_input" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The input cells carry the item specified in the input coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.item_output">
 <span class="sig-name descname"><span class="pre">item_output</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.item_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.item_output" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>The input cells carry the item specified in the input coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="ItemFlowLogic.ItemFlowLogic.part_of_route">
 <span class="sig-name descname"><span class="pre">part_of_route</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ItemFlowLogic.html#ItemFlowLogic.part_of_route"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#ItemFlowLogic.ItemFlowLogic.part_of_route" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If a cell is part of route, then that cell must carry an item</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List with all the logic regarding the constraint</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Array</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

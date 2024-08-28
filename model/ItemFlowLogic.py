@@ -32,6 +32,7 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
                     of the items it requires and which rate in items/min needs and the outputting item and rate.
     :type recipes: Dictionary
     """
+
     def __init__(self, width, height, route, inserter, conveyor, in_out_pos, recipes):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -41,28 +42,28 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
         self.inserter = inserter
         self.conveyor = conveyor
 
-        self.item_bits = math.ceil(math.log2(self.max_items+1))
+        self.item_bits = math.ceil(math.log2(self.max_items + 1))
 
         # Z3 variable that represents what item is present in each blueprint cell
         self.item_flow = [[BitVec(f"ITEM_FLOW_{i}_{j}", self.item_bits)
-                          for i in range(width)] for j in range(height)]
+                           for i in range(width)] for j in range(height)]
 
     def domain_constraint(self):
         """
         Creates a constraint that ensures teh variable item_flow
         only takes values inside the domain [0..self.max_items]
         
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
-        return[ULE(self.item_flow[i][j], self.max_items)
-               for i in range(self.height) for j in range(self.width)]
+        return [ULE(self.item_flow[i][j], self.max_items)
+                for i in range(self.height) for j in range(self.width)]
 
     def part_of_route(self):
         """
         If a cell is part of route, then that cell must carry an item
 
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
         return [(UGT(self.route[i][j], 0)) == (UGT(self.item_flow[i][j], 0))
@@ -72,26 +73,28 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
         """
         The input cells carry the item specified in the input coordinates
 
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
-        
+
         input_items = []
         for coord in self.input:
-            input_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.input_item(coord[0], coord[1])))
+            input_items.append(
+                self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.input_item(coord[0], coord[1])))
         return input_items
 
     def item_output(self):
         """
         The input cells carry the item specified in the input coordinates
 
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
-        
+
         output_items = []
         for coord in self.output:
-            output_items.append(self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.output_item(coord[0], coord[1])))
+            output_items.append(
+                self.item_flow[coord[0]][coord[1]] == self.model_item_id(self.output_item(coord[0], coord[1])))
         return output_items
 
     def item_carry(self):
@@ -99,10 +102,10 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
         Creates a constraint that encode the behaviour of how items are
         carryed between cells that transport them.
         If a cell contains an inserter or a conveyor, its item_flow value will propagate
-        to the cell its pointing. Also if the cell has an inserter, the item_flow value
-        will not be propagated if the ouput of the inserter is an assembler.
+        to the cell its pointing. Also, if the cell has an inserter, the item_flow value
+        will not be propagated if the output of the inserter is an assembler.
 
-        :return: List with all the logic regarding the constarint
+        :return: List with all the logic regarding the constraint
         :rtype: Array
         """
         item_carry_conveyor = []
@@ -116,16 +119,19 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
                     if 0 <= x < self.height and 0 <= y < self.width:
                         # An inserter takes items from the neighbouring cell pointing to it
                         if not self.is_input(i, j):
-                            inserter_carry.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction], UGT(self.route[x][y], 0)),
-                                                     self.item_flow[i][j] == self.item_flow[x][y]))
+                            inserter_carry.append(Implies(
+                                And(self.inserter[i][j] == self.opposite_dir[direction], UGT(self.route[x][y], 0)),
+                                self.item_flow[i][j] == self.item_flow[x][y]))
                             # An inserter puts items to the neighbouring cell it is pointing to
-                            inserter_carry.append(Implies(And(self.inserter[i][j] == self.direction[direction], UGT(self.route[x][y], 0)),
-                                                     self.item_flow[x][y] == self.item_flow[i][j]))
+                            inserter_carry.append(
+                                Implies(And(self.inserter[i][j] == self.direction[direction], UGT(self.route[x][y], 0)),
+                                        self.item_flow[x][y] == self.item_flow[i][j]))
                         if not self.is_output(i, j):
                             # A conveyor puts items to the neighbouring cell it is pointing to
                             conveyor_carry.append(Implies(self.conveyor[i][j] == self.direction[direction],
-                                                     self.item_flow[x][y] == self.item_flow[i][j]))
-                # Tot i que la implicació és redundant ja que inserter i conveyor carry forcen que les direccions estiguin entre 1-4, la implicació reduieix el temps de solving
+                                                          self.item_flow[x][y] == self.item_flow[i][j]))
+                # Tot i que la implicació és redundant ja que inserter i conveyor carry forcen que les direccions
+                # estiguin entre 1-4, la implicació reduieix el temps de solving
                 item_carry_conveyor.append(Implies(self.conveyor[i][j] != self.direction[0], And(conveyor_carry)))
                 item_carry_inserter.append(Implies(self.inserter[i][j] != self.direction[0], And(inserter_carry)))
 
@@ -133,12 +139,9 @@ class ItemFlowLogic(DirectionalElement, GridElement, RecipeElement):
 
     def constraints(self):
         """
-        Creates a list of all the constarints representing the logic of the class
+        Creates a list of all the constraints representing the logic of the class
 
         :return: all the constraint of the class logic in a single array
         :rtype: Array
         """
         return self.part_of_route() + self.item_input() + self.item_output() + self.domain_constraint() + self.item_carry()
-
-
-

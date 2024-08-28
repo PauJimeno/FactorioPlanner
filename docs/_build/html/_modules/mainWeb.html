@@ -37,7 +37,9 @@
 <span class="kn">from</span> <span class="nn">ast</span> <span class="kn">import</span> <span class="n">literal_eval</span>
 <span class="kn">from</span> <span class="nn">model.FactorioSolver</span> <span class="kn">import</span> <span class="n">FactorioSolver</span>
 <span class="kn">import</span> <span class="nn">json</span>
+
 <span class="n">_app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">template_folder</span><span class="o">=</span><span class="s1">&#39;templates&#39;</span><span class="p">,</span> <span class="n">static_folder</span><span class="o">=</span><span class="s1">&#39;static&#39;</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="endpointHome"><a class="viewcode-back" href="../mainWeb.html#mainWeb.endpointHome">[docs]</a><span class="nd">@_app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">endpointHome</span><span class="p">():</span>
@@ -49,6 +51,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="endpointGenerate"><a class="viewcode-back" href="../mainWeb.html#mainWeb.endpointGenerate">[docs]</a><span class="nd">@_app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/generate.html&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">endpointGenerate</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -59,6 +62,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;generate.html&#39;</span><span class="p">)</span></div>
 
+
 <div class="viewcode-block" id="endpointVisualize"><a class="viewcode-back" href="../mainWeb.html#mainWeb.endpointVisualize">[docs]</a><span class="nd">@_app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/visualize.html&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">endpointVisualize</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -68,6 +72,7 @@
 <span class="sd">    :rtype: HTML</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;visualize.html&#39;</span><span class="p">)</span></div>
+
 
 <div class="viewcode-block" id="solve_instance"><a class="viewcode-back" href="../mainWeb.html#mainWeb.solve_instance">[docs]</a><span class="nd">@_app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s1">&#39;/solve-instance&#39;</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;POST&#39;</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">solve_instance</span><span class="p">():</span>

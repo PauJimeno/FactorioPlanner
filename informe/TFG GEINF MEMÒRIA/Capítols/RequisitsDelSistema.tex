@@ -17,8 +17,8 @@ Per aquest projecte s'han usat dues llibreries principals que separen el treball
 Com és un projecte fet en Python els requisits són molt fàcils d'instal·lar en un ordinador sense importar si el sistema operatiu és Windows o Linux. Els passos a seguir són:
 \begin{enumerate}[label=Pas \arabic*:]
 \item Tenir una màquina amb un intèrpret de Python amb la versió 3.9
-\item Crear un entorn virtual amb la comanda \texttt{python -m venv <directory>}
-\item Activar l'entorn virtual mitjançant la comanda \texttt{venv\\Scripts\\activate.bat} des d'un terminal cmd o \texttt{source myvenv/bin/activate} des d'un sistema Linux o MacOS.
+\item Crear un entorn virtual amb la comanda \lstinline{python -m venv <directory>}
+\item Activar l'entorn virtual mitjançant la comanda \lstinline{venv\\Scripts\\activate.bat} des d'un terminal cmd o \lstinline{source myvenv/bin/activate} des d'un sistema Linux o MacOS.
 \item Clonar el repositori en un directori nou dins el directori on s'ha creat l'entorn virtual, l'estructura de fitxers hauria de ser la següent: 
     \begin{verbatim}
     projecte/
@@ -28,20 +28,20 @@ Com és un projecte fet en Python els requisits són molt fàcils d'instal·lar 
             requirements.txt
             ...
     \end{verbatim}
-\item Situar-se al directori principal del projecte i executar la comanda \texttt{pip install -r requisits.txt}, aquesta comanda instal·larà totes les dependències del projecte a l'entorn virtual.
-\item Executar la comanda \texttt{python mainWeb.py} per iniciar el servidor.
-\item Connectar-se al servidor localment des de qualsevol navegador usant l'URL \texttt{http://127.0.0.1:5000/}.
+\item Situar-se al directori principal del projecte i executar la comanda \lstinline{pip install -r requisits.txt}, aquesta comanda instal·larà totes les dependències del projecte a l'entorn virtual.
+\item Executar la comanda \lstinline{python mainWeb.py} per iniciar el servidor.
+\item Connectar-se al servidor localment des de qualsevol navegador usant l'URL \lstinline{http://127.0.0.1:5000/}.
 \end{enumerate}
 
 A continuació es fa una explicació més en detall de les llibreries principals que formen part dels requisits:
 
 \section{Z3}
-Z3 com s'ha explicat per sobre a l'anterior apartat tracta d'un llenguatge de modelització de constraints. La peculiaritat del Z3 és que tracta d'un SMT (Satisfiability Modulo Theories) és a dir generalitza el problema SAT, afegint diferents teories (funcions no interpretades, àlgebra lineal, arrays...) al problema de satisfacció.\\
+Z3 com s'ha explicat per sobre a l'anterior apartat tracta d'un llenguatge de modelització de constraints. La peculiaritat del Z3 és que tracta d'un SMT (Satisfiability Modulo Theories) és a dir generalitza el problema SAT, afegint diferents teories (funcions no interpretades, àlgebra lineal, arrays...) al problema de satisfacció booleana.\\
 
 Per aquest treball s'ha usat l'API de Z3 des de Python, a causa que al llarg de l'informe s'exposaran múltiples talls de codi, tot seguit es fa una explicació de com s'usen els operadors lògics i defineixen variables Z3 des de Python.
 
 \subsection{Tipus i declaració de variables}
-Z3 té molts tipus de variables (reals, enters, arrays, bit vectors, booleanes, uninterpreted functions i tipus defeinits customizables), per declarar aquestes variables és molt senzill simplement cal usar el constructor donat pel Z3. Una funció molt interessant és que en usar Python com a llenguatge podem guardar les nostres variables en qualsevol mena d'estructura de dades, cal tenir en compte, que l'accés a aquestes estructures només es pot fer mitjançant variables Python així que si cal accedir a una posició d'una matriu en funció del valor pres per una variable Z3, haurem d'usar la teoria dels Arrays.\\
+Z3 té molts tipus de variables (reals, enters, arrays, bit vectors, booleanes, uninterpreted functions i tipus finits customizables), per declarar aquestes variables és molt senzill, simplement cal usar el constructor donat pel Z3. Una funció molt interessant és que en usar Python com a llenguatge podem guardar les nostres variables en qualsevol mena d'estructura de dades, cal tenir en compte, que l'accés a aquestes estructures només es pot fer mitjançant variables Python així que si cal accedir a una posició d'una matriu en funció del valor pres per una variable Z3, haurem d'usar la teoria dels Arrays.\\
 Per últim i molt important, el domini de les variables no es defineix a l'hora de declarar-les, sinó que cal definir restriccions que acotin el domini de la variable, crear un tipus enumerat amb el domini preestablert o usar bit vector amb un nombre determinat de bits.
 Tot seguit exemples de declaració de diferents tipus de variables.
 
@@ -56,7 +56,7 @@ color_type, colors = EnumSort("color", ["blue", "orange", "green", "yellow", "re
 \end{lstlisting}
 
 Alguns detalls importants són que els BitVectors necessiten el nombre de bits com a paràmetre, també que aquests es poden interpretar com a nombres amb signe o sense, per diferenciar-ne el tipus és important usar l'operador correcte a l'hora de definir les restriccions sobre variables del seu tipus, més endavant s'ensenyen les diferències.\\
-Les funcions i els Arrays requereixen el tipus de variable amb el qual indexen o prenen com a paràmetre i també el tipus que han de retornar, això s'indica posant "Sort" després del tipus que es vol que prenguin o retornin.\\
+Les funcions i els Arrays requereixen el tipus de variable amb el qual indexen o prenen com a paràmetre i també el tipus que han de retornar, això s'indica posant ``Sort'' després del tipus que es vol que prenguin o retornin.\\
 
 Com s'ha explicat les variables Z3 es poden guardar en estructures Python, aquí un exemple de com es guardarien les files del problema de les n-reines.
 \begin{lstlisting}[language=Python, caption=Variables Z3 en arrays de Python]
@@ -100,7 +100,7 @@ $a \neq b$ & \verb|a != b|  \\
 \label{tab:logic_oprator_comparison}
 \end{table}
 
-Com s'ha comentat anteriorment les variables de tipus BitVector requereixen operadors específics si es volen interpretar de manera "unsigned" per això els operadors ($>$, $<$, $\geq$, $\leq$) tenen les funcions (UGT, ULT, UGE i ULE), per les interpretacions unsigned dels BitVectors.\\
+Com s'ha comentat anteriorment les variables de tipus BitVector requereixen operadors específics si es volen interpretar de manera ``unsigned'' per això els operadors ($>$, $<$, $\geq$, $\leq$) tenen les funcions (UGT, ULT, UGE i ULE), per les interpretacions unsigned dels BitVectors.\\
 
 Finalment, una funcionalitat molt interessant de Z3 és que permet entrar llistes de variables als operadors lògics i aquests l'apliquen per totes les variables de la llista.\\
 Per exemple:
@@ -114,7 +114,7 @@ all_or = Or(less_than_ten)
 \end{lstlisting}
 
 \section{Flask}
-Flask és un framework desenvolupat en Python fàcil d'accedir des de la seva llibreria. El seu objectiu és per proporcionar una interfície de servidor, facilitant mètodes simples per crear endpoints i comunicar de manera senzilla un client, amb el servidor.\\
+Flask és un framework desenvolupat en Python fàcil d'accedir des de la seva llibreria. El seu objectiu és proporcionar una interfície de servidor, facilitant mètodes simples per crear endpoints i comunicar de manera senzilla un client, amb el servidor.\\
 En aquest projecte s'ha usat la llibreria per carregar tota la informació necessària de la pàgina web (html, css i fitxers Javascript), accedir a una col·lecció d'imatges per representar visualment les instàncies i per poder fer peticions al model desenvolupat i rebre els resultats.\\
 Crear endpoints amb Flask és molt senzill tot seguit s'ensenya com.
 
@@ -182,7 +182,7 @@ function enviarPeticio() {
 }
 \end{lstlisting}
 
-En aquesta funció s'està enviant una petició de tipus POST a l'endpoint \texttt{/processar}, fetch() és una funció asíncrona que rep com a paràmetres l'URL corresponent a l'endpoint del servidor i el contingut que contindrà el paquet enviat.\\
-Un cop enviat el paquet, la resta del codi pot continuar i la funció then() es queda a l'espera que fetch() retorni la resposta del servidor. Si fetch() respon, la primera funció then() captura la informació enviada pel servidor, en cas que hi hagi un problema i el servidor no respongui o no es pugui llegir la informació enviada, catch() llençarà un error informant que la petició ha fallat.
+En aquesta funció s'està enviant una petició de tipus POST a l'endpoint \lstinline{/processar}, \lstinline{fetch()} és una funció asíncrona que rep com a paràmetres l'URL corresponent a l'endpoint del servidor i el contingut que contindrà el paquet enviat.\\
+Un cop enviat el paquet, la resta del codi pot continuar i la funció \lstinline{then()} es queda a l'espera que \lstinline{fetch()} retorni la resposta del servidor. Si \lstinline{fetch()} respon, la primera funció \lstinline{then()} captura la informació enviada pel servidor, en cas que hi hagi un problema i el servidor no respongui o no es pugui llegir la informació enviada, \lstinline{catch()} llençarà un error informant que la petició ha fallat.
 
 

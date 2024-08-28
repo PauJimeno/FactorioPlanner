@@ -14,6 +14,5 @@ model
    ItemFlowLogic
    ItemFlowRateLogic
    RecipeElement
-   RecipeLogic
    RouteLogic
    mainWeb

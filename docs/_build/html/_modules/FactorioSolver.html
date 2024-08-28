@@ -33,9 +33,7 @@
           <div class="body" role="main">
             
   <h1>Source code for FactorioSolver</h1><div class="highlight"><pre>
-<span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">ImageDraw</span>
-<span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<span></span><span class="kn">from</span> <span class="nn">z3</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
@@ -177,7 +175,7 @@
 
 <div class="viewcode-block" id="FactorioSolver.model_to_json"><a class="viewcode-back" href="../FactorioSolver.html#FactorioSolver.FactorioSolver.model_to_json">[docs]</a>    <span class="k">def</span> <span class="nf">model_to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Checks if the solver found a solution, if so evaluates all model variables and store them in a dictionary,</span>
+<span class="sd">        Checks if the solver found a solution, if so evaluates all the model variables and store them in a dictionary,</span>
 <span class="sd">        it also saves the time spent in solving and the status of the solution.</span>
 
 <span class="sd">        :return: a JSON transformable dictionary with all the information of the solved instance</span>

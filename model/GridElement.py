@@ -11,7 +11,6 @@ class GridElement:
     :param in_out_positions: Contains the input and output positions and type of item carrying
     :type in_out_positions: Dictionary
     """
-    
 
     def __init__(self, width, height, in_out_positions):
         self.width = width

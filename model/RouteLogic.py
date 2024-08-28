@@ -7,7 +7,7 @@ from model.RecipeElement import RecipeElement
 
 class RouteLogic(DirectionalElement, GridElement, RecipeElement):
     """
-    This class conatins the logic related with how elements interconnect between each other
+    This class contains the logic related with how elements interconnect between each other
     creating routes.
 
     :param width: Width of the blueprint
@@ -32,6 +32,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
                     of the items it requires and which rate in items/min needs and the outputting item and rate.
     :type recipe: Dictionary
     """
+
     def __init__(self, width, height, in_out_pos, conveyor, inserter, assembler, recipe):
         DirectionalElement.__init__(self)
         GridElement.__init__(self, width, height, in_out_pos)
@@ -57,7 +58,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         """
         Creates a constarint that forces the route variables to take values inside the self.domain variable
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         return [ULE(self.route[i][j], self.domain - 1)
@@ -67,7 +68,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         """
         If a cell is part of route, then a conveyor or an inserter must be there
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         return [(UGT(self.route[i][j], 0)) == (Or(self.conveyor[i][j] != self.direction[0],
@@ -78,7 +79,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         """
         Each input cell is the start of a route, and it must be a conveyor
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         return [And(self.route[pos[0]][pos[1]] == 1,
@@ -89,7 +90,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         """
         Each output cell must have a larger route value than 1, and it must be a conveyor
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         return [And(UGT(self.route[pos[0]][pos[1]], 1),
@@ -103,7 +104,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         In the opther hand if the cell contains an inserter the cell its pointing, can have an assembler (route value 0)
         if there is not an assembler the route value of the cell the inserter is pointing will have a grater route value.
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         forward_consistency = []
@@ -116,21 +117,21 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
                         x, y = i + self.displacement[direction][0], j + self.displacement[direction][1]
                         if 0 <= x < self.height and 0 <= y < self.width:
                             # A route cell must have at least one cell route greater than or equal to itself (Output)
-                            conveyor_output.append(If(self.conveyor[i][j] == self.direction[direction],
-                                                      UGT(self.route[x][y], self.route[i][j]), False))
+                            conveyor_output.append(Implies(self.conveyor[i][j] == self.direction[direction],
+                                                           UGT(self.route[x][y], self.route[i][j])))
 
                             # Route continues
-                            inserter_output.append(If(And(self.inserter[i][j] == self.direction[direction],
-                                                          self.assembler[x][y] == 0),
-                                                      UGT(self.route[x][y], self.route[i][j]), False))
+                            inserter_output.append(Implies(And(self.inserter[i][j] == self.direction[direction],
+                                                               self.assembler[x][y] == 0),
+                                                           UGT(self.route[x][y], self.route[i][j])))
 
                             # Route ends because the inserter is inputting items to the assembler
-                            inserter_output.append(If(And(self.inserter[i][j] == self.direction[direction],
-                                                          self.assembler[x][y] != 0),
-                                                      self.route[x][y] == 0, False))
+                            inserter_output.append(Implies(And(self.inserter[i][j] == self.direction[direction],
+                                                               self.assembler[x][y] != 0),
+                                                           self.route[x][y] == 0))
 
                     forward_consistency.append(
-                        If(UGT(self.route[i][j], 0), Or(conveyor_output + inserter_output), True))
+                        Implies(UGT(self.route[i][j], 0), And(conveyor_output + inserter_output)))
         return forward_consistency
 
     def backward_consistency(self):
@@ -140,7 +141,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
         In the other hand if the cell contains an inserter the input cell must have a route value lower than the inserter
         if there is no assembler, if there is then the inserter route value is 0 (route start)
 
-        :return: the logic encoding the constaint
+        :return: the logic encoding the constant
         :rtype: Array
         """
         backward_consistency = []
@@ -158,24 +159,23 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
                                                          UGT(self.route[x][y], 0)),
                                                      False))
 
-                            inserter_input.append(If(And(self.inserter[i][j] == self.opposite_dir[direction],
-                                                         self.assembler[x][y] == 0),
-                                                     And(ULT(self.route[x][y], self.route[i][j]),
-                                                         UGT(self.route[x][y], 0)),
-                                                     False))
+                            inserter_input.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
+                                                              self.assembler[x][y] == 0),
+                                                          And(ULT(self.route[x][y], self.route[i][j]),
+                                                              UGT(self.route[x][y], 0))))
 
                             # Route start because inserter is taking input from an assembler
-                            inserter_input.append(If(And(self.inserter[i][j] == self.opposite_dir[direction],
-                                                         self.assembler[x][y] != 0),
-                                                     self.route[i][j] == 1,
-                                                     False))
+                            inserter_input.append(Implies(And(self.inserter[i][j] == self.opposite_dir[direction],
+                                                              self.assembler[x][y] != 0),
+                                                          self.route[i][j] == 1))
 
-                    backward_consistency.append(If(UGT(self.route[i][j], 0), Or(conveyor_input + inserter_input), True))
+                    backward_consistency.append(Implies(self.conveyor[i][j] != self.direction[0], Or(conveyor_input)))
+                    backward_consistency.append(Implies(self.inserter[i][j] != self.direction[0], And(inserter_input)))
         return backward_consistency
 
     def constraints(self):
         """
-        Creates a list of all the constarints representing the logic of the class
+        Creates a list of all the constraints representing the logic of the class
 
         :return: class constraints compacted in a single list
         :rtype: Array
@@ -190,7 +190,7 @@ class RouteLogic(DirectionalElement, GridElement, RecipeElement):
     def route_length(self):
         """
         Sums the number of cells that contain a route value greater than 0.
-        Used as a optimization criteria
+        Used as an optimization criteria
 
         :return: sum of route > 0
         :rtype: Array

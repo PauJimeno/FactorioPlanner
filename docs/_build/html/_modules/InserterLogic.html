@@ -40,6 +40,26 @@
 
 
 <div class="viewcode-block" id="InserterLogic"><a class="viewcode-back" href="../InserterLogic.html#InserterLogic.InserterLogic">[docs]</a><span class="k">class</span> <span class="nc">InserterLogic</span><span class="p">(</span><span class="n">DirectionalElement</span><span class="p">,</span> <span class="n">GridElement</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class contains all the constraints that implement the logic of the inserters.</span>
+<span class="sd">    Note that all the constraints of the model are explained in detail in the project report.</span>
+
+<span class="sd">    :param width: Width of the blueprint</span>
+<span class="sd">    :type width: Int</span>
+
+<span class="sd">    :param height: Height of the blueprint</span>
+<span class="sd">    :type height: Int</span>
+
+<span class="sd">    :param conveyor: reference to the variable conveyor</span>
+<span class="sd">    :type conveyor: Array[Array] EnumSort</span>
+
+<span class="sd">    :param assembler: reference to the collision variable of the assembler</span>
+<span class="sd">    :type assembler: Array[Array] EnumSort</span>
+
+<span class="sd">    :param in_out_pos: Contains the input and output positions and type of item carrying</span>
+<span class="sd">    :type in_out_pos: Dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">conveyor</span><span class="p">,</span> <span class="n">assembler</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">):</span>
         <span class="n">DirectionalElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">GridElement</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">in_out_pos</span><span class="p">)</span>
@@ -52,6 +72,14 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">assembler</span> <span class="o">=</span> <span class="n">assembler</span>
 
 <div class="viewcode-block" id="InserterLogic.inserter_input"><a class="viewcode-back" href="../InserterLogic.html#InserterLogic.InserterLogic.inserter_input">[docs]</a>    <span class="k">def</span> <span class="nf">inserter_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint that ensures the input of an inserter is a valid element,</span>
+<span class="sd">        the cell the inserter takes input can only be a conveyor pointing any direction</span>
+<span class="sd">        or an assembler</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constarint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inserter_input</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
@@ -72,6 +100,14 @@
         <span class="k">return</span> <span class="n">inserter_input</span></div>
 
 <div class="viewcode-block" id="InserterLogic.prevent_redundant_inserter"><a class="viewcode-back" href="../InserterLogic.html#InserterLogic.InserterLogic.prevent_redundant_inserter">[docs]</a>    <span class="k">def</span> <span class="nf">prevent_redundant_inserter</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint prevents redundant combination between inserters and conveyors,</span>
+<span class="sd">        precisely when the output of an inserter is a conveyor pointing the same direction as </span>
+<span class="sd">        the inserter</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">redundant_inserter</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
@@ -80,7 +116,8 @@
                     <span class="n">direction_clauses</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_dir</span><span class="p">):</span>
                         <span class="n">in_x</span><span class="p">,</span> <span class="n">in_y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="n">direction</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="n">direction</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
-                        <span class="n">out_x</span><span class="p">,</span> <span class="n">out_y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">opposite_num_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]][</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">opposite_num_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="n">out_x</span><span class="p">,</span> <span class="n">out_y</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">opposite_num_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]][</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span> <span class="o">+</span> \
+                                       <span class="bp">self</span><span class="o">.</span><span class="n">displacement</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">opposite_num_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]][</span><span class="mi">1</span><span class="p">]</span>
                         <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">in_y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">out_x</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">out_y</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">:</span>
                             <span class="n">direction_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Implies</span><span class="p">(</span><span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">opposite_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span>
                                                                  <span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">in_x</span><span class="p">][</span><span class="n">in_y</span><span class="p">]),</span>
@@ -90,6 +127,14 @@
         <span class="k">return</span> <span class="n">redundant_inserter</span></div>
 
 <div class="viewcode-block" id="InserterLogic.inserter_output"><a class="viewcode-back" href="../InserterLogic.html#InserterLogic.InserterLogic.inserter_output">[docs]</a>    <span class="k">def</span> <span class="nf">inserter_output</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates the constraint that ensures the output of an inserter is a valid element,</span>
+<span class="sd">        the output cell of an inserter can only be a conveyor pointing a direction that it&#39;s</span>
+<span class="sd">        not the opposite direction of the inserter, or an assembler.</span>
+<span class="sd">        </span>
+<span class="sd">        :return: List with all the logic regarding the constraint</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">inserter_output</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">height</span><span class="p">):</span>
@@ -102,17 +147,21 @@
                             <span class="c1"># Inserter can output to a conveyor or an assembler</span>
                             <span class="n">direction_clauses</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">If</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="n">direction</span><span class="p">],</span>
                                                         <span class="n">Or</span><span class="p">(</span><span class="n">And</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-                                                           <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opposite_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]),</span>
-                                                        <span class="bp">self</span><span class="o">.</span><span class="n">assembler</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">),</span>
-                                                     <span class="kc">False</span><span class="p">))</span>
+                                                               <span class="bp">self</span><span class="o">.</span><span class="n">conveyor</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">opposite_dir</span><span class="p">[</span><span class="n">direction</span><span class="p">]),</span>
+                                                           <span class="bp">self</span><span class="o">.</span><span class="n">assembler</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">y</span><span class="p">]</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">),</span>
+                                                        <span class="kc">False</span><span class="p">))</span>
                     <span class="n">inserter_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">If</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inserter</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">direction</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">Or</span><span class="p">(</span><span class="n">direction_clauses</span><span class="p">),</span> <span class="kc">True</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="n">inserter_output</span></div>
 
 <div class="viewcode-block" id="InserterLogic.constraints"><a class="viewcode-back" href="../InserterLogic.html#InserterLogic.InserterLogic.constraints">[docs]</a>    <span class="k">def</span> <span class="nf">constraints</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a list of all the constraints representing the logic of the class</span>
+
+<span class="sd">        :return: all the constraint of the class logic in a single array</span>
+<span class="sd">        :rtype: Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserter_input</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">inserter_output</span><span class="p">()</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prevent_redundant_inserter</span><span class="p">()</span></div></div>
-
-
 </pre></div>
 
           </div>
