@@ -1,7 +1,7 @@
 # Factorio Planner
 
 Factorio Planner és una eina que optimitza layouts de blueprints del joc Factorio. El projecte s'ha fet com a treball de final de grau per la Universitat de Girona.
-La base de l'optimitzador tracta d'un encoding usant CSP i l'eina Z3.
+La base de l'optimitzador tracta d'un encoding usant CSP i l'eina Z3. A més l'eina té un front end web que permet generar, resoldre i visualitzar instàncies.
 
 ## Executar localment
 
@@ -27,7 +27,7 @@ En linux:
 ```bash
 source <nom del directori de l'entorn>/bin/activate
 ```
-En Windows (CMD)
+- En Windows (CMD)
 ```bash
 <nom del directori de l'entorn>\Scripts\activate.bat
 ```
