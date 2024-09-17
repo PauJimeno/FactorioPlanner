@@ -40,12 +40,17 @@ class FactorioSolver:
         self.grid_variables = {}
         self.array_variables = {}
 
+        self.assembler_size = 3
+        self.max_assemblers = (width // self.assembler_size) * (height // self.assembler_size)
+        self.max_recipes = len(recipes)
+
         # Z3 solver declaration
         self.s = Optimize()
         self.s.set("timeout", 1800000)
 
         # Model initialization with the corresponding instance data
-        self.initialize_model(width, height, in_out_pos, recipes, selected_opt)
+        if self.max_assemblers >= self.max_recipes:
+            self.initialize_model(width, height, in_out_pos, recipes, selected_opt)
 
     def initialize_model(self, blueprint_width, blueprint_height, in_out_pos, recipes, selected_opt):
         """
@@ -108,7 +113,6 @@ class FactorioSolver:
                    + item_flow_behaviour.constraints()
                    + item_flow_rate_behaviour.constraints()
                    )
-
         # Selection of the optimization criteria
         self.s.maximize(item_flow_rate_behaviour.item_output())
         if selected_opt == 'minimize-loss':
@@ -124,17 +128,20 @@ class FactorioSolver:
         :return: The solving status (solution found or not found)
         :rtype: Bool
         """
-        start = time.time()
-        result = self.s.check()
-        computing_time = time.time() - start
-        if result == sat:
-            self.has_solution = True
-        elif result == unsat:
-            self.has_solution = False
+        if self.max_assemblers >= self.max_recipes:
+            start = time.time()
+            result = self.s.check()
+            computing_time = time.time() - start
+            if result == sat:
+                self.has_solution = True
+            elif result == unsat:
+                self.has_solution = False
+            else:
+                self.has_solution = False
+                self.timed_out = True
+            self.solving_time = computing_time
         else:
             self.has_solution = False
-            self.timed_out = True
-        self.solving_time = computing_time
 
         return self.has_solution
 

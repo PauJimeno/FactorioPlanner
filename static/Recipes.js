@@ -139,7 +139,7 @@ class Recipes{
         recipeNamesDiv.appendChild(recipeNamesTitle);
 
         let involvedItemsTitle = document.createElement('h3');
-        involvedItemsTitle.textContent = 'Items Needed';
+        involvedItemsTitle.textContent = 'Raw Items Needed';
         involvedItemsDiv.appendChild(involvedItemsTitle);
 
         let recipeNamesList = document.createElement('ul');
@@ -147,12 +147,22 @@ class Recipes{
 
         this.itemsInvolved.clear();
 
+        let producedItems = new Set();
+
+        // First, collect all produced items
+        for (let recipe in recipeInfo) {
+            recipeInfo[recipe].OUT.forEach(item => {
+                producedItems.add(item[0]);
+            });
+        }
+
+        // Then, initialize the involved items, excluding those that are produced by any recipe
         for (let recipe in recipeInfo) {
             let recipeNameElement = this.createListItem(this.iconPath + '/' + recipe + '.png', this.formatRecipeName(recipe));
             recipeNamesList.appendChild(recipeNameElement);
 
             recipeInfo[recipe].IN.forEach(item => {
-                if (!this.itemsInvolved.has(item[0])) { // If the item is not in the Set
+                if (!this.itemsInvolved.has(item[0]) && !producedItems.has(item[0])) { // If the item is not in the Set and not produced by any recipe
                     this.itemsInvolved.add(item[0]); // Add the item to the Set
 
                     let itemElement = this.createListItem(this.iconPath + '/' + item[0] + '.png', this.formatRecipeName(item[0]));
@@ -160,6 +170,7 @@ class Recipes{
                 }
             });
         }
+
     }
 
     recipeBreakdown(itemName){
